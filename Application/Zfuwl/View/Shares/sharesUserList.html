@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file='Public/top' />
+    <script type="text/javascript" src="__PUBLIC__/js/ajax.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/plugins/layui/build/css/layui.css"  media="all">
+</head>
+
+<body>
+<div class="admin-main">
+    <blockquote class="layui-elem-quote">
+        <form action="{:U('Excel/exportUserShares')}" id="search-form2">
+            <div class="layui-inline"><div class="layui-input-inline"><input type="text" name="account" placeholder="会员账号" class="layui-input" /></div></div>
+            <div class="layui-inline"><div class="layui-input-inline"><input type="text" name="price" placeholder="买入价格" class="layui-input" /></div></div>
+            <div class="layui-inline"><div class="layui-input-inline"><input type="text" name="start_time" placeholder="注册时间起" id="start_time" class="layui-input" /></div></div>
+            <div class="layui-inline"><div class="layui-input-inline"><input type="text" name="end_time" placeholder="止" id="end_time" class="layui-input" /></div></div>
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                    <select name="shares_id" class="layui-input">
+                        <option value="">--类型--</option>
+                        <foreach name='sharesList' item='v' key='k'>
+                            <option value="{$k}">{$v}</option>
+                        </foreach>
+                    </select>
+                </div>
+            </div>
+            <input type="hidden" name="order_by" value="id">
+            <input type="hidden" name="sort" value="desc">
+            <button type="button" onclick="ajax_get_table('search-form2',1);" class="layui-btn"><i class="layui-icon">&#xe615;</i> 搜索</button>
+            <!--<button type="submit" class="layui-btn"><i class="icon iconfont">&#xe60a;</i> 导出excel</button>-->
+            <!--<button type="button" class="layui-btn give_shares"><i class="fa fa-share" aria-hidden="true"></i> 赠送股票</button>-->
+            <button type="button" onclick="location.reload();" class="layui-btn pull-right"><i class="layui-icon">&#x1002;</i> 刷新</button>
+            <button type="button" class="layui-btn layui-btn-normal pull-right add" ><i class="fa fa-plus-circle"></i> 兑换劵充值</button>
+            <!--<button type="button" class="layui-btn layui-btn-danger pull-right splitAdd" ><i class="fa fa-plus-circle"></i> 股票拆分</button>-->
+            <div style="clear: both;"></div>
+        </form>
+    </blockquote>
+    <div style="clear:both;"></div>
+    <fieldset class="layui-elem-field">
+        <div class="layui-field-box">
+            <div id="ajax_return"></div>
+        </div>
+    </fieldset>
+</div>
+<script type="text/javascript" src="__PUBLIC__/plugins/layui/layui.js"></script>
+<script src="__PUBLIC__/plugins/layui/build/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['laydate', 'layer', 'form'], function () {
+        var $ = layui.jquery;
+        $('.add').click(function () {
+            var url = "{:U('Shares/handSharesUser')}";
+            $.get(url, function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                    return;
+                }
+                layer.open({
+                    title: '兑换劵充值充值',
+                    type: 1,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['80%', '80%'], //宽高
+                    content: data
+                });
+            });
+        });
+        $('.give_shares').click(function () {
+            var obj = $(this);
+            layer.prompt({title:'请输入赠送股票数量'}, function(zsNum, index1, elem){
+                layer.prompt({title:'请输入备注'}, function(note, index2, elem){
+                    var url = "{:U('Shares/giveShares')}";
+                    var loadeAdd = layer.msg('赠送中...', {
+                            icon: 16,
+                            shade: 0.01,
+                            time:0
+                        });
+                    var dataInfo = $('#search-form2').serialize();
+                    dataInfo += '&zsNum='+zsNum;
+                    dataInfo += '&note='+note;
+                    $.post(url, dataInfo, function (data) {
+                        layer.close(loadeAdd);
+                        if(data.status == 1) {
+                            layer.close(index1);
+                            layer.close(index2);
+                            var page = $('.pagination .active').find('a').data('p');
+                            ajax_get_table('search-form2', page);
+                            layer.msg(data.msg, {icon:6, share:0.01});
+                        } else {
+                            layer.msg(data.msg, {icon: 5});
+                        }
+                        if (data.status == 0) {
+                            layer.msg(data.msg, {icon: 5});
+                            return;
+                        }
+                        return false;
+                    });
+                });
+            });
+        });
+        $('.splitAdd').click(function () {
+            var url = "{:U('Shares/sharesSplitInfo')}";
+            $.get(url, function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                    return;
+                }
+                layer.open({
+                    title: '股票拆分',
+                    type: 1,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['80%', '80%'], //宽高
+                    content: data
+                });
+            });
+        });
+        //请求表单
+        $(document).ready(function(){
+            ajax_get_table('search-form2',1);
+        });
+        var start = {
+            min: ''
+            ,max: '2099-06-16 23:59:59'
+            ,istoday: true
+            ,choose: function(datas){
+                end.min = datas; //开始日选好后，重置结束日的最小日期
+                end.start = datas //将结束日的初始值设定为开始日
+            }
+        };
+        var end = {
+            min: ''
+            ,max: '2099-06-16 23:59:59'
+            ,istoday: true
+            ,choose: function(datas){
+                start.max = datas; //结束日选好后，重置开始日的最大日期
+            }
+        };
+        document.getElementById('start_time').onclick = function(){
+            start.elem = this;
+            laydate(start);
+        }
+        document.getElementById('end_time').onclick = function(){
+            end.elem = this;
+            laydate(end);
+        }
+    });
+
+    function ajax_get_table(tab, page){
+        var loadVal = layer.load(3);
+        cur_page = page;
+        $.ajax({
+            type: "POST",
+            url: "{:U('Shares/sharesUserList')}?p=" + page,
+            data: $('#' + tab).serialize(),
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                    return;
+                }
+                layer.close(loadVal);
+                $("#ajax_return").html(data);
+            }
+        });
+    }
+    // 点击排序
+    function sort(field){
+        $("input[name='order_by']").val(field);
+        var v = $("input[name='sort']").val() == 'desc' ? 'asc' : 'desc';
+        $("input[name='sort']").val(v);
+        ajax_get_table('search-form2', cur_page);
+    }
+</script>
+</body>
+
+</html>

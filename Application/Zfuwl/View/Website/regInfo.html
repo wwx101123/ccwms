@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <!--<div class="layui-inline layui-form-item" pane="">
+                        <label class="layui-form-label">新会员账号</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="auto_account" value="1" title="自动生成" <if condition="$config.auto_account eq 1">checked=""</if>>
+                            <input type="radio" name="auto_account" value="2" title="手动填写" <if condition="$config.auto_account eq 2">checked=""</if>>
+                            <input type="radio" name="auto_account" value="3" title="手机注册" <if condition="$config.auto_account eq 3">checked=""</if>>
+                        </div>
+                    </div>-->
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">注册ID以</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="reg_id" value="{$config['reg_id']|default='1'}" placeholder="注册ID开始号" autocomplete="off" class="layui-input">
+                            <div class="layui-form-mid layui-word-aux">黙认为“ 1 ”</div>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">开始</b></div>
+                    </div>
+                    <div class="layui-inline layui-form-item" pane="">
+                        <label class="layui-form-label">会员注册时</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="grap_phone_code" value="1" title="开启手机验证码" <if condition="$config.grap_phone_code eq 1">checked=""</if>>
+                            <input type="radio" name="grap_phone_code" value="2" title="关闭手机验证码" <if condition="$config.grap_phone_code eq 2">checked=""</if>>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">账号格式</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="account_mai" value="{$config['account_mai']|default='3'}" placeholder="账号格式" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid"><b style="color:red;">位至 - </b></div>
+                            <div class="layui-input-inline">
+                                <input type="text" name="account_max" value="{$config['account_max']|default='8'}" placeholder="账号格式" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid"><b style="color:red;">位</b></div>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-form-item" pane="">
+                        <label class="layui-form-label">首位是字母</label>
+                        <div class="layui-inline layui-input-block">
+                            <input type="radio" name="isfirst" value="1" title="开启" <if condition="$config.isfirst eq 1">checked=""</if>>
+                            <input type="radio" name="isfirst" value="2" title="关闭" <if condition="$config.isfirst eq 2">checked=""</if>>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">账号前缀为</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="account_start" value="{$config['account_start']|default='zf'}" placeholder="账号前缀为" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">如前缀 zf 账号 888 连起来是 ：zf888</b></div>
+                    </div>
+                   <!-- <div class="layui-inline layui-form-item" pane="">
+                        <label class="layui-form-label">推荐人账号</label>
+                        <div class="layui-inline layui-input-block">
+                            <input type="radio" name="tjr_account" value="1" title="必须填写注册" <if condition="$config.tjr_account eq 1">checked=""</if>>
+                            <input type="radio" name="tjr_account" value="2" title="黙认公司账号" <if condition="$config.tjr_account eq 2">checked=""</if>>
+                            <input type="radio" name="tjr_account" value="3" title="黙认特定账号" <if condition="$config.tjr_account eq 3">checked=""</if>>
+                        </div>
+                    </div>-->
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">特定账号为</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="default_tjrAccount" value="{$config['default_tjrAccount']|default='1'}" placeholder="特定新会员注册的推荐人账号" autocomplete="off" class="layui-input">
+                            <div class="layui-form-mid layui-word-aux">特定新会员的推荐人账号</div>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">为黙认推荐人</b></div>
+                    </div>
+<!--
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">登录密码</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="default_pass" value="{$config['default_pass']|default='888888'}" placeholder="会员注册黙认的登录密码" autocomplete="off" class="layui-input">
+                            <div class="layui-form-mid layui-word-aux">黙认为：888888</div>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">会员注册黙认的登录密码</b></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">二级密码</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="default_repass" value="{$config['default_repass']|default='999999'}" placeholder="会员注册黙认的二级密码" autocomplete="off" class="layui-input">
+                            <div class="layui-form-mid layui-word-aux">黙认为：999999</div>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">会员注册黙认的登录密码</b></div>
+                    </div>
+-->
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">同身份注册</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="card_num" value="{$config['card_num']|default='0'}" placeholder="同身份证注册会员账号数量" autocomplete="off" class="layui-input">
+                            <div class="layui-form-mid layui-word-aux">同一张身份证号；0 为不限制</div>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">个会员账号</b></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">同手机注册</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="phone_num" value="{$config['phone_num']|default='0'}" placeholder="同手机号注册会员账号数量" autocomplete="off" class="layui-input">
+                            <div class="layui-form-mid layui-word-aux">同一个手机号；0 为不限制</div>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">个会员账号</b></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">同邮箱注册</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="email_num" value="{$config['email_num']|default='0'}" placeholder="同邮箱号注册会员账号数量" autocomplete="off" class="layui-input">
+                            <div class="layui-form-mid layui-word-aux">同一个邮箱账号；0 为不限制</div>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">个会员账号</b></div>
+                    </div>
+
+                    <div class="layui-inline layui-form-item" pane="">
+                        <label class="layui-form-label">注册成功后</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="is_acvite" value="1" title="黙认己经激活" <if condition="$config.is_acvite eq 1">checked=""</if>>
+                            <!--<input type="radio" name="is_acvite" value="2" title="黙认等待激活" <if condition="$config.is_acvite eq 2">checked=""</if>>-->
+                        </div>
+                        <div class="layui-input-block">
+                            <input type="radio" name="is_lock" value="1" title="黙认正常登录" <if condition="$config.is_lock eq 1">checked=""</if>>
+                            <input type="radio" name="is_lock" value="2" title="黙认禁止登录" <if condition="$config.is_lock eq 2">checked=""</if>>
+                        </div>
+                        <div class="layui-input-block">
+                            <input type="radio" name="is_tk" value="1" title="黙认正常提现" <if condition="$config.is_tk eq 1">checked=""</if>>
+                            <input type="radio" name="is_tk" value="2" title="黙认禁止提现" <if condition="$config.is_tk eq 2">checked=""</if>>
+                        </div>
+                    </div>
+<!--                    <div class="layui-form-item">
+                        <label class="layui-form-label">报单金额</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="jh_money" value="{$config['jh_money']|default='0'}" placeholder="报单金额" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">激活赠送</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="jh_zs_nyl_num" value="{$config['jh_zs_nyl_num']|default='0'}" placeholder="激活赠送" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">诺一链</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">出局奖励</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="cj_jl_num" value="{$config['cj_jl_num']|default='0'}" placeholder="出局奖励" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">复投金额</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="ft_num" value="{$config['ft_num']|default='0'}" placeholder="复投金额" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{:bonusInfo(1)['name_cn']}</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="bonus_1_money" value="{$config['bonus_1_money']|default='0'}" placeholder="{:bonusInfo(1)['name_cn']}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{:bonusInfo(12)['name_cn']}</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="bonus_12_money" value="{$config['bonus_12_money']|default='0'}" placeholder="{:bonusInfo(12)['name_cn']}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>-->
+                   <!-- <div class="layui-form-item">
+                        <label class="layui-form-label">直推</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="my_xj_jd_tj" value="{$config['my_xj_jd_tj']|default='0'}" placeholder="直推多少人以上可自己往自己下面接点" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">人以上可自己往自己下面接点（0即为不启用）</div>
+                    </div>-->
+                    <!--<fieldset class="layui-elem-field layui-field-title">
+                        <legend><button class="layui-btn layui-btn-radius layui-btn-primary">激活会员方案一</button></legend>
+                    </fieldset>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">激活会员用</label>
+                        <div class="layui-input-inline">
+                            <select name="ma_id" lay-search="">
+                                <option value="0">&#45;&#45;请选择&#45;&#45;</option>
+                                <foreach name="moneyInfo" item="v" key="k">
+                                    <option value="{$k}" <if condition="$k eq $config['ma_id']">selected</if>>{$v}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-input-inline">
+                            <input type="text" name="ma_per" value="{$config['ma_per']|default='50'}" placeholder="账号使用比例" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">%</b></div>
+                    </div>
+-->
+                    <!--<<fieldset class="layui-elem-field layui-field-title">
+                        <legend><button class="layui-btn layui-btn-radius layui-btn-primary">激活会员方案二</button></legend>
+                    </fieldset>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">激活会员用</label>
+                        <div class="layui-input-inline">
+                            <select name="mb_id" lay-search="">
+                                <option value="0">&#45;&#45;请选择&#45;&#45;</option>
+                                <foreach name="moneyInfo" item="v" key="k">
+                                    <option value="{$k}" <if condition="$k eq $config['mb_id']">selected</if>>{$v}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-input-inline">
+                            <input type="text" name="mb_per" value="{$config['mb_per']|default='50'}" placeholder="账号使用比例" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">%</b></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">激活会员用</label>
+                        <div class="layui-input-inline">
+                            <select name="mc_id" lay-search="">
+                                <option value="0">&#45;&#45;请选择&#45;&#45;</option>
+                                <foreach name="moneyInfo" item="v" key="k">
+                                    <option value="{$k}" <if condition="$k eq $config['mc_id']">selected</if>>{$v}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-input-inline">
+                            <input type="text" name="mc_per" value="{$config['mc_per']|default='50'}" placeholder="账号使用比例" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">%</b></div>
+                    </div>-->
+                    <!-- <div class="layui-form-item">
+                        <label class="layui-form-label">激活会员用</label>
+                        <div class="layui-input-inline">
+                            <select name="md_id" lay-search="">
+                                <option value="0">--请选择--</option>
+                                <foreach name="moneyInfo" item="v" key="k">
+                                    <option value="{$k}" <if condition="$k eq $config['md_id']">selected</if>>{$v}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-input-inline">
+                            <input type="text" name="md_per" value="{$config['md_per']|default='50'}" placeholder="账号使用比例" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">%</b></div>
+                    </div> -->
+                    <!-- <fieldset class="layui-elem-field layui-field-title">
+                        <legend><button class="layui-btn layui-btn-radius layui-btn-primary">激活会员方案三</button></legend>
+                    </fieldset>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">激活会员用</label>
+                        <div class="layui-input-inline">
+                            <select name="me_id" lay-search="">
+                                <option value="0">--请选择--</option>
+                                <foreach name="moneyInfo" item="v" key="k">
+                                    <option value="{$k}" <if condition="$k eq $config['me_id']">selected</if>>{$v}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-input-inline">
+                            <input type="text" name="me_per" value="{$config['me_per']|default='50'}" placeholder="固定数量" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">个</b></div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">回填单会员</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="back_tk" value="{$config['back_tk']|default='50'}" placeholder="提现比例" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid"><b style="color:red;"> % 可以申请提现  </b></div>
+                            <div class="layui-input-inline">
+                                <input type="text" name="back_reg" value="{$config['back_reg']|default='50'}" placeholder="回填账户比列" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid"><b style="color:red;">回填至报单金额</b></div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">空单会员</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="empty_tk" value="{$config['empty_tk']|default='50'}" placeholder="提现比例" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid"><b style="color:red;"> % 可以申请提现  </b></div>
+                            <div class="layui-input-inline">
+                                <input type="text" name="empty_reg" value="{$config['empty_reg']|default='50'}" placeholder="回填账户比列" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid"><b style="color:red;">回填至报单金额</b></div>
+                        </div>
+                    </div> -->
+                    <!--<div class="layui-form-item">
+                        <label class="layui-form-label">金额达到</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="enter_network_goods_money" value="{$config['enter_network_goods_money']|floatval}" placeholder="消费金额达到多少进入网络图" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">进入公排网</div>
+                        <label class="layui-form-label">赠送</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="enter_network_give_money" value="{$config['enter_network_give_money']|floatval}" placeholder="消费金额达到多少进入网络图" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>-->
+                   <!-- <div class="layui-form-item">
+                        <label class="layui-form-label">激活{:moneyList(3)}</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="activate_money3_per" value="{$config['activate_money3_per']|floatval}" placeholder="激活使用{:moneyList(3)}比例" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">%</div>
+                    </div>-->
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+<include file="Public/footer" />
+<script>
+    layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+        var form = layui.form, $ = layui.jquery;
+        //监听提交
+        form.on('submit(articleHandle)', function (data) {
+            var ArticleInfo = data.field;
+            var url = "{:U('')}";
+            $.post(url, ArticleInfo, function (data) {
+                if (data.status != 1) {
+                    layer.msg(data.msg, {icon: 5});
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        location.reload();
+                    });
+                }
+            });
+            return false;//阻止表单跳转
+        });
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<foreach name="list" item="v">
+    <li class="tradingRecordLi">
+        <div class="tradingRecordTop">
+            <span class="span_1">委拖价格：<span class="span_1_1">{$v['price']}  / 个</span></span>
+            <a href="javascript:;" class="tradingRecordLink">{:blockSellStatus($v[status])}</a>
+        </div>
+        <div class="tradingRecordTx">
+            <div class="tradLeft">
+                <div class="tradImg">
+                    <img src="{:blockOneImg($v[mid])}" alt="">
+                </div>
+            </div>
+            <div class="tradRight">
+                <div class="tradText_2">
+                    <span class="span_1">待交易：</span>
+                    <span class="span_2">{$v['stay_num']}</span>
+                </div>
+              	<div class="tradText_2">
+                    <span class="span_1">交易金额：</span>
+                    <span class="span_2">{$v['total']}</span>
+                </div>
+                <div class="tradText_2">
+                    <span class="span_1">委托时间：</span>
+                    <span class="span_2">{:date('Y-m-d H:i:s' ,$v['add_time'])}</span>
+                </div>
+              	<div class="tradText_2">
+                    <span class="span_1">卖家手机号：</span>
+                    <span class="span_2">{:userInfo($v['uid'])['account']}</span>
+                </div>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="tradingRecordCZ">
+            <!--<span class="czLink sellWithdraw" data-id="{$v['id']}">卖出</span>-->
+            <div class="clickCyjy">
+                点击参与交易
+            </div>
+            <div class="cyjyBox">
+                <form class="contentForm_2">
+                    <div class="mui-input-row cyjyRow">
+                        <label class="tr">转出数量：</label>
+                        <input type="text" name="num" value="{$v['stay_num']}" readonly class="mui-input-clear sell_num" placeholder="请输入转入数量">
+                    </div>
+                    <div class="mui-input-row cyjyRow">
+                        <label class="tr">交易密码：</label>
+                        <input type="password" name="buySecpwd" value="" class="mui-input-password sellSecpwd" placeholder="二级密码">
+                    </div>
+                    <div class="cyjyButtom">
+                        <input type="hidden" name="id" value="{$v['id']}" autocomplete="off"/>
+                        <button type="button" data-id="{$v['id']}" class="mui-btn mui-btn-primary sellOneAdd" >买入</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </li>
+</foreach>
+<script>
+    var mask=mui.createMask();
+    mui('body').on('tap', '.sellOneAdd', function() {
+        var obj = $(this);
+        $(obj).attr('disabled', 'true');
+        var data = $(this).parents('.contentForm_2').serialize();
+        console.log(data);
+        var url = "{:U('Block/blockBuyIndex')}";
+        mui.showLoading("提交中","div");
+        mask.show();//显示遮罩层
+        $.ajax({
+            type: 'post',
+            url: url,
+          	data: data,
+            dataType: 'json',
+            success: function (res) {
+                mask.close();//关闭遮罩层
+                mui.hideLoading();
+                if (res.status == 1) {
+                    mui.toast(res.msg, {duration: '2000', type: 'div'});
+                    setTimeout(function () {
+                        mui.openWindow({
+                            id: res.url,
+                            url: res.url
+                        });
+                    }, 2000);
+                } else {
+                    $(obj).removeAttr('disabled');
+                    return mui.toast(res.msg, {duration: '2000', type: 'div'});
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                return mui.toast('网络失败，请刷新页面后重试', {duration: '2000', type: 'div'});
+            }
+        });
+    });
+</script>

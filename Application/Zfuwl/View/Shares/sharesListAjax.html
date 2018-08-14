@@ -1,0 +1,184 @@
+<table class="layui-table layui-form">
+    <thead>
+    <tr>
+        <!--<th style="width: 5px;"><input type="checkbox" lay-filter="allChoose"lay-skin="primary" /></th>-->
+        <th><a href="javascript:sort('id');" class="active">ID</a></th>
+        <th>初始名</th>
+        <th>名称</th>
+        <th><a href="javascript:sort('is_type');">状态</a></th>
+        <th><a href="javascript:sort('shares_taotal');">发行总量</a></th>
+        <th><a href="javascript:sort('shares_price');">发行价格</a></th>
+        <th><a href="javascript:sort('shares_price');">当前价格</a></th>
+        <th><a href="javascript:sort('out_num');">己发行</a></th>
+        <th><a href="javascript:sort('total_num');">己出售</a></th>
+        <th><a href="javascript:sort('rise_auto');">自动涨价</a></th>
+        <!--<th><a href="javascript:sort('split_auto');">自动拆分</a>价格/倍数</th>-->
+        <!--<th><a href="javascript:sort('split_fall_price');">拆分后价格</a></th>-->
+        <!--<th><a href="javascript:sort('split_num');">拆分次数</a></th>-->
+        <!--<th><a href="javascript:sort('max_add_price');">买入｜高/低</a></th>-->
+        <!--<th><a href="javascript:sort('max_out_price');">卖出｜高/低</a></th>-->
+        <!--<th><a href="javascript:sort('trade_add_time');">交易时间｜启/止</a></th>-->
+        <!--<th><a href="javascript:sort('trade_auto');">匹配交易</a></th>-->
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <if condition="count($list) eq 0">
+        <tr align="center">
+            <td colspan="20">暂无数据</td>
+        </tr>
+        <else/>
+        <foreach name="list" key="k" item="v">
+            <tr>
+                <!--<td><input type="checkbox" name="selected[]" value="{$v['id']}" lay-skin="primary"></td>-->
+                <td>{$v.id}</td>
+                <td>{$v.name}</td>
+                <td>{$v.name_cn}({$v.name_en})</td>
+                <td>
+                    <a href="javaScript:void(0);" onclick="saveState('is_type', {$v['is_type']}, {$v['id']}, this);" data-url="{:U('Shares/saveShares')}">
+                        <if condition="$v.is_type eq 1">
+                            <b><i class="layui-icon">&#x1005;</i> </b>
+                            <else/>
+                            <b><i class="icon iconfont">&#xe61b;</i></b>
+                        </if>
+                    </a>
+                </td>
+                <td>{$v.total}{$v.thigh}</td>
+                <td>{$v.shares_price}</td>
+                <td>{$v.now_price}</td>
+                <td>{$v.out_num}</td>
+                <td>{$v.total_num}</td>
+                <td>
+                    <if condition="$v.rise_auto eq 1">
+                        <b>是</b>
+                        <else/>
+                        <b>否</b>
+                    </if>
+                </td>
+                <!--<td>-->
+                    <!--<if condition="$v.rise_auto eq 1">-->
+                        <!--<if condition='$v[split_auto] eq 1'>{$v.split_price}/{$v.split_per}</if>-->
+                        <!--<else/>-->
+                        <!--<b>手动拆分</b>-->
+                    <!--</if>-->
+                <!--</td>-->
+                <!--<td>{$v.split_fall_price}</td>-->
+                <!--<td>{$v.split_num}</td>-->
+                <!--<td>{$v.max_add_price}/{$v.min_add_price}</td>-->
+                <!--<td>{$v.max_out_price}/{$v.min_out_price}</td>-->
+                <!--<td>{$v.trade_add_time}/{$v.trade_out_time}</td>-->
+<!--                <td>
+                    <a href="javaScript:void(0);" onclick="saveState('trade_auto', {$v['trade_auto']}, {$v['id']}, this);" data-url="{:U('Shares/saveIsTrends')}">
+                        <if condition="$v.trade_auto eq 1">
+                            <b>自动 </b>
+                            <else/>
+                            <b>手动</b>
+                        </if>
+                    </a>
+                </td>-->
+                <td>
+                    <a href="{:U('Shares/editShares', array('id' => $v['id']))}" class="layui-btn layui-btn-mini layui-btn-normal edit">
+                        <i class="layui-icon">&#xe642;</i>编辑
+                    </a>
+                    <a data="{$v['id']}" class="layui-btn layui-btn-mini layui-btn-normal confirmOrder"><i class="layui-icon">&#xe642;</i>修改当前交易价格</a>
+<!--                    <a data="{$v['id']}" class="layui-btn layui-btn-danger layui-btn-mini del">
+                        <i class="layui-icon">&#xe640;</i>删除
+                    </a>-->
+                </td>
+            </tr>
+        </foreach>
+    </if>
+    </tbody>
+</table>
+<!--<button type="button" class="layui-btn layui-btn-danger del" style="float:left;margin:20px 0px;"><i class="layui-icon">&#xe640;</i>删除</button>-->
+{$page}
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render('checkbox'); //刷新checkbox渲染
+        // 全选
+        form.on('checkbox(allChoose)', function(data){
+            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+            child.each(function(index, item){
+                item.checked = data.elem.checked;
+            });
+            form.render('checkbox');
+        });
+    });
+    $('.confirmOrder').click(function(){
+        var id = $(this).attr('data');
+        layer.prompt({title:'请输入新交易价格'}, function(value, index, elem){
+            $.ajax({
+                type:'post',
+                data:{id:id, name:value},
+                url:"{:U('Shares/editNowPrice')}",
+                success:function(data){
+                    layer.close(index);
+                    if (data.status == 0) {
+                        layer.msg(data.msg, {icon: 5});
+                    } else if (data.status == 1) {
+                        layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                            ajax_get_table('search-form2', 1);
+                        });
+                    }
+                }
+            })
+        });
+    });
+    $(".pagination a").click(function () {
+        var page = $(this).data('p');
+        ajax_get_table('search-form2', page);
+    });
+    $('.del').click(function(){
+        var url = "{:U('Shares/delShares')}";
+        var id = $(this).attr('data');
+        if(!id) {
+            var obj = $("input[name*='selected']");
+            if (obj.is(":checked")) {
+                var check_val = [];
+                for (var k in obj) {
+                    if (obj[k].checked)
+                        check_val.push(obj[k].value);
+                }
+                id = check_val;
+            }
+        }
+        if(!id) {
+            return false;
+        }
+        layer.confirm('确定删除吗?', {icon: 3,skin: 'layer-ext-moon',btn: ['确认', '取消']}, function() {
+            $.post(url, {id: id}, function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                } else if (data.status == 1) {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        var page = $('.pagination .active').find('a').data('p');
+                        ajax_get_table('search-form2', page);
+                    });
+                }
+            });
+        });
+    });
+    /**
+     * 统一修改状态
+     */
+    function saveState(fieldVal, val, id, obj){
+        var url = $(obj).data('url');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {fieldVal: fieldVal, id: id, val: val},
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                    return;
+                } else {
+                    var page = $('.pagination .active').find('a').data('p');
+                    ajax_get_table('search-form2', page);
+                    layer.msg(data.msg, {icon: 6});
+                }
+            }
+        });
+
+    }
+</script>

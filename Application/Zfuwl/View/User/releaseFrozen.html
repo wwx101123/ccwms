@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <div class="test-table-reload-btn" style="margin-top: 10px;margin-left:15px;">
+                <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i> 释放会员管理</button>
+                <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline"> <input type="text"value="{$userInfo['account']}" readonly="" placeholder="会员账号"  autocomplete="off" class="layui-input" lay-verify="required"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">冻结时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" value="{$lockinfo.lock_time|date='Y-m-d H:i:s', ###}"  readonly="" placeholder="英文名称" autocomplete="off" class="layui-input" lay-verify="required"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">当前等级</label>
+                            <div class="layui-input-inline">
+                                <input type="text" value="{$levelInfo[$userInfo[level]]}"  readonly="" placeholder="当前等级" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                    </div>
+                    <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
+                        <legend>冻结原因</legend>
+                        <div style="color:red;"><b>{$lockinfo.log_info}</b></div>
+                    </fieldset>
+                   <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label"><b style="color: red;">释放备注</b></label>
+                        <div class="layui-input-block">
+                          <textarea name="note" placeholder="释放的原因备注" class="layui-textarea" lay-verify="required"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="user_id" value="{$userInfo['user_id']}" />
+                            <input type="hidden" name="lock_id" value="{$lockinfo['id']}" />
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+<include file="Public/footer" />
+<script>
+    layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+        var form = layui.form, $ = layui.jquery;
+        form.on('submit(articleHandle)', function (data) {
+            var ArticleInfo = data.field;
+            var url = "{:U('')}";
+            $.post(url, ArticleInfo, function (data) {
+                if (data.status != 1) {
+                    layer.msg(data.msg, {icon: 5});
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        history.go(-1);
+                    });
+                }
+            });
+            return false;//阻止表单跳转
+        });
+    });
+</script>
+</body>
+</html>

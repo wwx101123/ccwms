@@ -1,0 +1,9 @@
+<foreach name="list" item="v">
+    <tr>
+        <td>{$v['money']}</td>
+        <td>{$v['jifen']}</td>
+        <td>{:blockList($v['bid'], 1)}</td>
+        <td>{$v['per']}</td>
+        <td>{:date('Y-m-d' ,$v['zf_time'])}</td>
+    </tr>
+</foreach>

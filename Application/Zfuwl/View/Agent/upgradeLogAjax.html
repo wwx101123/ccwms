@@ -1,0 +1,137 @@
+<table class="layui-table layui-form">
+    <thead>
+        <tr>
+            <th>会员账号</th>
+            <th>变动时间</th>
+            <th><a href="javascript:sort('y_id');">变动前</a></th>
+            <th><a href="javascript:sort('x_id');">变动后</a></th>
+            <th>状态</th>
+            <th>备注</th>
+            <th>管理员</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+    <if condition="count($list) eq 0">
+        <tr align="center">
+            <td colspan="20">暂无数据</td>
+        </tr>
+        <else/>
+        <foreach name="list" key="k" item="v">
+            <tr>
+                <td>{$userList[$v[uid]]}</td>
+                <td>{$v.zf_time|date='Y-m-d H:i',###}</td>
+                <td>{$agentInfo[$v[y_id]]}</td>
+                <td>{$agentInfo[$v[x_id]]}</td>
+                <td>{$upgradeStatu[$v[statu]]} 
+                    <if condition="$v[refuse] neq ''">
+                        {$v.refuse_time|date='Y-m-d H:i',###}<br />
+                        <span style="color:red;">{$v[refuse]}</span>
+                    </if>
+                </td>
+                <td>{$v[note]} 
+                    <if condition="$v[confirm] neq ''">
+                        {$v.confirm_time|date='Y-m-d H:i',###}<br />
+                        <span style="color:red;">{$v[confirm]}</span>
+                    </if>
+                </td>
+                <td>{$adminlist[$v[admin_id]]}</td>
+                <td>
+                    <if condition="$v[statu] eq 2">
+                    <a data="{$v['id']}" class="layui-btn layui-btn-mini layui-btn-normal confirm"><i class="layui-icon">&#xe618;</i>确认</a>
+                    <a data="{$v['id']}" class="layui-btn layui-btn-mini layui-btn-warm refuse"><i class="layui-icon">&#xe607;</i>拒绝</a>
+                    </if>
+                    <a data="{$v['id']}" class="layui-btn layui-btn-danger layui-btn-mini del"><i class="layui-icon">&#xe640;</i>删除({$v.id})</a>
+                </td>           
+            </tr>
+        </foreach>
+    </if>
+</tbody>
+</table>
+{$page}
+<script>
+    layui.use(['form'], function () {
+        var laypage = layui.laypage, $ = layui.jquery,form=layui.form;
+        form.render('checkbox'); //刷新checkbox渲染
+        form.on('checkbox(allChoose)', function (data) {
+            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+            child.each(function (index, item) {
+                item.checked = data.elem.checked;
+            });
+            form.render('checkbox');
+        });
+    });
+    $(".pagination a").click(function () {
+        var page = $(this).data('p');
+        ajax_get_table('search-form2', page);
+    });
+    $('.del').click(function () {
+        var url = "{:U('Agent/delUpgrade')}";
+        var id = $(this).attr('data');
+        if (!id) {
+            var obj = $("input[name*='selected']");
+            if (obj.is(":checked")) {
+                var check_val = [];
+                for (var k in obj) {
+                    if (obj[k].checked)
+                        check_val.push(obj[k].value);
+                }
+                id = check_val;
+            }
+        }
+        if (!id) {
+            return false;
+        }
+        layer.confirm('确定删除吗?', {icon: 3, skin: 'layer-ext-moon', btn: ['确认', '取消']}, function () {
+            $.post(url, {id: id}, function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                } else if (data.status == 1) {
+                    var page = $('.pagination .active').find('a').data('p');
+                    ajax_get_table('search-form2', page);
+                    layer.msg(data.msg, {icon:6});
+                }
+            });
+        });
+    });
+    $('.confirm').click(function(){
+            var id = $(this).attr('data');
+            layer.prompt({title:'请输入确认备注',formType: 2}, function(value, index, elem){
+                $.ajax({
+                    type:'post',
+                    data:{id:id, name:value},
+                    url:"{:U('Agent/confirmInfo')}",
+                    success:function(data){
+                        layer.close(index);
+                        if (data.status == 0) {
+                            layer.msg(data.msg, {icon: 5});
+                        } else if (data.status == 1) {
+                            var page = $('.pagination .active').find('a').data('p');
+                            ajax_get_table('search-form2', page);
+                            layer.msg(data.msg, {icon:6});
+                        }
+                    }
+                })
+            });
+        });
+        $('.refuse').click(function(){
+            var id = $(this).attr('data');
+            layer.prompt({title:'请输入拒绝备注',formType: 2}, function(value, index, elem){
+                $.ajax({
+                    type:'post',
+                    data:{id:id, name:value},
+                    url:"{:U('Agent/refuseInfo')}",
+                    success:function(data){
+                        layer.close(index);
+                        if (data.status == 0) {
+                            layer.msg(data.msg, {icon: 5});
+                        } else if (data.status == 1) {
+                            var page = $('.pagination .active').find('a').data('p');
+                            ajax_get_table('search-form2', page);
+                            layer.msg(data.msg, {icon:6});
+                        }
+                    }
+                })
+            });
+        });
+</script>

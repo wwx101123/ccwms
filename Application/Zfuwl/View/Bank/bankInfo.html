@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+    <style>
+        /* 案例 */
+        .fly-case-header{position: relative; height: 260px; text-align: center; background: #393D49;}
+        .fly-case-year{position: absolute; top: 30px; width: 100%; line-height: 50px; font-size: 50px; text-align: center; color: #fff; font-weight: 300;}
+        .fly-case-banner{position: absolute; left: 50%; top: 100px; width: 670px; margin-left: -335px;}
+        .fly-case-btn{position: absolute; bottom: 30px; left: 0; width: 100%; text-align: center;}
+        .fly-case-btn a{color: #fff;}
+        .fly-case-btn .layui-btn-primary{background: none; color: #fff;}
+        .fly-case-btn .layui-btn-primary:hover{border-color: #5FB878;}
+        .fly-case-tab{margin-top: 20px; text-align: center;}
+        .fly-case-tab span,
+        .fly-case-tab span a{border-color: #009688;}
+        .fly-case-tab .tab-this{background-color: #009688; color: #fff;}
+        .fly-case-list{margin-top: 15px; font-size: 0;}
+        .fly-case-list li,
+        .layer-ext-ul li{display: inline-block; vertical-align: middle; *display: inline; *zoom:1; font-size: 14px; background-color: #fff;}
+        .fly-case-list{width: 100%;}
+        .fly-case-list li{width: 150px; margin: 0 15px 15px 0; padding: 10px;}
+        .fly-case-list li:hover{box-shadow: 1px 1px 5px rgba(0,0,0,.1);}
+        .fly-case-img{position: relative; display: block;}
+        .fly-case-img img{width: 150px; height: 150px;}
+        .fly-case-img .layui-btn{display: none; position: absolute; bottom: 20px; left: 50%; margin-left: -29px;}
+        .fly-case-img:hover .layui-btn{display: inline-block;}
+        .fly-case-list li h2{padding: 10px 0 5px; line-height: 22px; font-size: 18px; white-space: nowrap; overflow: hidden; text-align: center;}
+        .fly-case-desc{height: 60px; line-height: 20px; font-size: 12px; color: #666; overflow: hidden;}
+        .fly-case-info{position: relative; margin: 10px 0 0; padding: 10px 65px 0 45px; border-top: 1px dotted #eee;}
+        .fly-case-info p{height:24px; line-height: 24px;}
+        .fly-case-user{position: absolute; left: 0; top: 15px; width: 35px; height: 35px;}
+        .fly-case-user img{width: 35px; height: 35px; border-radius: 100%;}
+        .fly-case-info .layui-btn{position: absolute; right: 0; top: 15px;  padding: 0 15px;}
+        .layer-ext-ul{margin: 10px; max-height: 500px;}
+        .layer-ext-ul img{width: 50px; height: 50px; border-radius: 100%;}
+        .layer-ext-ul li{margin: 8px;}
+        .layer-ext-case .layui-layer-title{border: none; background-color: #009688; color: #fff;}
+    </style>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <div class="test-table-reload-btn" style="margin-top: 10px;margin-left:15px;">
+                <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>  收款方式管理</button>
+                <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="layui-field-box">
+                <blockquote class="layui-elem-quote layui-text">
+                    <b style="color:red;">温馨提示：</b>该收款方式为公司的收款银行；<br />
+                </blockquote>
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">中文名称</label>
+                            <div class="layui-input-inline"><input type="text" name="name_cn" value="{$info['name_cn']}" placeholder="中文名称"  autocomplete="off" class="layui-input" lay-verify="required"></div>
+                        </div>
+                        <!--<div class="layui-inline">
+                            <label class="layui-form-label">英文名称</label>
+                            <div class="layui-input-inline"><input type="text" name="name_en" value="{$info['name_en']}" placeholder="英文名称" autocomplete="off" class="layui-input" lay-verify="required" /></div>
+                        </div>-->
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">开户姓名</label>
+                        <div class="layui-input-block">
+                          <input type="text" name="username" value="{$info['username']}" autocomplete="off" placeholder="开户姓名" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">银行账号</label>
+                        <div class="layui-input-block">
+                          <input type="text" name="account" value="{$info['account']}" autocomplete="off" placeholder="银行账号" class="layui-input" onkeyup="this.value =this.value.replace(/\s/g,'').replace(/[^\d]/g,'').replace(/(\d{4})(?=\d)/g,'$1 ');">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">分行支行</label>
+                        <div class="layui-input-block">
+                          <input type="text" name="address" value="{$info['address']}" autocomplete="off" placeholder="分行支行" class="layui-input">
+                        </div>
+                    </div>
+
+                    <ul class="fly-case-list">
+                        <li data-id="123">
+                            <input type="hidden" name="img" value="{$info['img']|default='__PUBLIC__/images/not_adv.jpg'}" placeholder="银行图片" autocomplete="off" id="bankimg" class="layui-input" />
+                            <a class="fly-case-img" href="javaScript:void(0);"><img src="{$info['img']|default='__PUBLIC__/images/not_adv.jpg'}" alt="银行图片" class="bankimg checkImg" ></a>
+                            <h5><a href="javaScript:void(0);">LOGO 100 * 100px</a></h5>
+                            <button class="layui-btn layui-btn-sm uploadImg" type="button" lay-data="{field: 'bankimg',data:{dir:'Bank', field:'bankimg'}}"><i class="layui-icon">&#xe62f;</i> 上传LOGO</button>
+                        </li>
+                        <li data-id="123">
+                            <input type="hidden" name="code" value="{$info['code']|default='__PUBLIC__/images/not_adv.jpg'}" placeholder="收款二维码" autocomplete="off" id="bankcode" class="layui-input" />
+                            <a class="fly-case-img" href="javaScript:void(0);"><img src="{$info['code']|default='__PUBLIC__/images/not_adv.jpg'}" alt="收款二维码" class="bankcode checkImg" ></a>
+                            <h5><a href="javaScript:void(0);">收款二维码 100 * 100px</a></h5>
+                            <button class="layui-btn layui-btn-sm uploadImg" type="button" lay-data="{field: 'bankcode',data:{dir:'Bank', field:'bankcode'}}"><i class="layui-icon">&#xe62f;</i> 上传收款二维码</button>
+                        </li>
+                    </ul>
+
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">启用状态</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="statu" value="1" <if condition="$info['statu'] eq 1">checked</if> title="开启" />
+                                <input type="radio" name="statu" value="2" <if condition="$info['statu'] eq 2">checked</if> title="关闭" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <blockquote class="layui-elem-quote layui-text" style="color:red;">是否允许会员添加当前银行做为提现的收款方式</blockquote>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">请选择确认</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="is_t" value="1" <if condition="$info['is_t'] eq 1">checked</if> title="允许会员添加" />
+                                <input type="radio" name="is_t" value="2" <if condition="$info['is_t'] eq 2">checked</if> title="关闭会员添加" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <blockquote class="layui-elem-quote layui-text" style="color:red;">是否允许会员汇款充值</blockquote>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">请选择确认</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="is_c" value="1" <if condition="$info['is_c'] eq 1">checked</if> title="允许会员汇款充值" />
+                                <input type="radio" name="is_c" value="2" <if condition="$info['is_c'] eq 2">checked</if> title="关闭会员汇款" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="id" value="{$info['id']}"/>
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+<include file="Public/footer" />
+<script>
+    layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+        var form = layui.form, $ = layui.jquery,upload = layui.upload;
+         upload.render({
+            elem: '.uploadImg',
+            url:'{:U("Api/imageUp")}',
+            before: function(){
+            }
+            ,done: function(res, index, upload){
+                $('#'+this.data.field).val(res.data.src);
+                $('.'+this.data.field).attr('src', res.data.src);
+            }
+        });
+        $('#submitBtn').click(function () {
+            editor.sync();
+        });
+        form.on('submit(articleHandle)', function (data) {
+            var ArticleInfo = data.field;
+            var url = "{:U('')}";
+            $.post(url, ArticleInfo, function (data) {
+                if (data.status != 1) {
+                    layer.msg(data.msg, {icon: 5});
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        history.go(-1);
+                    });
+                }
+            });
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

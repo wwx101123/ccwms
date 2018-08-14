@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <div class="test-table-reload-btn" style="margin-top: 10px;margin-left:15px;">
+                <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>  {$info['name']}管理</button>
+                <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">中文名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name_cn" value="{$info['name_cn']}" placeholder="中文名称"  autocomplete="off" class="layui-input" lay-verify="required">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">等级条件</label>
+                        <div class="layui-input-inline">
+                            <select name='level_id'>
+                                <option value=''>无条件</option>
+                                <foreach name="levelList" key='k' item="v">
+                                    <option value='{$k}' {$k == $info['level_id'] ? 'selected' : ''}>{$v}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{:bonusInfo(4)['name_cn']}比例</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="b_4" value="{$info['b_4']|floatval}" lay-verify="required" placeholder="{:bonusInfo(4)['name_cn']}比例" autocomplete="off" class="layui-input"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;">%</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="id" value="{$info['id']}" />
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+<include file="Public/footer" />
+<script>
+    layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+        var form = layui.form, $ = layui.jquery;
+        //监听提交
+        form.on('submit(articleHandle)', function (data) {
+            var ArticleInfo = data.field;
+            var url = "{:U('')}";
+            $.post(url, ArticleInfo, function (data) {
+                if (data.status != 1) {
+                    layer.msg(data.msg, {icon: 5});
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        history.go(-1);
+                    });
+                }
+            });
+            return false;//阻止表单跳转
+        });
+
+    });
+</script>
+</body>
+</html>

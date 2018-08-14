@@ -1,0 +1,229 @@
+html { font-family:"微软雅黑", "Helvetica Neue", Helvetica, STHeiTi, Arial, sans-serif; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; font-size: 62.5%; }
+body{ background:#EFEFEF; font-family:"微软雅黑", "Helvetica Neue", Helvetica, STHeiTi, Arial, sans-serif; max-width:640px; margin:0 auto; font-size:1.4rem; padding:0; color:#333;-webkit-overflow-scrolling: touch; padding-bottom:20px;}
+div, ul, ol, dl, dt, dd, li, dl, h1, h2, h3, h4{margin:0;padding:0;font-style:normal;}
+ol,ul,li{ list-style:none; padding:0; margin:0}
+a{ padding:0; margin:0; text-decoration:none; color:#333;}
+img {border: 0; vertical-align:middle;} 
+.clear{clear:both;height:1px;width:100%; overflow:hidden; margin-top:-1px;} 
+input{-webkit-appearance:none;}
+textarea{-webkit-appearance:none;}
+button{-webkit-appearance:none;}
+p{ margin:5px 0;}
+.clearfix:after {
+  content: " ";
+  display: block;
+  clear: both;
+  height: 0;
+}
+.clearfix {
+  zoom: 1;
+}
+.ell{text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
+.ofh{ overflow:hidden;}
+
+.block{ display:block;}
+.mr-auto{ margin:0 auto;}
+.tc{ text-align:center;}
+.tl{ text-align:left;}
+.tr{ text-align:right;}
+.fl{ float:left;}
+.fr{ float:right;}
+
+.pct100{ width:100%}
+.pct95{ width:95%;}
+.pct90{ width:90%;}
+.pct85{ width:85%}
+.pct80{ width:80%}
+.pct75{ width:75%;}
+.pct70{ width:70%;}
+.pct67{ width:67%}
+.pct65{ width:65%}
+.pct60{ width:60%}
+.pct55{ width:55%;}
+.pct50{ width:50%;}
+.pct45{ width:45%;}
+.pct40{ width:40%;}
+.pct35{ width:35%;}
+.pct30{ width:30%;}
+.pct33{ width:33.3%;}
+.pct25{ width:25%;}
+.pct20{ width:20%;}
+.pct15{ width:15%;}
+.pct10{ width:10%;}
+
+.wth100{ width:100px}
+.wth95{ width:95px;}
+.wth90{ width:90px;}
+.wth85{ width:85px}
+.wth80{ width:80px}
+.wth75{ width:75px;}
+.wth70{ width:70px;}
+.wth65{ width:65px}
+.wth60{ width:60px}
+.wth55{ width:55px;}
+.wth50{ width:50px;}
+.wth45{ width:45px;}
+.wth40{ width:40px;}
+.wth35{ width:35px;}
+.wth30{ width:30px;}
+.wth25{ width:25px;}
+.wth20{ width:20px;}
+.wth15{ width:15px;}
+
+.ht100{ height:100px;}
+.ht80{ height:80px;}
+.ht60{ height:60px;}
+.ht55{ height:55px;}
+.ht50{ height:50px;}
+.ht45{ height:45px;}
+.ht40{ height:40px;}
+.ht35{ height:35px;}
+.ht30{ height:30px;}
+.ht25{ height:25px;}
+.ht20{ height:20px;}
+.ht15{ height:15px;}
+
+.lh15{ line-height:15px;}
+.lh20{ line-height:20px;}
+.lh25{ line-height:25px;}
+.lh30{ line-height:30px;}
+.lh35{ line-height:35px;}
+.lh40{ line-height:40px;}
+.lh45{ line-height:45px;}
+.lh50{ line-height:50px;}
+.lh55{ line-height:55px;}
+.lh60{ line-height:60px;}
+
+
+.mt5{ margin-top:5px;}
+.mt10{ margin-top:10px;}
+.mt15{ margin-top:15px;}
+.mt20{ margin-top:20px;}
+.mt25{ margin-top:25px;}
+.mt30{ margin-top:30px;}
+.mt40{ margin-top:40px;}
+
+.mb5{ margin-bottom:5px;}
+.mb10{ margin-bottom:10px;}
+.mb15{ margin-bottom:15px;}
+.mb20{ margin-bottom:20px;}
+.mb25{ margin-bottom:25px;}
+.mb30{ margin-bottom:30px;}
+
+.mr5{ margin-right:5px;}
+.mr10{ margin-right:10px;}
+.mr15{ margin-right:15px;}
+.mr20{ margin-right:20px;}
+.mr25{ margin-right:25px;}
+.mr30{ margin-right:30px;}
+
+.ml5{ margin-left:5px;}
+.ml10{ margin-left:10px;}
+.ml15{ margin-left:15px;}
+.ml20{ margin-left:20px;}
+.ml25{ margin-left:25px;}
+.ml30{ margin-left:30px;}
+.ml35{ margin-left:35px;}
+.ml40{ margin-left:40px;}
+.ml45{ margin-left:45px;}
+.ml50{ margin-left:50px;}
+
+.pd5{ padding:5px;}
+.pd10{ padding:10px;}
+.pd15{ padding:15px;}
+.pd20{ padding:20px;}
+.pd25{ padding:25px;}
+.pd30{ padding:30px;}
+
+.pdl5{ padding-left:5px;}
+.pdl10{ padding-left:10px;}
+.pdl15{ padding-left:15px;}
+.pdl20{ padding-left:20px;}
+.pdl25{ padding-left:25px;}
+.pdl30{ padding-left:30px;}
+.pdl35{ padding-left:35px;}
+
+.pdr5{ padding-right:5px;}
+.pdr10{ padding-right:10px;}
+.pdr15{ padding-right:15px;}
+.pdr20{ padding-right:20px;}
+.pdr25{ padding-right:25px;}
+.pdr30{ padding-right:30px;}
+.pdr35{ padding-right:35px;}
+
+.pdt5{ padding-top:5px;}
+.pdt10{ padding-top:10px;}
+.pdt15{ padding-top:15px;}
+.pdt20{ padding-top:20px;}
+.pdt25{ padding-top:25px;}
+
+.pdb5{ padding-bottom:5px;}
+.pdb10{ padding-bottom:10px;}
+.pdb15{ padding-bottom:15px;}
+.pdb20{ padding-bottom:20px;}
+.pdb25{ padding-bottom:25px;}
+
+.bdc { border: 1px solid #ccc; }
+.blc { border-left: 1px solid #ccc; }
+.brc { border-right: 1px solid #ccc; }
+.btc { border-top: 1px solid #ccc; }
+.bbc { border-bottom: 1px solid #ccc; }
+
+.bdf { border: 1px solid #fff; }
+.blf { border-left: 1px solid #fff; }
+.brf { border-right: 1px solid #fff; }
+.btf { border-top: 1px solid #fff; }
+.bbf { border-bottom: 1px solid #fff; }
+
+
+.bde { border: 1px solid #efefef; }
+.ble { border-left: 1px solid #efefef; }
+.bre { border-right: 1px solid #efefef; }
+.bte { border-top: 1px solid #efefef; }
+.bbe { border-bottom: 1px solid #efefef; }
+
+.bdb{ border:1px solid #1597e1;}
+.bdp{ border:1px solid #FF9999;}
+.bdo{ border:1px solid #f50;}
+
+.rad5{-moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; }
+.rad3{-moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; }
+.rad50{-moz-border-radius:50%; -webkit-border-radius:50%; border-radius:50%;}
+.box{display:-moz-box; display:-webkit-box; display:box;}
+.boxjus{-moz-box-pack:justify; -webkit-box-pack:justify;  box-pack:justify;}
+
+/***********颜色*********/
+.gray{ color:#666666}
+.lgray{ color:#CCCCCC}
+.fwhite{ color:#fff;}
+.blue{ color:#3c5a96}
+.lblue{ color:#1597e1}
+.red{ color:#FF0000}
+.orange{ color:#f50;}
+.lorange{ color:#fef0d7;}
+.pink{ color:#FF9999}
+.black{ color:#000;}
+.pur{ color:#9e0979}
+.green{ color:#32B16C}
+
+
+.bgblue{ background-color:#3c5a96}
+.bglblue{ background-color:#1597e1}
+.bggreen{ background-color:#7CBE64}
+.bgred{ background-color:#D21C17}
+.bgorange{ background-color:#f50;}
+.bglorange{ background-color:#fef0d7;}
+.bgwhite{ background-color:#fff;}
+.bggray{ background-color:#ccc;}
+.bglgray{ background-color:#efefef;}
+
+/*********字体***********/
+.fb{ font-weight:bold;}
+.f10{ font-size:10px;}
+.f12{ font-size:1.2rem;}
+.f14{ font-size:1.4rem;}
+.f16{ font-size:1.6rem;}
+.f18{ font-size:1.8rem;}
+.f20{ font-size:2rem;}
+.f24{ font-size:2.4rem;}
+.f48{ font-size:4.8rem;}

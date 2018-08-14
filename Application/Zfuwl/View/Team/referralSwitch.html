@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file='Public/top'/>
+    <link rel="stylesheet" href="__PUBLIC__/plugins/layui/build/css/layui.css"  media="all">
+</head>
+<body>
+<div class="admin-main">
+    <blockquote class="layui-elem-quote" style="min-width:800px;">
+        <div class="layui-btn">推荐网体修改</div>
+        <button type="button" class="layui-btn pull-right layui-inline" onclick="location.reload();"><i class="layui-icon">&#x1002;</i> 刷新</button>
+        <!--<button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>-->
+    </blockquote>
+    <div style="clear:both;"></div>
+    <fieldset class="layui-elem-field" style="min-width:800px;">
+        <div class="layui-field-box">
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">会员编号</label>
+                    <div class="layui-input-inline" style="width:30%;">
+                        <input type="text" name="account" lay-verify="required" placeholder="请输入会员编号" autocomplete="off" class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">新上级推荐会员编号</label>
+                    <div class="layui-input-inline" style="width:30%;">
+                        <input type="text" name="tjrAccount" lay-verify="required" placeholder="请输入新上级推荐会员编号" autocomplete="off" class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" id="submitBtn" lay-submit lay-filter="operation">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </fieldset>
+</div>
+<script type="text/javascript" src="__PUBLIC__/plugins/layui/layui.js"></script>
+<script src="__PUBLIC__/plugins/layui/build/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['layer', 'form'], function () {
+        var form = layui.form(),$ = layui.jquery;
+
+        //监听提交
+        form.on('submit(operation)', function (data) {
+            var dataInfo = data.field;
+            var url = "{:U('')}";
+            $.post(url, dataInfo, function (data) {
+                if (data.status != 1) {
+                    layer.msg(data.msg, {icon: 5});
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        location.reload();
+                    });
+                }
+            });
+            return false;//阻止表单跳转
+        });
+
+    });
+</script>
+</body>
+</html>

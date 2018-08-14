@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <div class="test-table-reload-btn" style="margin-top: 10px;margin-left:15px;">
+               <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>  {$info['name']}管理</button>
+               <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+               <div style="clear:both;"></div>
+           </div>
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">中文名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name_cn" value="{$info['name_cn']}" placeholder="中文名称"  autocomplete="off" class="layui-input" lay-verify="required">
+                        </div>
+                    </div>
+
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">升级金额</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="amount" value="{$info['amount']}" placeholder="升级金额" autocomplete="off" class="layui-input" lay-verify="required" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/>
+                        </div>
+                    </div>
+                    <!--<div class="layui-form-item">
+                        <label class="layui-form-label">排单期数</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="periods" value="{$info['periods']|intval}" placeholder="排单期数" autocomplete="off" class="layui-input" lay-verify="required" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">每期天数</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="periods_time" value="{$info['periods_time']}" placeholder="每期天数" autocomplete="off" class="layui-input" lay-verify="required"/>
+                        </div>
+                    </div>-->
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{:bonusInfo(1)['name_cn']}</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="b_1" value="{$info['b_1']}" lay-verify="required" placeholder="{:bonusInfo(1)['name_cn']}" autocomplete="off" class="layui-input"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;">%</div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{:bonusInfo(2)['name_cn']}</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="b_2" value="{$info['b_2']}" lay-verify="required" placeholder="{:bonusInfo(2)['name_cn']}" autocomplete="off" class="layui-input"/>
+                        </div>
+                    </div>
+
+                    <!--<div class="layui-form-item">
+                        <label class="layui-form-label">团队人数</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="b_3_tj_team_num" value="{$info['b_3_tj_team_num']}" lay-verify="required" placeholder="{:bonusInfo(3)['name_cn']}团队人数" autocomplete="off" class="layui-input"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">推荐人数</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="b_3_tj_tj_num" value="{$info['b_3_tj_tj_num']}" lay-verify="required" placeholder="{:bonusInfo(3)['name_cn']}推荐人数" autocomplete="off" class="layui-input"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">限注册</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="reg_num" value="{$info['reg_num']}" lay-verify="required" placeholder="限注册人数" autocomplete="off" class="layui-input"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;">人</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{:moneyList(3)}</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="jhm_num" value="{$info['jhm_num']}" lay-verify="required" placeholder="消耗{:moneyList(3)}" autocomplete="off" class="layui-input"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">提现倍数</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="tx_bei" value="{$info['tx_bei']}" lay-verify="required" placeholder="提现倍数" autocomplete="off" class="layui-input"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;">{:moneyList(4)}提现倍数</div>
+                        <div class="layui-input-inline">
+                            <input type="text" name="tx_bei_money4" value="{$info['tx_bei_money4']}" lay-verify="required" placeholder="{:moneyList(4)}提现倍数" autocomplete="off" class="layui-input"/>
+                        </div>
+                    </div>-->
+                   <!--  <div class="layui-form-item">
+                        <label class="layui-form-label">出局后奖励</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="out_money" value="{$info['out_money']}" placeholder="出局后奖励" autocomplete="off" class="layui-input" lay-verify="required" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')"/>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">出局后复投</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="out_reg" value="{$info['out_reg']|default='10000'}" lay-verify="required" placeholder="出局后复投" autocomplete="off" class="layui-input"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;"></div>
+                    </div> -->
+
+                    <!-- <div class="layui-form-item">
+                        <label class="layui-form-label">激活后赠送</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="givea_p" value="{$info['givea_p']|default='1000'}" lay-verify="required" placeholder="赠送诺亿链" autocomplete="off" class="layui-input"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;">诺亿链的价值</div>
+                    </div> -->
+                   <!-- <div class="layui-form-item">
+                        <label class="layui-form-label">{:bonusInfo(1)['name_cn']}比例</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="b_1" value="{$info['b_1']|floatval}" lay-verify="required" placeholder="{:bonusInfo(1)['name_cn']}比例" autocomplete="off" class="layui-input"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;">%</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{:bonusInfo(1)['name_cn']}封顶</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="b_1_total" value="{$info['b_1_total']|floatval}" lay-verify="required" placeholder="{:bonusInfo(1)['name_cn']}封顶" autocomplete="off" class="layui-input"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;">倍</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{:bonusInfo(2)['name_cn']}</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="b_2" value="{$info['b_2']}" lay-verify="required" placeholder="{:bonusInfo(2)['name_cn']}" autocomplete="off" class="layui-input"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;">%条件</div>
+                        <div class="layui-input-inline">
+                            <input type="text" name="b_2_tj" value="{$info['b_2_tj']}" lay-verify="required" placeholder="{:bonusInfo(2)['name_cn']}条件" autocomplete="off" class="layui-input"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;">格式: 推荐人数|拿奖代数 多个以英文逗号分开</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{:bonusInfo(2)['name_cn']}释放</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="b_2_sf_per" value="{$info['b_2_sf_per']|floatval}" lay-verify="required" placeholder="{:bonusInfo(2)['name_cn']}每日释放比例" autocomplete="off" class="layui-input"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;">每日释放比例</div>
+                    </div>-->
+                    <!-- <div class="layui-form-item">
+                        <label class="layui-form-label">{:bonusInfo(12)['name_cn']}</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="b_12" value="{$info['b_12']|default='1000'}" lay-verify="required" placeholder="{:bonusInfo(12)['name_cn']}" autocomplete="off" class="layui-input"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;"></div>
+                    </div> -->
+
+                    <!-- <div class="layui-form-item" pane="" style="width:28.5%;">
+                        <label class="layui-form-label">注册启用</label>
+                        <div class="layui-input-block" >
+                            <input type="radio" name="reg" value="1" title="启用" <if condition="$info.reg eq 1">checked=""</if>>
+                            <input type="radio" name="reg" value="2" title="禁用" <if condition="$info.reg eq 2">checked=""</if>>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" pane="" style="width:28.5%;">
+                        <label class="layui-form-label">是否启用</label>
+                        <div class="layui-input-block" >
+                            <input type="radio" name="statu" value="1" title="启用" <if condition="$info.statu eq 1">checked=""</if>>
+                            <input type="radio" name="statu" value="2" title="禁用" <if condition="$info.statu eq 2">checked=""</if>>
+                        </div>
+                    </div> -->
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">颜色</label>
+                        <div class="layui-input-inline" ><input type="color" name="color" value="{$info.color}" class="layui-input"></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="level_id" value="{$info['level_id']}" />
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+<include file="Public/footer" />
+<script>
+    layui.use(['layer', 'form', 'upload', 'laydate','admin'], function () {
+        var form = layui.form, $ = layui.jquery,admin = parent.layui.admin;
+        //监听提交
+        form.on('submit(articleHandle)', function (data) {
+            var ArticleInfo = data.field;
+            var url = "{:U('')}";
+            $.post(url, ArticleInfo, function (data) {
+                if (data.status != 1) {
+                    layer.msg(data.msg, {icon: 5});
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        history.go(-1);
+                    });
+                }
+            });
+            return false;//阻止表单跳转
+        });
+
+    });
+</script>
+</body>
+</html>

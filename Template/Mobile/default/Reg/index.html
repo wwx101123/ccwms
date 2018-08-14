@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>注册</title>
+    <include file="Public/top"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/mui.picker.css" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/mui.poppicker.css" />
+    <style>
+        body {background: #1F242A;}
+    </style>
+</head>
+
+<body>
+<div class="boxesHei">
+    <div class="logoBox"><img src="{$config['webInfo_web_logo_img']|default='__PUBLIC__/images/not_head.jpg'}" alt="" /></div>
+    <div class="headlineBox">源码链管理平台注册</div>
+    <div class="inputBox">
+        <form id="regForm">
+            <div class="parentInput">
+                <span class="spanLabel"><i class="fa fa-mobile i"></i></span>
+                <input type="text" name="account" id="mobile" autocomplete="off" placeholder="请输入手机号" class="mui-input-clear blicInput" />
+            </div>
+            <!--<div class="parentInput">
+                <span class="spanLabel"><i class="fa fa-user-circle-o i"></i></span>
+                <input type="text" name="tjrAccount" value="{$tjrAccount}" class="mui-input-clear blicInput" placeholder="请输入推荐人账号"/>
+            </div>
+            <div class="parentInput">
+                <span class="spanLabel"><i class="fa fa-user-circle-o i"></i></span>
+                <input type="text" name="account" value="{$account}" class="mui-input-clear blicInput" placeholder="请输入会员账号">
+            </div>
+            <div class="parentInput">
+                <span class="spanLabel"><i class="fa fa-user-circle-o i"></i></span>
+                <input type="text" name="username" class="mui-input-clear blicInput" placeholder="请输入会员姓名">
+            </div>-->
+            <!--<if condition="$config.regInfo_card_num gt 0">
+                <div class="parentInput">
+                    <span class="spanLabel"><i class="fa fa-user-circle-o i"></i></span>
+                    <input type="text" name="card_account" id="card_account" autocomplete="off" placeholder="请输入身份证号" class="mui-input-clear blicInput" />
+                </div>
+            </if>-->
+            <div class="parentInput">
+                <span class="spanLabel"><i class="fa fa-address-card-o i"></i></span>
+                <input type="text" name="username" autocomplete="off" placeholder="请输入真实姓名" class="mui-input-clear blicInput" />
+            </div>
+            <div class="parentInput">
+                <span class="spanLabel"><i class="fa fa-address-card-o i"></i></span>
+                <input type="text" name="number" autocomplete="off" placeholder="身份证(一经确认，不可修改)" class="mui-input-clear blicInput" />
+            </div>
+            <div class="parentInput">
+                <span class="spanLabel"><i class="fa fa-lock i"></i></span>
+                <input type="password" name="password" value="" class="mui-input-password blicInput" placeholder="请输入登录密码">
+            </div>
+       <!--     <div class="parentInput">
+                <span class="spanLabel"><i class="fa fa-lock i"></i></span>
+                <input type="password" name="repassword" value="{$config['regInfo_default_pass']}" class="mui-input-password blicInput" placeholder="确认登录密码">
+            </div> -->
+            <div class="parentInput">
+                <span class="spanLabel"><i class="fa fa-lock i"></i></span>
+                <input type="password" name="secpwd" value="" class="mui-input-password blicInput" placeholder="请输入交易密码">
+            </div>
+        <!--    <div class="parentInput">
+                <span class="spanLabel"><i class="fa fa-lock i"></i></span>
+                <input type="password" name="resecpwd" value="{$config['regInfo_default_repass']}" class="mui-input-password blicInput" placeholder="确认交易密码">
+            </div> -->
+            <!--<if condition="$config.regInfo_grap_phone_code eq 1">
+                <div class="parentInput">
+                    <span class="spanLabel"><i class="fa fa-user-circle-o i"></i></span>
+                    <input type="text" name="mobile" id="mobile" autocomplete="off" placeholder="请输入手机号码" class="mui-input-clear blicInput" />
+                </div>
+            </if>-->
+            <!--<if condition="$config.regInfo_grap_phone_code eq 1">
+                <div class="parentInput">
+                    <span class="spanLabel"><i class="fa fa-user-circle-o i"></i></span>
+                    <input type="text" name="mobileCode" autocomplete="off" class="mui-input-clear blicInput" placeholder="请输入验证码" />
+                    <button type='button' class="sjyzmStyle"  onclick="send_sms_reg_code(this);">获取验证码</button>
+                </div>
+            </if>
+            <if condition="$config.regInfo_grap_code eq 1">
+                <div class="parentInput">
+                    <span class="spanLabel"><i class="fa fa-user-circle-o i"></i></span>
+                    <input type="text" name="verifyCode" autocomplete="off" class="mui-input-clear blicInput" placeholder="请输入验证码"/>
+                    <img src="{:U('Login/verify', array('type' => 'reg'))}" onclick="this.src='{:U("Login/verify", array('type' => 'reg'))}?t='+Math.random();"  class="yzmStyle imgYzm"/>
+                </div>
+            </if>-->
+            <if condition="$config['regInfo_grap_phone_code'] eq 1">
+                <div class="parentInput">
+                    <span class="spanLabel"><i class="fa fa-lock i"></i></span>
+                    <input type="text" name="mobileCode" autocomplete="off" class="mui-input-clear blicInput" placeholder="请输入验证码" />
+                    <button type='button' class="sjyzmStyle"  onclick="send_sms_reg_code(this);">获取验证码</button>
+                </div>
+            </if>
+
+            <div class="parentInput">
+                <span class="spanLabel"><i class="fa fa-mobile-phone i"></i></span>
+                <input type="text" name="tjrAccount" value="{$tjrAccount}" class="mui-input-clear blicInput" placeholder="请输入推荐人手机号"/>
+            </div>
+            <div>
+                <input type="hidden" name="level" autocomplete="off" />
+                <button type="button" class="pushButton regUser">立即注册</button>
+            </div>
+        </form>
+    </div>
+    <div class="interlinkageBox">
+        <a href="{:U('Forgot/forgotIndex')}" class="inLinkA inLinkAbr">忘记密码？</a>
+        <a href="{:U('Login/index')}" class="inLinkA">立即登录</a>
+    </div>
+</div>
+<include file="Public/footer"/>
+<script src="__STATIC__/js/clipboard.min.js"></script>
+<script src="__STATIC__/js/mui.picker.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/js/mui.poppicker.js" type="text/javascript" charset="utf-8"></script>
+<script src="__PUBLIC__/js/zfuwl.js"></script>
+<script>
+    var mask=mui.createMask();
+    var picker = new mui.PopPicker();
+    var str = {$levelJsStr};
+    picker.setData(str);
+    mui('body').on('tap', '#level_id', function () {
+        picker.show(function (obj) {
+            $('#level_id').val($(obj)[0].text);
+            $('input[name="level"]').val($(obj)[0].value);
+        });
+    });
+    // var picker_bank = new mui.PopPicker();
+    // var str = {$bankJsStr};
+    // picker_bank.setData(str);
+    // mui('body').on('tap', '#opening_id', function(){
+    //     picker_bank.show(function(obj){
+    //         $('#opening_id').val($(obj)[0].text);
+    //         $('input[name="opening_id"]').val($(obj)[0].value);
+    //     });
+    // });
+
+    mui('body').on('tap', '.position1', function () {
+       var pos = $(this).attr('data-val');
+       $('input[name="position"]').val(pos);
+    });
+
+    mui('body').on('tap', '.position2', function () {
+        var pos = $(this).attr('data-val');
+        $('input[name="position"]').val(pos);
+    });
+
+    $('input[name="jdrAccount"]').blur(function () {
+        var jdrAccount = $(this).val();
+
+        if (jdrAccount == '') {
+            return mui.toast('请输入接点人账号');
+        }
+
+        mui.showLoading("验证中","div");
+        mask.show();//显示遮罩层
+        var url = '{:U("Reg/getRegion")}';
+        $.post(url, {jdrAccount:jdrAccount}, function(data) {
+            console.log(data);
+            mask.close();//关闭遮罩层
+            mui.hideLoading();
+            if(data.status == 0) {
+                return mui.toast(data.msg, {
+                    duration: '2000',
+                    type: 'div'
+                });
+            } else {
+                $('.yincBox').show();
+               $('#data').html(data.str);
+            }
+
+        });
+    });
+
+    /*var clipboard = new Clipboard('#copyTgUrl');
+    clipboard.on('success', function (e) {
+        e.clearSelection();
+        mui.toast('复制成功', {duration: 'long', type: 'div'});
+    });
+    clipboard.on('error', function (e) {
+        mui.toast('复制失败', {duration: 'long', type: 'div'});
+    });*/
+
+    mui('body').on('tap', '.regUser', function() {
+        var obj = $(this);
+        $(obj).attr('disabled', 'true');
+        var data = $('#regForm').serialize();
+        console.log(data);
+        var url = "{:U()}";
+        mui.showLoading("注册中","div");
+        mask.show();//显示遮罩层
+        $.post(url, data, function(data) {
+            mask.close();//关闭遮罩层
+            mui.hideLoading();
+            if(data.status == 0) {
+                $(obj).removeAttr('disabled');
+                mui.toast(data.msg, {
+                    duration: 'long',
+                    type: 'div'
+                });
+            } else if(data.status == 1) {
+                mui.toast(data.msg, {
+                    duration: '2000',
+                    type: 'div'
+                });
+                setTimeout(function() {
+                    window.location.href = data.url;
+                }, 2000);
+            }
+        });
+    });
+    mui('.mui-content').on('tap',".zexyi",function() {
+		$('.hedd').css('display','block');
+		$('.guanbi').css('display','block');
+        $('#modal').addClass('mui-active');
+	})
+    mui('.mui-content').on('tap',".mui-icon-close",function() {
+		$('.hedd').css('display','none');
+		$('.guanbi').css('display','none');
+	})
+    mui('.mui-content').on('tap',".guanbi",function() {
+		$('.hedd').css('display','none');
+		$('#modal').removeClass('mui-active');
+		$('#regProtocol').attr('checked', 'true');
+		$(this).css('display','none');
+	});
+
+    var smsObj = [];
+    // 发送手机短信
+    function send_sms_reg_code(obj){
+        smsObj = obj;
+        var mobile = $('#mobile').val();
+        if(!checkMobile(mobile)){
+            mui.toast('请输入正确的手机号',{ duration:'long', type:'div' });
+            return;
+        }
+        <if condition="$config['securityInfo_sendsms_is_imgcode'] eq 1">
+        var code = $('#verifyCode').val();
+        var data = {mobile:mobile,code:code,check_code:'reg_fs'};
+        <else/>
+        var data = {mobile:mobile};
+        </if>
+        var url = "{:U('Reg/sendSmsRegCode')}";
+        mui.showLoading("正在发送","div");
+        mask.show();//显示遮罩层
+        $.post(url, data, function(data){
+            mask.close();//关闭遮罩层
+            mui.hideLoading();
+            obj = $.parseJSON(data);
+            if(obj.status == 1){
+                $(smsObj).attr("disabled","disabled");
+                intAs = {$config.smtpSmsInfo_sms_time_out|default='120'}; // 手机短信超时时间
+                jsInnerTimeout(intAs);
+                mui.toast(obj.msg,{ duration:'long', type:'div' });
+            } else {
+                mui.toast(obj.msg,{ duration:'long', type:'div' });
+            }
+        });
+    }
+    //倒计时函数
+    function jsInnerTimeout(intAs){
+        intAs--;
+        if(intAs<=-1){
+            $(smsObj).removeAttr("disabled");
+            $(smsObj).text("获取验证码");
+            return true;
+        }
+        $(smsObj).text(intAs+'秒');
+        setTimeout("jsInnerTimeout("+intAs+")",1000);
+    };
+</script>
+</body>
+
+</html>

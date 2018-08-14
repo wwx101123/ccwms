@@ -1,0 +1,590 @@
+/*头部位置样式*/
+
+.phoneContainer {
+	max-width: 765px;
+	margin: 0 auto;
+	overflow: hidden;
+	color: #666666;
+}
+.gRZXHeaderF {
+	width: 100%;
+	max-width: 765px;
+	margin: 0 auto;
+	background: #FC9B58;
+	color: #fff;
+	font-size: 1em;
+}
+.gRZXTouBTable {
+	width: 100%;
+	table-layout: fixed;
+	word-break: break-all;
+	word-wrap: break-word;
+	border: 1px solid #dddddd;
+}
+.gRZXTouBTable td {
+	width: 50%;
+	text-align: center;
+}
+.tdBox {
+	display: block;
+	padding: 5px 0px;
+	line-height: 25px;
+	background: #1E9FFF;
+	color: #fff;
+}
+.tdBox_1 {
+	background: #1E9FFF;
+}
+.tdBox_2 {
+	background: #FF6C60;
+}
+.tdBox_3 {
+	background: #009688;
+}
+.tdBox_4 {
+	background: #5FB878;
+}
+.tdBox_5 {
+	background: #FF5722;
+}
+.tdBox_6 {
+	background: #F7B824;
+}
+.tdBox .p_1 {
+	font-weight: 600;
+	font-size: 1em;
+	padding: 0px 3px;
+}
+.tdBox .p {
+	padding: 0px 3px;
+}
+.tdBox:hover .p {
+	color: #fff;
+}
+/*内容区开始*/
+
+.phoneContent {
+	width: 100%;
+	max-width: 765px;
+	margin: 0 auto;
+	margin-bottom: 70px;
+	background: #fff;
+	color: #666666;
+	font-size: 1em;
+}
+.neiRoTable_1F {
+	background: #EEEEEE;
+}
+.neiRoTable_1 {
+	width: 100%;
+	table-layout: fixed;
+	word-break: break-all;
+	word-wrap: break-word;
+	text-align: center;
+}
+.neiRoTable_1Li {
+	display: inline-block;
+	width: 32%;
+	/*float: left;*/
+	
+	margin-top: 3px;
+}
+.xiJieBox {
+	display: block;
+	padding: 5px;
+	text-align: center;
+	background: #fff;
+}
+.xiJieTuB {
+	margin-top: 5px;
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	background: #FFB6BF;
+	border-radius: 50%;
+	line-height: 40px;
+	font-size: 1.25em;
+}
+.xiJieTuB i {
+	font-weight: 700;
+}
+.xiJieTuB_1 {
+	background: #FFB6BF;
+	color: #E63AA7;
+}
+.xiJieTuB_2 {
+	background: #4D08B2;
+	color: #fff;
+}
+.xiJieTuB_3 {
+	background: #ADCEFA;
+	color: #367CED;
+}
+.xiJieTuB_4 {
+	background: #D8FFBF;
+	color: #5F9515;
+}
+.xiJieTuB_5 {
+	background: #62D20F;
+	color: #fff;
+}
+.xiJieTuB_6 {
+	background: #FFE0B6;
+	color: #E08E05;
+}
+.xiJieTuB_7 {
+	background: #F7C4C1;
+	color: #E82721;
+}
+.xiJieTuB_8 {
+	background: #B4C9F2;
+	color: #1750C4;
+}
+.xiJieTuB_9 {
+	background: #F7CBB9;
+	color: #E8399D;
+}
+.xiJieTuB_10 {
+	background: #F0D6AA;
+	color: #D17917;
+}
+.xiJieTuB_11 {
+	background: #F7C1B2;
+	color: #CE3915;
+}
+.xiJieTuB_12 {
+	background: #F7EABC;
+	color: #F0C12E;
+}
+.xiJieTuB_13 {
+	background: #C6FAC6;
+	color: #1CC41F;
+}
+.xiJieTuB_14 {
+	background: #BCBFF7;
+	color: #5055E5;
+}
+.xiJieTuB_15 {
+	background: #BFD8F5;
+	color: #2179DB;
+}
+.xiJieTuB_16 {
+	background: #FABFB9;
+	color: #DD4F43;
+}
+.xiJieBox .p {
+	padding: 5px;
+}
+.dropOutAn {
+	padding: 10px;
+}
+.dropOutAn .dropOutAnLink {
+	display: block;
+	text-align: center;
+	padding: 10px 0px;
+	color: #fff;
+	background: #A20803;
+	font-size: 1em;
+	border-radius: 3px;
+}
+/*内容区结束*/
+/*尾部样式*/
+
+.phoneFooter {
+	width: 100%;
+	max-width: 765px;
+	margin: 0 auto;
+	height: 50px;
+	background: #fff;
+	color: #666666;
+	font-size: 1em;
+	font-weight: 200;
+	position: fixed;
+	bottom: 0px;
+	z-index: 10000;
+	text-align: center;
+	border-top: 1px solid #ccc;
+	display: flex;
+}
+.phoneFooter .phoneFooterSG {
+	padding: 0px;
+}
+.phoneFooter a {
+	color: #666666;
+}
+.phoneFooter i {
+	color: #666666;
+}
+.phoneFooter .i {
+	color: #ED3C46;
+}
+.phoneFooter .tuBSpan {
+	display: block;
+	margin: 4px 0px 4px 0px;
+}
+.phoneFooter .tuBSpan i {
+	font-size: 1.25em;
+}
+.phoneFooter .ziTSpan {
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.phoneFooterList {
+	flex: 1;
+	float: left;
+}
+/*尾部结束*/
+/*公共头部样式*/
+
+.ggHeader {
+	width: 100%;
+	max-width: 765px;
+	margin: 0 auto;
+	background: #033492;
+	color: #fff;
+	font-size: 1em;
+	padding: 10px 0px;
+	position: fixed;
+	top: 0px;
+	z-index: 1000000;
+}
+.ggHeader a {
+	color: #fff;
+}
+.ggHeader .headerFHF {
+	padding-left: 10px;
+}
+.ggHeader .headerFH i {
+	font-size: 1.5em;
+}
+.ggHeader .headerZHong {
+	padding: 0px;
+	text-align: center;
+	font-size: 1.125em;
+	margin-top: 2px;
+}
+.ggHeader .zhHao {
+	padding: 0px;
+	text-align: right;
+}
+.ggHeader .zhHao .zhHaoLinkA {
+	display: inline-block;
+	float: right;
+	margin-top: 3px;
+}
+/*公共内容区父级   ggContent   */
+
+.ggContent {
+	width: 100%;
+	max-width: 765px;
+	margin: 0 auto;
+	margin-top: 45px;
+	margin-bottom: 70px;
+	background: #fff;
+	color: #666666;
+	font-size: 1em;
+}
+/*表单开始 */
+
+.hintF {
+	padding: 5px 10px;
+	line-height: 24px;
+	border-bottom: 1px solid #dddddd;
+	margin-bottom: 5px;
+}
+.hintF .span {
+	color: #FF5722;
+	font-size: 1.25em;
+}
+.dtHaoSpan {
+	display: inline-block;
+	padding-top: 10px;
+	width: 60%;
+	word-wrap: break-word;
+	word-break: normal;
+}
+.djFuZhi {
+	display: inline-block;
+	height: 33px;
+	line-height: 33px;
+	width: 50px;
+	text-align: center;
+	border: 1px solid #007DDB;
+	float: right;
+}
+.layui-input-block .yanZhengInput {
+	width: 55%;
+	float: left;
+}
+.DJhuoquYZ {
+	width: 42%;
+	float: right;
+	display: inline-block;
+	text-align: center;
+	height: 38px;
+	line-height: 38px;
+	background: #033492;
+	color: #fff;
+	margin-bottom: 5px;
+}
+/*表单结束*/
+/*记录表开始*/
+
+.layuiTabTitleF_duiH {
+	display: flex;
+}
+.layuiTabTitleF_duiH li {
+	flex: 1;
+}
+.jiji {
+	display: flex;
+}
+.jiji .yaya {
+	flex: 1;
+}
+.duiHRecordLi {
+	padding: 10px;
+	border-bottom: 1px solid #dddddd;
+}
+.duiHRecordLi .boxHz {
+	padding: 3px 0px;
+	display: flex;
+}
+.duiHRecordLi .boxHz .span_1 {
+	flex: 1;
+	color: #444444;
+	padding: 0px 3px;
+	padding-right: 5px;
+	word-break: break-all;
+}
+.duiHRecordLi .boxHz .span_2 {
+	flex: 2.5;
+	color: #666666;
+	word-break: break-all;
+}
+/*记录表结束*/
+/*表格开始*/
+
+.MRCTableF {
+	background: #fff;
+}
+.MRCTable .layuiFormB {
+	width: 100%;
+	overflow: auto;
+}
+.MRCTable .layuiFormB .layuiTableB {
+	margin-top: 0px;
+}
+.MRCTable .layuiFormB .layuiTableB th,
+.MRCTable .layuiFormB .layuiTableB td {
+	font-size: 0.75em;
+	padding: 0px;
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	border: none;
+}
+.MRCTable .layuiFormB .layuiTableB th {
+	font-size: 0.875em;
+	font-weight: 800;
+	color: #44444;
+}
+.MRCTable .layuiFormB .layuiTableB tr {
+	border: 1px solid #ccc;
+}
+.MRCTable .layuiFormB .layuiTableB .zhuangTai {
+	display: inline-block;
+	padding: 0px 15px;
+	height: 25px;
+	text-align: center;
+	line-height: 25px;
+	background: #21A062;
+	color: #fff;
+	border-radius: 2px;
+	margin: 0 auto;
+	cursor: pointer;
+}
+/*表格结束*/
+/*弹窗开始*/
+
+.popupBox {
+	padding: 10px;
+}
+.popupBox .boxHz {
+	display: flex;
+	border-bottom: 1px dashed #dddddd;
+}
+.popupBox .boxHz .span_1 {
+	flex: 1;
+	color: #444444;
+	padding: 9px 3px;
+	padding-right: 5px;
+	word-break: break-all;
+}
+.popupBox .boxHz .span_2 {
+	flex: 2.5;
+	color: #666666;
+	word-break: break-all;
+}
+.popupBox .popupLi .span_2 .layui-input {
+	border: none;
+}
+.popupBox .shutBox {
+	padding: 30px 10px;
+}
+.shutBox .shutAnN {
+	display: block;
+	padding: 10px;
+	text-align: center;
+	border-radius: 3px;
+	background: #FF3B1F;
+	color: #fff;
+}
+/*弹窗结束*/
+
+
+/*登录开始*/
+
+.noticeFBG {
+	width: 100%;
+	position: fixed;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	z-index: -1;
+}
+.noticeFBG .imgBG {
+	width: 100%;
+	height: 100%;
+}
+
+.dlContent {
+	max-width: 600px;
+	margin: 0 auto;
+	color: #666666;
+	margin-top: 50px;
+}
+.loginBox {	
+	width: 90%;
+	margin: 0 auto;
+	padding:10px;
+}
+.loginLogoImgF {
+	height: 35px;
+	margin-bottom:30px;
+	text-align: center;
+	overflow: hidden;
+}
+.loginLogoImgF img {
+	height: 100%;
+}
+.loginBox .tableBox {
+	padding: 10px;
+	background: #fff;
+	padding-left: 0px;
+	border: 1px solid #dddddd;
+	border-radius: 4px;
+}
+.loginFooter {
+	height: 100%;
+	background: #6CA0F5;
+	color: #fff;
+	padding-top: 10px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.DLInputF {
+	margin-left: 10px;
+	position: relative;
+}
+.DLInputF .DLTubiao {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	font-size: 1.25em;
+	color: #F95858;
+	font-weight: 700;
+}
+.yanZhengSpan {
+	display: inline-block;
+	width: 100px;
+	height: 38px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+.yanZhengSpan img {
+	width: 100%;
+	height: 100%;
+}
+.DLInputF .DLInput {
+	padding-left: 35px;
+}
+.DLInputF .DLInput {
+	box-shadow: 1px 2px 2px #888888;
+}
+/*登录结束*/
+/*提示弹框*/
+.remindBox {
+	max-width: 600px;
+	margin: 0 auto;
+	color: #666666;
+	margin-top: 150px;
+}
+.remindBox .remindF {
+	display: flex;
+}
+.remindBox .remindF .remindImgF {
+	flex: 1;
+	text-align: right;
+	padding-right:20px ;
+}
+.remindBox .remindF .remindImgF img {
+	width: 50%;
+}
+.remindBox .remindF .remindTextF {
+	flex: 1;
+}
+.remindF .remindTextF .remindTitle {
+	padding-left: 15px;
+}
+.remindF .remindTextF .remindText {
+	padding-top: 5px;
+	padding-left: 15px;
+}
+.remindF .remindTextF .remindTime {
+	padding-top: 5px;
+}
+.remindTextF .remindTime .TimeMS {
+	display: inline-block;
+	padding: 8px 15px;
+	background: #FFC0CB;
+	color: #444444;
+	font-weight: 700;
+	border-radius: 3px;
+}
+.remindTextF .remindTime .TimeMS .span_1 {
+	color: #FF5722;
+	margin: 0px 2px;
+}
+
+/*公共样式*/
+
+.layuiFormItemF {
+	padding-right: 10px;
+	margin-bottom: 5px;
+	border-bottom: 1px solid #dddddd;
+}
+.layuiFormItemF .layui-input {
+	border: none;
+}
+.layui-form-item .layui-form-label {
+	padding: 9px 0px;
+}

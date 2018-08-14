@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系统提示-{$config['zf_info_store_title']}</title>
+    <link href="__PUBLIC__/css/success.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="{$config['zf_info_store_ico']}"/>
+</head>
+<body>
+    <?php if(isset($message)) {?>
+    <div id="content">
+        <div class="content-top">
+            <div class="content-top-left"><span> </span><a href=""><img src="__PUBLIC__/images/success_ok.png" alt=""></a></div>
+            <div class="content-top-right">
+                <div class="content-top-right-main">温馨提示：</div>
+                <div class="content-top-right-main"><?php echo($message); ?></div>
+                <div class="content-top-right-bottom">
+                    <a id="href" href="<?php echo($jumpUrl); ?>"><span>等待时间</span><span id="wait"><?php echo($waitSecond); ?></span>S</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php }else{?>
+    <div id="content">
+        <div class="content-top">
+            <div class="content-top-left"><span> </span><a href=""><img src="__PUBLIC__/images/error_no.png" alt=""></a></div>
+            <div class="content-top-right">
+                <div class="content-top-right-main">温馨提示：</div>
+                <div class="content-top-right-main"><?php echo($error); ?></div>
+                <div class="content-top-right-bottom">
+                    <a id="href" href="<?php echo($jumpUrl); ?>"><span>等待时间</span><span id="wait"><?php echo($waitSecond); ?></span>S</a> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php }?>
+</body>
+</html>
+<script type="text/javascript">
+    (function () {
+        var wait = document.getElementById('wait'), href = document.getElementById('href').href;
+        var interval = setInterval(function () {
+            var time = --wait.innerHTML;
+            if (time <= 0) {
+                location.href = href;
+                clearInterval(interval);
+            };
+        }, 1000);
+    })();
+</script>

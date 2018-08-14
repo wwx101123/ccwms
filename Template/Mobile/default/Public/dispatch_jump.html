@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>温馨提示</title>
+    <include file="Public/top" />
+    <style>
+        .btn button {
+            margin-top: 2.5em;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="mui-content">
+    <if condition="isset($message)">
+        <div style="text-align: center;padding-top:100px;">
+            <div style="height:100px;margin-bottom:15px;">
+                <img src="__PUBLIC__/images/mobile_ok.png" alt="" height="100" />
+            </div>
+            <div style="margin-bottom:20px;font-size:0.9em;color:#666666;">{$message}</div>
+            <div>
+                <a class="lui_ts_se padding" href="{$jumpUrl}" id="href">
+                    <button type="button" class="mui-btn mui-btn-royal">等待时间<span id="numSpan" class="tred plr5"> {$waitSecond}</span>秒</button>
+                </a>
+            </div>
+        </div>
+        <else/>
+        <div style="text-align: center;padding-top:100px;">
+            <div style="height:100px;margin-bottom:15px;">
+                <img src="__PUBLIC__/images/mobile_no.png" alt="" height="100" />
+            </div>
+            <div style="margin-bottom:20px;font-size:0.9em;color:#666666;">{$error}</div>
+            <div>
+                <a class="lui_ts_se padding" href="{$jumpUrl}" id="href">
+                    <button type="button" class="mui-btn mui-btn-royal">等待时间<span id="numSpan" class="tred plr5">{$waitSecond}</span>秒</button>
+                </a>
+            </div>
+        </div>
+    </if>
+</div>
+<include file="Public/footer" />
+<script type="text/javascript">
+    (function () {
+        var wait = document.getElementById('numSpan'), href = document.getElementById('href').href;
+        var interval = setInterval(function () {
+            var time = --wait.innerHTML;
+            if (time <= 0) {
+                window.location.href = href;
+                clearInterval(interval);
+            }
+            ;
+        }, 1000);
+    })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<table class="layui-table layui-form">
+    <thead>
+    <tr>
+        <th><a href="javascript:sort('id');">序号</a></th>
+        <th><a href="javascript:sort('shares_id');">类型</a></th>
+        <th><a href="javascript:sort('zf_time');">发行时间</a></th>
+        <!--<th><a href="javascript:sort('issue_stage');">发行期数</a></th>-->
+        <th><a href="javascript:sort('issue_num');">发行数量</a></th>
+        <th><a href="javascript:sort('issue_price');">发行价格</a></th>
+        <th><a href="javascript:sort('out_num');">己售数量</a></th>
+        <th><a href="javascript:sort('is_type');">状态</a></th>
+        <th><a href="javascript:sort('is_type');">操作</a></th>
+    </tr>
+    </thead>
+    <tbody>
+    <if condition="count($list) eq 0">
+        <tr align="center">
+            <td colspan="20">暂无数据</td>
+        </tr>
+        <else/>
+        <foreach name="list" key="k" item="v">
+            <tr>
+                <td>{$v.id}</td>
+                <td>{$sharesList[$v['shares_id']]}</td>
+                <td>{$v['zf_time']|date="Y-m-d H:i:s", ###}</td>
+                <!--<td>{$v.issue_stage}</td>-->
+                <td>{$v.issue_num}</td>
+                <td>{$v.issue_price}</td>
+                <td>{$v.out_num}</td>
+                <td>{$sharesIssueIsType[$v['is_type']]}
+                    <switch name="v.is_type">
+                        <case value="3">{$v['return_time']|date="Y-m-d H:i:s", ###} 撤回：{$v.return_num}</case>
+                        <case value="9">{$v['out_time']|date="Y-m-d H:i:s", ###}</case>
+                    </switch>
+                </td>
+                <td>
+                    <if condition="$v.is_type eq 1">
+                        <a href="{:U('Shares/sharesIssueReturn',array('id'=>$v['id']))}" onclick="return confirm('是否确认撤回？');" class="button-box"><i class="fa fa-eye"></i> 撤回</a>
+                    </if>
+                </td>
+            </tr>
+        </foreach>
+    </if>
+    </tbody>
+</table>
+{$page}
+<script>
+    $(".pagination a").click(function () {
+        var page = $(this).data('p');
+        ajax_get_table('search-form2', page);
+    });
+</script>

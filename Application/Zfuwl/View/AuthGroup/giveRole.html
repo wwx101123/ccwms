@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top' />
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <blockquote class="layui-elem-quote">
+                <button class="layui-btn layui-btn-small"><i class="layui-icon">&#xe628;</i>{$info[user_name]} 角色分配</button>
+                <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+                <button class="layui-btn" onclick="location.reload();" style="float:right;"><i class="layui-icon">&#x1002;</i> 刷新 </button>
+            </blockquote>
+            <div class="layui-field-box">
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">角色列表</label>
+                        <foreach name="list" item="v">
+                            <input type="checkbox" name="group_id[{$key}]" value="{$v.id}" <if condition="$v['uid']">checked</if> title="{$v.title}" />
+                        </foreach>
+                    </div>
+                    <input type="hidden" name="id" value="{$admin_id}" />
+                    <div class="layui-form-item">
+                        <div class="layui-input-block"><button class="layui-btn" lay-submit lay-filter="role">立即提交</button></div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <include file="Public/footer" />
+    <script>
+        layui.use('form', function () {
+            var form = layui.form, $ = layui.jquery
+            $("button[type=reset]").click();
+            form.on('submit(role)', function (data) {
+                var roleInfo = data.field;
+                var url = "{:U('AuthGroup/giveRole')}";
+                $.post(url, roleInfo, function (data) {
+                    if (data.status != 1) {
+                        layer.msg(data.msg, {icon: 5});
+                        return;
+                    } else {
+                        layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                            location.reload();
+                        });
+                    }
+                });
+                return false;//阻止表单跳转
+            });
+        });
+    </script>
+</body>
+</html>

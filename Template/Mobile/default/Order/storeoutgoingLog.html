@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>存储YML转出日志</title>
+    <include file="Public/top" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/xiaoxi.css" />
+</head>
+<body>
+    <div class="publicBox">
+        <!--左侧导航-->
+        <include file="Public/nav"/>
+        <div class="publicBoxzi">
+            <!--公共头部-->
+            <include file="Public/header"/>
+            <!--公共盒子-->
+            <div class="publicHeiz">
+
+                <!--公告-->
+                <div class="communalBox">
+                    <div class="communalTl">
+                        <span class="span_1">存储YML转出日志</span>
+                    </div>
+                    <div class="communalTx">
+                        <div class="teamBox">
+                            <table border="0" class="teamTable" id="ajaxReturn">
+                                <tr>
+                                    <th>订单编号</th>
+                                    <th>转出总积分</th>
+                                    <th>转出数量</th>
+                                    <th>当时汇率</th>
+                                    <th>添加时间</th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="loadAdd" style="text-align:center;color:#999;margin-bottom:2px;display:none;">加载中...</div>
+                        <div class="loadAdd_bottom" style="text-align:center;color:#999;margin-bottom:2px;display:none;">到底了~</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<include file="Public/footer"/>
+<script>
+    $(document).ready(function () {
+        ajax_get_table();
+    });
+    var page = 0;
+    function ajax_get_table() {
+        if (stop == true) {
+            stop = false;
+            $('.loadAdd').show();
+            $.ajax({
+                type: "GET",
+                url: "{:U('',null,'')}/is_list/1/p/" + page,//+tab,
+                success: function (data) {
+                    page += 1;
+                    $('.loadAdd').hide();
+                    // layer.close(getMoreLoad);
+                    if ($.trim(data) == '') {
+                        stop=false;
+                        $('.loadAdd_bottom').show();
+                    } else {
+                        stop = true;
+                        $('#ajaxReturn').append(data);
+                        var countSize = $('#ajaxReturn').find('li').length;
+                        if(countSize >= {$count}) {
+                            stop=false;
+                            $('.loadAdd_bottom').show();
+                        }
+                    }
+                },error:function(){
+                    mui.toast('网络失败，请刷新后重试',{ duration:'long', type:'div' })
+                }
+            });
+        }
+    }
+
+    var bottomH=50;//距离底部多少像素开始加载
+    var stop = true;
+    $(window).scroll(function() {
+        totalheight = parseFloat($(window).height()) + parseFloat($(window).scrollTop()+bottomH);
+        if ($(document).height() <= totalheight) {
+            ajax_get_table();
+        }
+    });
+</script>
+</body>
+
+</html>

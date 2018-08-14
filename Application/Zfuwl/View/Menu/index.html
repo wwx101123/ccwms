@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head><include file='Public/top' /></head>
+    <body>
+        <div class="admin-main">
+            <fieldset class="layui-elem-field">
+                <div class="layui-field-box" style='overflow:scorll;'>
+                    <blockquote class="layui-elem-quote">
+                        <button type='button' data="0" class="layui-btn layui-btn-small"><i class="layui-icon">&#xe628;</i> 系统菜单列表</button>
+                        <button class="layui-btn" onclick="location.reload();" style="float:right;"><i class="layui-icon">&#x1002;</i> 刷新 </button>
+                    </blockquote>
+                    <table class="layui-table layui-form">
+                        <thead>
+                            <tr>
+                                <th colspan="3">菜单名称</th>
+                                <th>菜单图标</th>
+                                <th>控制器/方法</th>
+                                <th>排序</th>
+                                <th>状态</th>
+                                <th>管理</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <foreach name="menu" key="k" item="vo">
+                            <tr>
+                                <php>$opt = explode('/',$vo['menu_name']);</php>
+                                <td><if condition="$vo[level] eq 0">{$vo.title}</if></td>
+                                <td><if condition="$vo[level] eq 1">{$vo.title}</if></td>
+                                <td><if condition="$vo[level] eq 2">{$vo.title}</if></td>
+                                <td>{$vo['icon']}</td>
+                                <td>{$vo['menu_name']}</td>
+                                <td><input type="text" name="sort" value="{$vo['sort']}" onchange="updateSort('AdminMenu', 'id', '{$vo.id}', 'sort', this)" onkeyup="this.value = this.value.replace(/[^\d]/g, '')" onpaste="this.value=this.value.replace(/[^\d]/g,'')" class="layui-input" style="width: 100px;"></td>
+                                <td>
+                                    <if condition="$vo.id neq 21">
+                                    <input name="close" lay-skin="switch" autocomplete='off' lay-filter='switchStatus' value='{$vo["status"]}' data-value="{$vo['id']}" lay-text="开启|关闭" <if condition="$vo['status'] eq 1">checked</if> type="checkbox">
+                                    </if>
+                                </td>
+                                <td><a data="{$vo.id}" class="layui-btn layui-btn-mini layui-btn-normal editAuthMenuName"><i class="layui-icon">&#xe642;</i>编辑菜单名称&nbsp;&nbsp;({$vo['id']})</a></td>
+                            </tr>
+                            </foreach>
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+        </div>
+        <include file="Public/footer" />
+        <script>
+            layui.use([ 'layer', 'form'], function() {
+                var $ = layui.jquery,form=layui.form;
+                form.on('switch(switchStatus)', function(data){
+                    var obj = data.elem;
+                    var val = data.value;
+                    var id = $(obj).data('value');
+                    console.log(id);
+                    val = (val == 1 ? 2 : 1);
+                    var url = "{:U('Menu/saveStatus')}";
+                    $.post(url, {val:val,id:id}, function(res) {
+                        if (res.status == 0) {
+                            layer.msg(res.msg, {icon: 5});
+                            return;
+                        } else {
+                            layer.msg(res.msg, {icon: 6, time: 2000, shade:0.01}, function() {
+                                location.reload();
+                            });
+                        }
+                    });
+
+                });
+            });
+            $('.editAuthMenuName').click(function(){
+                var id = $(this).attr('data');
+                layer.prompt({title:'请输入新的菜单名称'}, function(value, index, elem){
+                    $.ajax({
+                        type:'post',
+                        data:{id:id, name:value},
+                        url:"{:U('Menu/editMenuName')}",
+                        success:function(data){
+                            layer.close(index);
+                            if (data.status == 0) {
+                                layer.msg(data.msg, {icon: 5});
+                            } else if (data.status == 1) {
+                                layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                                    location.reload();
+                                });
+                            }
+                        }
+                    })
+                });
+            });
+
+        </script>
+    </body>
+</html>

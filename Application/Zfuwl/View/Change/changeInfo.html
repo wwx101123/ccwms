@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <div class="test-table-reload-btn" style="margin-top: 10px;margin-left:15px;">
+                <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>  钱包转账参数管理</button>
+                <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="layui-field-box">
+                <blockquote class="layui-elem-quote layui-text">
+                    <b style="color:red;">温馨提示：</b>钱包转账表示是将  同平台中 A 会员的钱或币 转至 B 会员；<br />
+                    参数说明： 如 100 起 100 的倍数，单笔最高  1000 ；
+                </blockquote>
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">转出钱包</label>
+                            <div class="layui-input-block">
+                                <select name="money_id" class="layui-input">
+                                    <option value="0">--请选择--</option>
+                                    <foreach name="moneyInfo" item="v" key="k">
+                                        <option value="{$k}" <if condition="$k eq $info['money_id']">selected</if>>{$v}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">请选择要操作的钱包</label>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">最低金额</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="low" value="{$info.low|default='100'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">最低转金额，低于此金额 将不能转账</label>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">参考金额</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="bei" value="{$info.bei|default='100'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">参考金额，如设为 100，表示只有 100 的倍数可以转； </label>
+                    </div>
+                    <!-- <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">最高金额</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="out" value="{$info.out|default='100'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">单笔最高转账金额，大于此金额也不能转</label>
+                    </div> -->
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">转账手续费</label>
+                        <div class="layui-input-inline">
+                            <select name="fee_type" lay-search="">
+                                <option value="0">--请选择--</option>
+                                <foreach name="moneyConfigFeeType" item="v" key="k">
+                                    <option value="{$k}" <if condition="$k eq $info['fee_type']">selected</if>>{$v}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">手续费</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="fee" value="{$info.fee|default='0'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">%</label>
+                    </div>
+                    <!--<blockquote class="layui-elem-quote layui-text">会员转服务中心设置</blockquote>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">最低金额</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="user_to_agent_low" value="{$info.user_to_agent_low|floatval}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">最低转金额，低于此金额 将不能转账</label>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">参考金额</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="user_to_agent_bei" value="{$info.user_to_agent_bei|floatval}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">参考金额，如设为 100，表示只有 100 的倍数可以转； </label>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">每日最高</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="user_to_agent_day_out" value="{$info.user_to_agent_day_out|floatval}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">每日最高转账金额，大于此金额也不能转</label>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">手续费</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="user_to_agent_fee" value="{$info.user_to_agent_fee|floatval}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;">%</div>
+                    </div>
+                    <blockquote class="layui-elem-quote layui-text">服务中心转服务中心设置</blockquote>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">最低金额</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="agent_to_agent_low" value="{$info.agent_to_agent_low|floatval}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">最低转金额，低于此金额 将不能转账</label>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">参考金额</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="agent_to_agent_bei" value="{$info.agent_to_agent_bei|floatval}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">参考金额，如设为 100，表示只有 100 的倍数可以转； </label>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">每日最高</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="agent_to_agent_day_out" value="{$info.agent_to_agent_day_out|floatval}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">每日最高转账金额，大于此金额也不能转</label>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">手续费</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="agent_to_agent_fee" value="{$info.agent_to_agent_fee|floatval}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;">%</div>
+                    </div>
+                    <blockquote class="layui-elem-quote layui-text">
+                        <b style="color:red;">温馨提示：</b>如你转 100 ，对方只能到账 95； 到账比例请填：0.95 <br />
+                    </blockquote>-->
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">对方到账</label>
+                            <div class="layui-input-block">
+                                <select name="type_id">
+                                    <option value="0">--请选择--</option>
+                                    <foreach name="moneyInfo" item="v" key="k">
+                                        <option value="{$k}" <if condition="$k eq $info['money_id']">selected</if>>{$v}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">到账比例</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="per" value="{$info.per|default='1.00'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">启用状态</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="statu" value="1" <if condition="$info['statu'] eq 1">checked</if> title="开启" />
+                                <input type="radio" name="statu" value="2" <if condition="$info['statu'] eq 2">checked</if> title="关闭" />
+                            </div>
+                        </div>
+                    </div>
+                    <blockquote class="layui-elem-quote layui-text">按推荐关系 直系团队</blockquote>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">只能转上级</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="is_upper" value="1" <if condition="$info['is_upper'] eq 1">checked</if> title="只能向上级转账" />
+                                <input type="radio" name="is_upper" value="2" <if condition="$info['is_upper'] eq 2">checked</if> title="不限制" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">只能转下级</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="is_lower" value="1" <if condition="$info['is_lower'] eq 1">checked</if> title="只能向下级转账" />
+                                <input type="radio" name="is_lower" value="2" <if condition="$info['is_lower'] eq 2">checked</if> title="不限制" />
+                            </div>
+                        </div>
+                    </div>
+                    <!--<blockquote class="layui-elem-quote layui-text">按接点关系 网络团队</blockquote>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">只能转上线</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="is_above" value="1" <if condition="$info['is_above'] eq 1">checked</if> title="只能向上线转账" />
+                                <input type="radio" name="is_above" value="2" <if condition="$info['is_above'] eq 2">checked</if> title="不限制" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">只能转下线</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="is_below" value="1" <if condition="$info['is_below'] eq 1">checked</if> title="只能向下线转账" />
+                                <input type="radio" name="is_below" value="2" <if condition="$info['is_below'] eq 2">checked</if> title="不限制" />
+                            </div>
+                        </div>
+                    </div>-->
+<!--                    <blockquote class="layui-elem-quote layui-text">按报单关系</blockquote>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">转服务中心</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="is_agent" value="1" <if condition="$info['is_agent'] eq 1">checked</if> title="只能向服务中心转账" />
+                                <input type="radio" name="is_agent" value="2" <if condition="$info['is_agent'] eq 2">checked</if> title="不限制" />
+                            </div>
+                        </div>
+                    </div>-->
+
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="id" value="{$info['id']}"/>
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+<include file="Public/footer" />
+<script>
+    layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+        var form = layui.form, $ = layui.jquery;
+        form.on('submit(articleHandle)', function (data) {
+            var ArticleInfo = data.field;
+            var url = "{:U('')}";
+            $.post(url, ArticleInfo, function (data) {
+                if (data.status != 1) {
+                    layer.msg(data.msg, {icon: 5});
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        history.go(-1);
+                    });
+                }
+            });
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

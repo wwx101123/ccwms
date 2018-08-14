@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>流动YML转存储YML</title>
+    <include file="Public/top" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/xiaoxi.css" />
+</head>
+<body>
+        <div class="publicBox">
+            <!--左侧导航-->
+            <include file="Public/nav"/>
+            <div class="publicBoxzi">
+                <!--公共头部-->
+                <include file="Public/header"/>
+                <!--公共盒子-->
+                <div class="publicHeiz">
+
+                    <!--公告-->
+                    <div class="communalBox">
+                        <div class="communalTl">
+                            <span class="span_1">流动YML转存储YML</span>
+                        </div>
+                        <div class="communalTx">
+                            <div class="handleBox">
+                                <form class="contentForm_2">
+                                    <div class="handleTx">
+                                        <div class="handleTl">流动YML总数</div>
+                                        <input type="text" name="num_l" autocomplete="off" readonly value="{$info['money']}" class="mui-input-clear handleInput" placeholder="">
+                                    </div>
+                                    <div class="handleTx">
+                                        <div class="handleTl">存储YML总数</div>
+                                        <input type="text" name="num_c" autocomplete="off" readonly value="{$info['deposit']}" class="mui-input-clear handleInput" placeholder="">
+                                    </div>
+                                    <div class="handleTx">
+                                        <div class="handleTl">输入转出个数</div>
+                                        <input type="text" name="money" autocomplete="off" value="" class="mui-input-clear handleInput" placeholder="请输入转出个数">
+                                    </div>
+                                    <div class="handleTx">
+                                        <div class="handleTl">交易密码</div>
+                                        <input type="password" name="secpwd" autocomplete="off" class="mui-input-clear handleInput" placeholder="交易密码(注意：不是登录密码)">
+                                    </div>
+                                    <div class="gonggButtonBox">
+                                        <button type="button" class="gonggButton">提交</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<include file="Public/footer"/>
+<script>
+    var mask=mui.createMask();
+    mui('body').on('tap', '.gonggButton', function() {
+        var obj = $(this);
+        $(obj).attr('disabled', 'true');
+        var data = $('.contentForm_2').serialize();
+        // console.log(data);
+        var url = "{:U('')}";
+        mui.showLoading("提交中","div");
+        mask.show();//显示遮罩层
+
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: data,
+            dataType: 'json',
+            success: function (res) {
+                mask.close();//关闭遮罩层
+                mui.hideLoading();
+                if (res.status == 1) {
+                    mui.toast(res.msg, {duration: '2000', type: 'div'});
+                    setTimeout(function () {
+                        mui.openWindow({
+                            id: res.url,
+                            url: res.url
+                        });
+                    }, 2000);
+                } else {
+                    $(obj).removeAttr('disabled');
+                    return mui.toast(res.msg, {duration: '2000', type: 'div'});
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                return mui.toast('网络失败，请刷新页面后重试', {duration: '2000', type: 'div'});
+            }
+        });
+    });
+</script>
+</body>
+
+</html>

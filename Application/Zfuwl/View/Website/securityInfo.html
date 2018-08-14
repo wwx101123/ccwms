@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">系统状态</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="is_systec_test" value="1" title="正常运行中" <if condition="$config.is_systec_test eq 1">checked=""</if>>
+                                <input type="radio" name="is_systec_test" value="2" title="测试运行中" <if condition="$config.is_systec_test eq 2">checked=""</if>>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">数据备份包</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="back_size" value="{$config['back_size']|default='10240'}" placeholder="数据备份包大小" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">KB/个</b></div>
+                    </div>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">数据备份后</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="is_mysql" value="1" title="发送邮箱" <if condition="$config.is_mysql eq 1">checked=""</if>>
+                                <input type="radio" name="is_mysql" value="2" title="禁止发送" <if condition="$config.is_mysql eq 2">checked=""</if>>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">接收邮箱号</label>
+                            <div class="layui-input-inline"><input type="text" name="mysql_email" value="{$config['mysql_email']}" autocomplete="off" placeholder="邮箱账号" class="layui-input"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">最高总K值</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="bocu_total" value="{$config['bocu_total']|default='70'}" placeholder="会员未操作" autocomplete="off" class="layui-input">
+                            <div class="layui-form-mid layui-word-aux">0 为不限制</div>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">% 后暂停发放奖金</b></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">最高日K值</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="day_bocu_total" value="{$config['day_bocu_total']|default='70'}" placeholder="会员未操作" autocomplete="off" class="layui-input">
+                            <div class="layui-form-mid layui-word-aux">0 为不限制</div>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">% 后暂停发放奖金</b></div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">会员未操作</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="web_past_due_time" value="{$config['web_past_due_time']|default='3'}" placeholder="会员未操作" autocomplete="off" class="layui-input">
+                            <div class="layui-form-mid layui-word-aux">0 为不控制时间</div>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">M 后自动退出</b></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">管理未操作</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="admin_past_due_time" value="{$config['admin_past_due_time']|default='3'}" placeholder="管理未操作" autocomplete="off" class="layui-input">
+                            <div class="layui-form-mid layui-word-aux">0 为控制时间</div>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">M 后自动退出</b></div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">同登录密码</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="edit_password_num" value="{$config['edit_password_num']|default='10'}" placeholder="同登录密码修改次数" autocomplete="off" class="layui-input">
+                            <div class="layui-form-mid layui-word-aux">0 为不限制修改次数</div>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">次最多修改</b></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">同二级密码</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="edit_secpwd_num" value="{$config['edit_secpwd_num']|default='10'}" placeholder="同二级密码修改次数" autocomplete="off" class="layui-input">
+                            <div class="layui-form-mid layui-word-aux">0 为不限制修改次数</div>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">次最多修改</b></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">密码格式</label>
+                            <div class="layui-input-inline">
+                                  <input type="text" name="pass_mai" value="{$config['pass_mai']|default='3'}" placeholder="密码长度" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid">位至 - </div>
+                            <div class="layui-input-inline">
+                                  <input type="text" name="pass_max" value="{$config['pass_max']|default='6'}" placeholder="密码长度" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid">位</div>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-form-item" pane="">
+                        <label class="layui-form-label">找回密码</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="is_forgot" value="1" title="黙认手机验证码找回" <if condition="$config.is_forgot eq 1">checked=""</if>>
+                            <input type="radio" name="is_forgot" value="2" title="黙认邮箱验证码找回" <if condition="$config.is_forgot eq 2">checked=""</if>>
+                            <input type="radio" name="is_forgot" value="3" title="黙认密保问题找回" <if condition="$config.is_forgot eq 3">checked=""</if>>
+                        </div>
+                    </div>
+                     <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">密保问题，多值请用“｜”号分开</label>
+                        <div class="layui-input-block">
+                            <textarea name="security" placeholder="请输入密保问题" class="layui-textarea">{$config['security']|default='你最喜欢的城市｜你最喜欢的音乐｜你人生的梦想'}</textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width:170px;">发送短信图形验证码</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="sendsms_is_imgcode" value="1" title="启用" <if condition="$config.sendsms_is_imgcode eq 1">checked=""</if>>
+                            <input type="radio" name="sendsms_is_imgcode" value="2" title="不启用" <if condition="$config.sendsms_is_imgcode eq 2">checked=""</if>>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">验证银行卡</label>
+                        <div class="layui-input-block">
+                          <input type="text" name="bankAppKey" value="{$config['bankAppKey']}" autocomplete="off" placeholder="请输入银行卡三元素检测AppKey" class="layui-input">
+                          <div class="layui-form-mid layui-word-aux">0 为不开启验证；请输入银行卡三元素检测AppKey,申请地址：https://www.juhe.cn/docs/api/id/207</div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">身份证实名</label>
+                        <div class="layui-input-block">
+                          <input type="text" name="cardAppKey" value="{$config['cardAppKey']}" autocomplete="off" placeholder="请输入身份证实名认证AppKey" class="layui-input">
+                          <div class="layui-form-mid layui-word-aux">0 为不开启验证；请输入身份证实名认证AppKey,申请地址：https://www.juhe.cn/docs/api/id/103</div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">身份证实名</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="card_img" value="1" title="上传身份证图片" <if condition="$config.card_img eq 1">checked=""</if>>
+                                <input type="radio" name="card_img" value="2" title="关闭上传" <if condition="$config.card_img eq 2">checked=""</if>>
+                            </div>
+                        </div>
+                    </div>
+         
+               <!--     <div class="layui-form-item">
+                        <label class="layui-form-label">储存释放</label>
+                        <div class="layui-input-inline">
+                            <select name="sh_mid" lay-search="">
+                                <option value="0">&#45;&#45;请选择&#45;&#45;</option>
+                                <foreach name="moneyInfo" item="v" key="k">
+                                    <option value="{$k}" <if condition="$k eq $config['sh_mid']">selected</if>>{$v}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;"></b></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">积分转出用</label>
+                        <div class="layui-input-inline">
+                            <select name="zc_mid" lay-search="">
+                                <option value="0">&#45;&#45;请选择&#45;&#45;</option>
+                                <foreach name="moneyInfo" item="v" key="k">
+                                    <option value="{$k}" <if condition="$k eq $config['zc_mid']">selected</if>>{$v}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;"></b></div>
+                    </div>
+-->
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">领取积分</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="shi_money" value="{$config['shi_money']|default='30000'}" placeholder="领取积分金额" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid">以下按每日</div>
+                            <div class="layui-input-inline">
+                                <input type="text" name="shi_pera" value="{$config['shi_pera']|default='5'}" placeholder="领取积分比例" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid">%，否则按</div>
+                            <div class="layui-input-inline">
+                                <input type="text" name="shi_perb" value="{$config['shi_perb']|default='2'}" placeholder="领取积分比例" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid">%</div>
+                        </div>
+                    </div>
+					<div class="layui-form-item">
+                        <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">一键回本</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="returnben" value="1" title="开启" <if condition="$config.returnben eq 1">checked=""</if>>
+                                <input type="radio" name="returnben" value="2" title="关闭" <if condition="$config.returnben eq 2">checked=""</if>>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <include file="Public/footer" />
+    <script>
+        layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+            var form = layui.form, $ = layui.jquery;
+            form.on('submit(articleHandle)', function (data) {
+                var ArticleInfo = data.field;
+                var url = "{:U('')}";
+                $.post(url, ArticleInfo, function (data) {
+                    if (data.status != 1) {
+                        layer.msg(data.msg, {icon: 5});
+                    } else {
+                        layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                            location.reload();
+                        });
+                    }
+                });
+                return false;//阻止表单跳转
+            });
+
+        });
+    </script>
+</body>
+</html>

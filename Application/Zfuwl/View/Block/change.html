@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file='Public/top' />
+</head>
+<body>
+<div class="admin-main">
+    <fieldset class="layui-elem-field">
+        <blockquote class="layui-elem-quote">
+            <form id="search-form2">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <select name="money_id" class="layui-input">
+                            <option value="">--转出钱包--</option>
+                            <foreach name='blockInfo' item='v' key='k'>
+                                <option valuemoneyInfo$k}">{$v}</option>
+                            </foreach>
+                        </select>
+                    </div>
+                </div>
+                <!--<div class="layui-inline">-->
+                    <!--<div class="layui-input-inline">-->
+                        <!--<select name="type_id" class="layui-input">-->
+                            <!--<option value="">&#45;&#45;转入钱包&#45;&#45;</option>-->
+                            <!--<foreach name='blockInfo' item='v' key='k'>-->
+                                <!--<option value="{$k}">{$v}</option>-->
+                            <!--</foreach>-->
+                        <!--</select>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <input type="hidden" name="order_by" value="id">
+                <input type="hidden" name="sort" value="desc">
+                <button type="button" onclick="ajax_get_table('search-form2',1);" class="layui-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <button type="button" onclick="location.reload();" class="layui-btn pull-right" style="float:right;"><i class="layui-icon">&#x1002;</i> 刷新</button>
+                <div style="clear: both;"></div>
+            </form>
+        </blockquote>
+        <div class="layui-field-box"><div id="ajax_return"></div></div>
+    </fieldset>
+</div>
+    <include file="Public/footer" />
+<script>
+    layui.use(['laydate', 'layer', 'form'], function () {
+        var $ = layui.jquery;
+        $(document).ready(function(){
+            ajax_get_table('search-form2',1);
+        });
+    });
+    function ajax_get_table(tab, page){
+        var loadVal = layer.load(3);
+        cur_page = page;
+        $.ajax({
+            type: "POST",
+            url: "{:U('Block/change')}?p=" + page,
+            data: $('#' + tab).serialize(),
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                    return;
+                }
+                layer.close(loadVal);
+                $("#ajax_return").html(data);
+            }
+        });
+    }
+    function sort(field){
+        $("input[name='order_by']").val(field);
+        var v = $("input[name='sort']").val() == 'desc' ? 'asc' : 'desc';
+        $("input[name='sort']").val(v);
+        ajax_get_table('search-form2', cur_page);
+    }
+</script>
+</body>
+
+</html>

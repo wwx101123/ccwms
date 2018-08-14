@@ -1,0 +1,99 @@
+<div class="layui-header header">
+	<a href="{:U('/Zfuwl')}">
+		<div class="layui-logo"><img src="{$config['webInfo_web_logo_img']}" alt="{$config['webInfo_web_name']}" style="height: 80%;" /></div>
+	</a>
+	<ul class="layui-nav layui-layout-right">
+		<li class="layui-nav-item"><a href="javascript:void(0);" class="clearCache"><i class="fa fa-refresh" aria-hidden="true"></i> 清除缓存</a></li>
+		<li class="layui-nav-item"><a href="javascript:void(0);" class="clearTable"><i class="fa fa-refresh" aria-hidden="true"></i> 一键清空数据</a></li>
+		<li class="layui-nav-item"><a href="/" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> 浏览网站</a></li>
+		<li class="layui-nav-item">
+			<a href="javascript:;"><img src="{$config['webInfo_web_logo_img']}" class="layui-nav-img"><span>{$userInfo['user_name']}</span></a>
+			<dl class="layui-nav-child">
+				<dd><a href="javascript:void(0);" data="{:session('admin_id')}" class="editUser"><i class="fa fa-user-circle" aria-hidden="true"></i> 个人信息</a></dd>
+				<dd><a href="javascript:void(0);"><i class="fa fa-gear" aria-hidden="true"></i> 设置</a></dd>
+			</dl>
+		</li>
+		<li class="layui-nav-item"><a href="javaScript:void(0);" class="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a></li>
+	</ul>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.8.3.min.js"></script>
+<script>
+	$('.clearCache').click(function() {
+		var url = "{:U('Index/cleanCache')}";
+		$.post(url, function(data) {
+			if (data.status != 1) {
+				layer.msg(data.msg, {
+					icon: 5
+				});
+			} else {
+				layer.msg(data.msg, {
+					icon: 6
+				});
+			}
+		});
+	});
+	$('.logout').click(function() {
+		layer.confirm('是否确认退出?', {
+			icon: 3,
+			title: '温馨提示'
+		}, function() {
+			var url = "{:U('Index/logout')}";
+			$.post(url, function(data) {
+				layer.msg('退出成功!', {
+					icon: 6
+				}, function() {
+					window.location.href = '{:U("Login/login")}';
+				});
+			});
+		});
+	});
+	$('.clearTable').click(function() {
+		layer.confirm('是否确认清空数据，该操作不可撤销?', {
+			icon: 3,
+			title: '温馨提示'
+		}, function() {
+			var getMoreLoad = layer.msg('数据清空中...', {
+				shade: 0.3,
+				icon: 16,
+				time: 0
+			});
+			var url = "{:U('Tools/oneKeyClearTable')}";
+			$.post(url, function(data) {
+				layer.close(getMoreLoad);
+				if (data.status == 0) {
+					layer.msg(data.msg, {
+						icon: 5
+					});
+					return;
+				} else if (data.status == 1) {
+					layer.msg(data.msg, {
+						icon: 6
+					}, function() {
+						location.reload();
+					})
+				}
+			});
+		});
+	});
+	$('.editUser').click(function() {
+		var id = $(this).attr('data');
+		var url = "{:U('Admin/editUser')}";
+		$.get(url, {
+			id: id
+		}, function(data) {
+			if (data.status == 0) {
+				layer.msg(data.msg, {
+					icon: 5
+				});
+				return;
+			}
+			layer.open({
+				title: '编辑用户',
+				type: 1,
+				skin: 'layui-layer-rim', //加上边框
+				area: ['500px'], //宽高
+				content: data
+			});
+		});
+	});
+</script>

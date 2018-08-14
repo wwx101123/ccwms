@@ -1,0 +1,21 @@
+<div class="publicHead">
+    <span class="menuLinkA PopupNavigation"><i class="fa fa-reorder"></i></span>
+    <div class="informationBox">
+        <div class="zxlogo">
+            <img src="{$userData['head']|default='__PUBLIC__/images/not_head.jpg'}" class="uploadImgHead" alt="" />
+            <input type='file' name='img' style='display:none' class='imgup' />
+        </div>
+        <div class="numberId">{$user['account']}</div>
+        <div class="status">{$leaderInfo[$user['leader']]}</div>
+    </div>
+    <div class="headNavBox df">
+        <div class="fx1 likeA" data-url="{:U('User/userIndex')}">
+            <i class="fa fa-home i"></i>
+            <span class="span_1">首页</span>
+        </div>
+        <span  class="fx1 PopupNavigation">
+            <i class="fa fa-tasks i"></i>
+            <span class="span_1">菜单</span>
+        </span>
+    </div>
+</div>

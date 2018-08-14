@@ -1,0 +1,9 @@
+<foreach name="list" item="v">
+    <tr>
+        <td>{$v['id']}</td>
+        <td>{$v['money']}</td>
+        <td>{$v['num']}</td>
+        <td>{$v['price']}</td>
+        <td>{:date('Y-m-d', $v['add_time'])}</td>
+    </tr>
+</foreach>

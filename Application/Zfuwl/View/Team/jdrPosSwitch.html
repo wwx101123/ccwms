@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file='Public/top'/>
+    <link rel="stylesheet" href="__PUBLIC__/plugins/layui/build/css/layui.css"  media="all">
+</head>
+<body>
+<div class="admin-main">
+    <fieldset class="layui-elem-field">
+        <div class="layui-field-box">
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">会员账号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="account" lay-verify="required" placeholder="请输入会员编号" autocomplete="off" class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">新接点人</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="jdrAccount" lay-verify="required" placeholder="请输入新接点人编号" autocomplete="off" class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">接点位置</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" value="1" name="pos" lay-verify="required" title="A" autocomplete="off" />
+                        <input type="radio" value="2" name="pos" lay-verify="required" title="B" autocomplete="off" />
+                        <input type="radio" value="3" name="pos" lay-verify="required" title="C" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" id="submitBtn" lay-submit lay-filter="operation">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </fieldset>
+</div>
+<script type="text/javascript" src="__PUBLIC__/plugins/layui/layui.js"></script>
+<script src="__PUBLIC__/plugins/layui/build/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['layer', 'form'], function () {
+        var form = layui.form,$ = layui.jquery;
+
+        //监听提交
+        form.on('submit(operation)', function (data) {
+            var dataInfo = data.field;
+            var url = "{:U('')}";
+            $.post(url, dataInfo, function (data) {
+                if (data.status != 1) {
+                    layer.msg(data.msg, {icon: 5});
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        location.reload();
+                    });
+                }
+            });
+            return false;//阻止表单跳转
+        });
+
+    });
+</script>
+</body>
+</html>

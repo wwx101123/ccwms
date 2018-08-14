@@ -1,0 +1,47 @@
+<script src="__STATIC__/js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/js/mui.showLoading.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var mask=mui.createMask();
+    var imgObj = [];
+    mui('body').on('change', '.imgup', function(){
+        var formData = new FormData();
+        var img = $(this).val();
+        formData.append("img", $(this)[0].files[0]);
+        formData.append("field", 'img');
+        mui.showLoading("上传中");
+        $.ajax({
+            url: "{:U('Zfuwl/Api/imageUp')}",
+            type: "post",
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            async:false,
+            success: function(res) {
+                mask.close();//关闭遮罩层
+                mui.hideLoading();
+                if(res.code != 0) {
+                    mui.alert(res.msg);
+                } else {
+                    $.post("{:U('User/saveUserHeadImg')}",{src:res.data.src}, function(data){
+                        if(data.status == 1) {
+                            mui.toast('上传成功',{ duration:'2000', type:'div' });
+                            $(imgObj).attr('src', res.data.src);
+                        } else {
+                            mui.toast(data.msg,{ duration:'2000', type:'div' });
+                        }
+                    });
+                }
+            },
+            error: function(e) {
+                alert("网络错误，请重试！！");
+            }
+        });
+    });
+
+    mui('body').on('tap', '.uploadImgHead', function(){
+        $('.imgup').click();
+        imgObj = $(this);
+    });
+</script>

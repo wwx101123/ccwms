@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <blockquote class="layui-elem-quote">
+                <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>  添加众筹</button>
+                <button type="button" class="layui-btn pull-right layui-inline" onclick="location.reload();" style="float:right;"><i class="layui-icon">&#x1002;</i> 刷新</button>
+                <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+                <div style="clear:both;"></div>
+            </blockquote>
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">众筹货币</label>
+                        <div class="layui-input-inline">
+                            <select name="bid" lay-search="">
+                                <option value="0">--请选择--</option>
+                                <foreach name="blockInfo" item="v" key="k">
+                                    <option value="{$k}" <if condition="$k eq $info['bid']">selected</if>>{$v}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">众筹总数量</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="web_taotal" value="{$info['web_taotal']|default='30000'}" lay-verify="required" placeholder="众筹总数量" autocomplete="off" class="layui-input"/>
+                        </div>
+                        <!--<div class="layui-form-mid layui-word-aux" id='username' style="color:red;font-weight: 800;"><i class="layui-icon" style="color:red;">&#xe65e;</i></div>-->
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">会员限购</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="user_taotal" value="{$info['user_taotal']|default='0'}" lay-verify="required" placeholder="会员限购" autocomplete="off" class="layui-input"/>
+                        </div>
+                        <!--<div class="layui-form-mid layui-word-aux" id='float_price' style="color:red;font-weight: 800;">%</div>-->
+                    </div>
+                   <div class="layui-form-item">
+                        <label class="layui-form-label">众筹时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="start_time"  id="time" lay-verify="required" placeholder="众筹开始时间" autocomplete="off" class="layui-input"/>
+                        </div>
+                        <!--<div class="layui-form-mid layui-word-aux" id='float_price' style="color:red;font-weight: 800;">%</div>-->
+                    </div>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">是否启用</label>
+                            <div class="layui-input-inline">
+                                <input type="radio" name="statu" value="1" title="启用" <if condition="$info.statu eq 1">checked=""</if>>
+                                <input type="radio" name="statu" value="2" title="禁用" <if condition="$info.statu eq 2">checked=""</if>>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">发行状态</label>
+                            <div class="layui-input-block">
+                                <foreach name='blockcrowdStatus' item='v' key='k'>
+                                    <input type="radio" name="status" value="{$k}" title="{$v}" <if condition="$info.status eq 1">checked=""</if>>
+                                </foreach>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="id" value="{$info['id']}"/>
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+<include file="Public/footer" />
+    <script>
+    layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+    var form = layui.form, $ = layui.jquery,upload = layui.upload,laydate=layui.laydate;
+    laydate.render({ 
+        elem: '#time'
+        ,type: 'datetime'
+    });
+    upload.render({
+     elem: '.uploadImg',
+     url:'{:U("Api/imageUp")}',
+     before: function(){
+     }
+     ,done: function(res, index, upload){
+         $('#'+this.data.field).val(res.data.src);
+         $('.'+this.data.field).attr('src', res.data.src);
+     }
+    });
+    $('#submitBtn').click(function () {
+     editor.sync();
+    });
+    form.on('submit(articleHandle)', function (data) {
+     var ArticleInfo = data.field;
+     var url = "{:U('')}";
+     $.post(url, ArticleInfo, function (data) {
+         if (data.status != 1) {
+             layer.msg(data.msg, {icon: 5});
+         } else {
+             layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                 history.go(-1);
+             });
+         }
+     });
+     return false;//阻止表单跳转
+    });
+    });
+    </script>
+    </body>
+    </html>

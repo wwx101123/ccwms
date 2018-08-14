@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <div class="test-table-reload-btn" style="margin-top: 10px;margin-left:15px;">
+                <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>  {$moneyCarryInfo[$info['money_id']]} 提现管理</button>
+                <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">钱包选择</label>
+                            <div class="layui-input-block">
+                                <select name="mid" class="layui-input">
+                                    <option value="0">--请选择--</option>
+                                    <foreach name="moneyCarryInfo" item="v" key="k">
+                                        <option value="{$k}" <if condition="$k eq $info['mid']">selected</if>>{$v}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">请选择要提现的钱包</label>
+                    </div>
+                    <!--<div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">最低金额</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="low" value="{$info.low|default='100'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">最低提现金额，低于此金额 将不能提现</label>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">参考金额</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="bei" value="{$info.bei|default='100'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">参考金额，如设为 100，表示只有 100 的倍数可以提现； </label>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">单笔最高提</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="out" value="{$info.out|default='100'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">单笔提现最高金额，大于此金额也不能提现</label>
+                    </div>-->
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">每日最高提</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="day_total" value="{$info.day_total|default='0'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">每天最高提现金额，超出申请不了，0 为不限</label>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">提现手续费</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="fee" value="{$info.fee|default='0'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">%</label>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">最高手续费</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="total_fee" value="{$info.total_fee|default='0'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">单笔提现最高的手续费金额；0 为不限</label>
+                    </div>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">提现方案</label>
+                            <div class="layui-input-block">
+                                <foreach name="moneyCarryTk" item="v" key="k">
+                                    <input type="radio" name="is_tk" value="{$k}" title="{$v}提" <if condition="$info.is_tk eq $k">checked=""</if>>
+                                </foreach>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">开始时间 <b style="color:red;">H</b></label>
+                            <div class="layui-input-inline"> <input type="text" name="add_time" value="{$info['add_time']|default='0'}" placeholder="开始时间"  autocomplete="off" class="layui-input" lay-verify="required"></div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">结速时间 <b style="color:red;">H</b></label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="out_time" value="{$info['out_time']|default='23'}" placeholder="结速时间" autocomplete="off" class="layui-input" lay-verify="required" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                             <?php $info['week_time'] = unArrNull(explode(',',$info['week_time'])); ?>
+                            <label class="layui-form-label">每周星期</label>
+                            <div class="layui-input-block">
+                                <for start='0' end='7'>
+                                    <if condition="$i eq 0">
+                                        <input type="checkbox" name="week_time[{$i}]" value="{$i}" <if condition="in_array($i, $info['week_time'])">checked</if> title="星期日" class="level_two" />
+                                    <else/>
+                                        <input type="checkbox" name="week_time[{$i}]" value="{$i}" <if condition="in_array($i, $info['week_time'])">checked</if> title="星期 {$i}" class="level_two" />
+                                    </if>
+                                </for>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <?php $info['month_time'] = explode(',',$info['month_time']); ?>
+                            <label class="layui-form-label">每月 </label>
+                            <div class="layui-input-block">
+                                <for start='1' end='32'>
+                                    <input type="checkbox" name="month_time[{$i}]" value="{$i}" <if condition="in_array($i, $info['month_time'])">checked</if> title="{$i} 号" class="level_two" />
+                                </for>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <blockquote class="layui-elem-quote layui-text">不选等级 黙认全部通用，选会员级别 只针对当前级别有用 </blockquote>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员等级</label>
+                            <div class="layui-input-block">
+                                <select name="level_id" class="layui-input">
+                                    <option value="0">--请选择--</option>
+                                    <foreach name="levelInfo" item="v" key="k">
+                                        <option value="{$k}" <if condition="$k eq $info['level_id']">selected</if>>{$v}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">针对当前会员等级适用</label>
+                    </div> -->
+
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">是否启用</label>
+                            <div class="layui-input-inline">
+                                <input type="radio" name="statu" value="1" title="启用" <if condition="$info.statu eq 1">checked=""</if>>
+                                <input type="radio" name="statu" value="2" title="禁用" <if condition="$info.statu eq 2">checked=""</if>>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="id" value="{$info['id']}"/>
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <include file="Public/footer" />
+    <script>
+        layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+            var form = layui.form, $ = layui.jquery;
+            form.on('submit(articleHandle)', function (data) {
+                var ArticleInfo = data.field;
+                var url = "{:U('')}";
+                $.post(url, ArticleInfo, function (data) {
+                    if (data.status != 1) {
+                        layer.msg(data.msg, {icon: 5});
+                    } else {
+                        layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                            history.go(-1);
+                        });
+                    }
+                });
+                return false;//阻止表单跳转
+            });
+        });
+    </script>
+</body>
+</html>

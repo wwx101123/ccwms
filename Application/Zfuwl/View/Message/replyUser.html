@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file='Public/top'/>
+</head>
+<body>
+<div class="admin-main">
+    <fieldset class="layui-elem-field">
+        <blockquote class="layui-elem-quote">
+            <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>{$user['account']}  留言管理</button>
+            <button type="button" class="layui-btn pull-right layui-inline" style="float:right;" onclick="location.reload();"><i class="layui-icon">&#x1002;</i> 刷新</button>
+            <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+            <div style="clear:both;"></div>
+        </blockquote>
+        <div class="layui-field-box">
+            <form class="layui-form layui-form-pane" action="">
+                <fieldset class="layui-elem-field site-demo-button">
+                    <legend>{$messageType[$info[type]]}</legend>
+                    <div>{$info['content']|htmlspecialchars_decode}</div>
+                </fieldset>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">回复内容</label>
+                    <div class="layui-input-block">
+                        <textarea name="reply" placeholder="请输入回复的内容" class="layui-textarea" id="AboutEditor" >{$info['reply']|htmlspecialchars_decode}</textarea>
+                    </div>
+                </div>
+                <input type="hidden" name="id" value="{$info['id']}">
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" id="submitBtn" lay-submit lay-filter="aboutHandle">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </fieldset>
+</div>
+<include file="Public/footer" />
+<script>
+    layui.use(['layer', 'form', 'upload', 'layedit'], function () {
+        var layedit = layui.layedit,form = layui.form,$ = layui.jquery;
+        layedit.set({
+            uploadImage: {
+                url: '{:U("Editor/imageUp")}?imgUrl=about' //接口url
+                ,type: 'post' 
+            }
+        });
+        var AboutEditor = layedit.build('AboutEditor');
+        $('#submitBtn').click(function(){
+            layedit.sync(AboutEditor);
+        });
+        form.on('submit(aboutHandle)', function (data) {
+            var AboutInfo = data.field;
+            var url = "{:U('')}";
+            $.post(url, AboutInfo, function (data) {
+                if (data.status != 1) {
+                    layer.msg(data.msg, {icon: 5});
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        history.go(-1);
+                    });
+                }
+            });
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

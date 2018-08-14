@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{$_GET['cat_id']==1?'公告':'新闻'}</title>
+    <include file="Public/top" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/xiaoxi.css" />
+</head>
+<body>
+    <div class="publicBox">
+        <!--左侧导航-->
+        <include file="Public/nav"/>
+        <div class="publicBoxzi">
+            <!--公共头部-->
+            <include file="Public/header"/>
+            <!--公共盒子-->
+            <div class="publicHeiz">
+
+                <!--公告-->
+                <div class="communalBox">
+                    <div class="communalTl">
+                        <span class="span_1">{$_GET['cat_id']==1?'公告':'新闻'}</span>
+                    </div>
+                    <div class="communalTx">
+                        <div class="detailBox">
+                            <div class="detailTl">
+                                {$info['title']}
+                            </div>
+                            <div class="detailTx">
+                                {$info['content']|htmlspecialchars_decode}
+                            </div>
+                         <!--   <div class="detailTime">
+                                {:date('Y-m-d H:i:s', $info['add_time'])}
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<include file="Public/footer"/>
+</body>
+
+</html>

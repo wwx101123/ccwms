@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>存储YML转出</title>
+    <include file="Public/top" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/xiaoxi.css" />
+</head>
+<body>
+
+    <div class="publicBox">
+        <!--左侧导航-->
+        <include file="Public/nav"/>
+        <div class="publicBoxzi">
+            <!--公共头部-->
+            <include file="Public/header"/>
+            <!--公共盒子-->
+            <div class="publicHeiz">
+
+                <!--公告-->
+                <div class="communalBox">
+                    <div class="communalTl">
+                        <span class="span_1">存储YML转出</span>
+                    </div>
+                    <div class="communalTx">
+                        <div class="handleBox">
+                            <form class="contentForm_2">
+                                <div class="handleTx">
+                                    <div class="handleTl">总投资钱包</div>
+                                    <input type="text" name="" autocomplete="off" value="{$user['invest_money']}" readonly class="mui-input-clear handleInput" placeholder="">
+                                </div>
+                                <div class="handleTx">
+                                    <div class="handleTl">存储YML</div>
+                                    <input type="text" name="" autocomplete="off" value="{$info['deposit']}" readonly class="mui-input-clear handleInput" placeholder="">
+                                </div>
+                                <div class="handleTx">
+                                    <div class="handleTl">当前汇率</div>
+                                    <input type="text" name="" autocomplete="off" value="{:blockList(1, 2)}" readonly class="mui-input-clear handleInput" placeholder="当前汇率">
+                                </div>
+                                <div class="handleTx">
+                                    <div class="handleTl">输入转出个数</div>
+                                    <input type="text" name="num" autocomplete="off" class="mui-input-clear handleInput" placeholder="请输入转出个数">
+                                </div>
+                                <div class="handleTx">
+                                    <div class="handleTl">交易密码</div>
+                                    <input type="password" name="secpwd" autocomplete="off" class="mui-input-clear handleInput" placeholder="交易密码(注意：不是登录密码)">
+                                </div>
+                                <div class="handleTx">
+                                    <div class="handleTl">手机号码</div>
+                                    <input type="text" name="" value="{$user['account']}" readonly  autocomplete="off" class="mui-input-clear handleInput" placeholder="">
+                                </div>
+                                <div class="handleTx">
+                                    <div class="handleTl">获取短信验证码</div>
+                                    <div class="handleInputBox">
+                                        <input type="text" name="mobileCode" autocomplete="off" class="mui-input-clear handleInput" placeholder="请输入验证码">
+                                        <button type='button' class="yzmInput" onclick="send_sms_reg_code(this);">获取验证码</button>
+                                    </div>
+                                </div>
+                                <div class="gonggButtonBox">
+                                    <button type="button" class="gonggButton">提交</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<include file="Public/footer"/>
+<script src="__PUBLIC__/js/zfuwl.js"></script>
+
+<script>
+
+    var mask=mui.createMask();
+    mui('body').on('tap', '.gonggButton', function() {
+        var obj = $(this);
+        $(obj).attr('disabled', 'true');
+        var data = $('.contentForm_2').serialize();
+        console.log(data);
+        var url = "{:U('')}";
+        mui.showLoading("提交中","div");
+        mask.show();//显示遮罩层
+
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: data,
+            dataType: 'json',
+            success: function (res) {
+                mask.close();//关闭遮罩层
+                mui.hideLoading();
+                if (res.status == 1) {
+                    mui.toast(res.msg, {duration: '2000', type: 'div'});
+                    setTimeout(function () {
+                        mui.openWindow({
+                            id: res.url,
+                            url: res.url
+                        });
+                    }, 2000);
+                } else {
+                    $(obj).removeAttr('disabled');
+                    return mui.toast(res.msg, {duration: '2000', type: 'div'});
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                return mui.toast('网络失败，请刷新页面后重试', {duration: '2000', type: 'div'});
+            }
+        });
+    });
+
+    var smsObj = [];
+    // 发送手机短信
+    function send_sms_reg_code(obj){
+        smsObj = obj;
+        var mobile = {$user['account']};
+        if(!checkMobile(mobile)){
+            mui.toast('请输入正确的手机号',{ duration:'long', type:'div' });
+            return;
+        }
+    <if condition="$config['securityInfo_sendsms_is_imgcode'] eq 1">
+            var code = $('#verifyCode').val();
+        var data = {mobile:mobile,code:code,check_code:'reg_fs'};
+    <else/>
+        var data = {mobile:mobile};
+    </if>
+        var url = "{:U('Reg/sendSmsRegCode')}";
+        mui.showLoading("正在发送","div");
+        mask.show();//显示遮罩层
+        $.post(url, data, function(data){
+            mask.close();//关闭遮罩层
+            mui.hideLoading();
+            obj = $.parseJSON(data);
+            if(obj.status == 1){
+                $(smsObj).attr("disabled","disabled");
+                intAs = {$config.smtpSmsInfo_sms_time_out|default='120'}; // 手机短信超时时间
+                jsInnerTimeout(intAs);
+                mui.toast(obj.msg,{ duration:'long', type:'div' });
+            } else {
+                mui.toast(obj.msg,{ duration:'long', type:'div' });
+            }
+        });
+    }
+    //倒计时函数
+    function jsInnerTimeout(intAs){
+        intAs--;
+        if(intAs<=-1){
+            $(smsObj).removeAttr("disabled");
+            $(smsObj).text("获取验证码");
+            return true;
+        }
+        $(smsObj).text(intAs+'秒');
+        setTimeout("jsInnerTimeout("+intAs+")",1000);
+    };
+</script>
+</body>
+
+</html>

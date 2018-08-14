@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file='Public/top' />
+</head>
+<body>
+<div class="admin-main">
+
+   
+        <div class="layui-field-box">
+             <fieldset class="layui-elem-field">
+            <form class="layui-form layui-form-pane" action="{:U('Excel/exportUserList')}" id="search-form2">
+                <br />
+                <div class="layui-form-item">
+                <button type="button" class="layui-btn send" data-url="{:U('User/sendEmail')}" data-title="邮件通知"><i class="layui-icon">&#xe611;</i> 邮件通知</button>
+                <button type="button" class="layui-btn send" data-url="{:U('User/sendMessage')}" data-title="站内通知"><i class="layui-icon">&#xe606;</i> 站内通知</button>
+                <button type="button" class="layui-btn send" data-url="{:U('User/sendSms')}" data-title="短信通知"><i class="layui-icon">&#xe63b;</i> 短信通知</button>
+                <a href="{:U('User/userAdd')}"><button type="button" class="layui-btn layui-btn-normal pull-right" ><i class="layui-icon">&#xe61f;</i> 添加会员</button></a>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline layui-form-item" pane="">
+                       <label class="layui-form-label">查找条件</label>
+                       <div class="layui-input-block">
+                           <input type="radio" name="is_mysql" value="1" title="发送邮箱" <if condition="$config.is_mysql eq 1">checked=""</if>>
+                           <input type="radio" name="is_mysql" value="2" title="禁止发送" <if condition="$config.is_mysql eq 2">checked=""</if>>
+                       </div>
+                   </div>
+                   <div class="layui-inline">
+                       <label class="layui-form-label">接收邮箱号</label>
+                       <div class="layui-input-inline"><input type="text" name="mysql_email" value="{$config['mysql_email']}" autocomplete="off" placeholder="邮箱账号" class="layui-input"></div>
+                   </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">日期选择</label>
+                        <div class="layui-input-block">
+                            <select name="quiz1">
+                                <option value="">请选择省</option>
+                                <option value="浙江" selected="">浙江省</option>
+                                <option value="你的工号">江西省</option>
+                                <option value="你最喜欢的老师">福建省</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">行内表单</label>
+                        <div class="layui-input-inline">
+                            <select name="quiz1">
+                                <option value="">请选择省</option>
+                                <option value="浙江" selected="">浙江省</option>
+                                <option value="你的工号">江西省</option>
+                                <option value="你最喜欢的老师">福建省</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">行内表单</label>
+                        <div class="layui-input-inline">
+                            <input type="number" name="number" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">行内表单</label>
+                        <div class="layui-input-inline">
+                            <input type="number" name="number" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">密码</label>
+          <div class="layui-input-inline">
+            <input type="password" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
+          </div>
+          <div class="layui-form-mid layui-word-aux">请务必填写用户名</div>
+        </div>
+  
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label">范围</label>
+            <div class="layui-input-inline" style="width: 100px;">
+              <input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline" style="width: 100px;">
+              <input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+             
+        <div class="layui-form-item">
+            
+            <div class="layui-input-inline">
+                <label class="layui-form-label">行内选择框</label>
+                <select name="quiz1">
+                    <option value="">请选择省</option>
+                    <option value="浙江" selected="">浙江省</option>
+                    <option value="你的工号">江西省</option>
+                    <option value="你最喜欢的老师">福建省</option>
+                </select>
+            </div>
+            <label class="layui-form-label">行内选择框</label>
+            <div class="layui-input-inline">
+                <select name="quiz1">
+                    <option value="">请选择省</option>
+                    <option value="浙江" selected="">浙江省</option>
+                    <option value="你的工号">江西省</option>
+                    <option value="你最喜欢的老师">福建省</option>
+                </select>
+            </div>
+            <label class="layui-form-label">行内选择框</label>
+            <div class="layui-input-inline">
+                <select name="quiz1">
+                    <option value="">请选择省</option>
+                    <option value="浙江" selected="">浙江省</option>
+                    <option value="你的工号">江西省</option>
+                    <option value="你最喜欢的老师">福建省</option>
+                </select>
+            </div>
+            <label class="layui-form-label">行内选择框</label>
+            <div class="layui-input-inline">
+                <select name="quiz1">
+                    <option value="">请选择省</option>
+                    <option value="浙江" selected="">浙江省</option>
+                    <option value="你的工号">江西省</option>
+                    <option value="你最喜欢的老师">福建省</option>
+                </select>
+            </div>
+        </div>
+  
+        <div class="layui-form-item">
+            <button class="layui-btn" lay-submit="" lay-filter="demo2"><i class="layui-icon">&#xe611;</i>跳转式提交</button>
+            <button class="layui-btn" lay-submit="" lay-filter="demo2">跳转式提交</button>
+            <button class="layui-btn" lay-submit="" lay-filter="demo2">跳转式提交</button>
+            <button class="layui-btn" lay-submit="" lay-filter="demo2">跳转式提交</button>
+        </div>
+                
+        <blockquote class="layui-elem-field">
+            <!--<form action="{:U('Excel/exportUserList')}" id="search-form2">-->
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <select name="type" class="layui-input">
+                            <option value="1">ID</option>
+                            <option value="2">账号</option>
+                            <option value="3">手机</option>
+                            <option value="4">邮箱</option>
+                            <option value="5">姓名</option>
+                            <option value="6">呢称</option>
+                            <option value="7">身份证</option>
+                        </select>
+                    </div>
+                </div>
+                <!--<div class="layui-inline"><div class="layui-input-inline"><input type="text" name="account" placeholder="ID/帐号/手机/邮箱/姓名/呢称/身份证" class="layui-input"></div></div>-->
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <select name="level" class="layui-input">
+                            <option value="">--会员等级--</option>
+                            <foreach name='levelInfo' item='v' key='k'>
+                                <option value="{$k}">{$v}</option>
+                            </foreach>
+                        </select>
+                    </div>
+                </div>
+                <input type="hidden" name="order_by" value="user_id">
+                <input type="hidden" name="sort" value="desc">
+                <input type="hidden" name="timeName" value="reg_time">
+                <button type="button" onclick="ajax_get_table('search-form2', 1);" class="layui-btn"><i class="layui-icon">&#xe615;</i> 搜索</button>
+                <button type="submit" class="layui-btn"><i class="layui-icon">&#xe62d;</i> 导出excel</button>
+                
+                <button type="button" class="layui-btn pull-right" onclick="location.reload();"><i class="layui-icon">&#x1002;</i> 刷新</button>
+                <div style="clear:both;"></div>
+            <!--</form>-->
+        </blockquote>
+            
+            <div id="ajax_return"></div>
+                
+        </div>
+    </fieldset>
+</div>
+<include file="Public/footer" />
+<script>
+    layui.use(['laydate', 'layer', 'form'], function () {
+        $ = layui.jquery;
+
+        $(document).ready(function () {
+            ajax_get_table('search-form2', 1);
+        });
+        var start = {
+            min: ''
+            ,max: '2099-06-16 23:59:59'
+            ,istoday: true
+            ,choose: function(datas){
+                end.min = datas; //开始日选好后，重置结束日的最小日期
+                end.start = datas //将结束日的初始值设定为开始日
+            }
+        };
+        $('.send').click(function(){
+            var id = 0;
+            var obj = $("input[name*='selected']");
+            if (obj.is(":checked")) {
+                var check_val = [];
+                for (var k in obj) {
+                    if (obj[k].checked)
+                        check_val.push(obj[k].value);
+                }
+                id = check_val.join(',');
+            }
+            if(!id) {
+                layer.msg('请选择会员');return false;
+            }
+            var title = $(this).data('title');
+            $.get($(this).data('url'), {user_id: id}, function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                    return;
+                }
+                layer.open({
+                    title: title,
+                    type: 1,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['80%', '80%'], //宽高
+                    content: data
+                });
+            });
+        });
+        var end = {
+            min: ''
+            ,max: '2099-06-16 23:59:59'
+            ,istoday: true
+            ,choose: function(datas){
+                start.max = datas; //结束日选好后，重置开始日的最大日期
+            }
+        };
+        document.getElementById('start_time').onclick = function(){
+            start.elem = this;
+            laydate(start);
+        }
+        document.getElementById('end_time').onclick = function(){
+            end.elem = this;
+            laydate(end);
+        }
+    });
+
+    function saveData(fieldVal, val, user_id){
+        $.ajax({
+            type: "POST",
+            url: "{:U('User/saveState')}",
+            data: {fieldVal: fieldVal, user_id: user_id, val: val},
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                    return;
+                }
+                var page = $('.pagination .active').find('a').data('p');
+                ajax_get_table('search-form2', page);
+            }
+        });
+    }
+
+    function ajax_get_table(tab, page){
+        var loadVal = layer.load(3);
+        cur_page = page;
+        $.ajax({
+            type: "POST",
+            url: "{:U('User/index')}?p=" + page,
+            data: $('#' + tab).serialize(),
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                    return;
+                }
+                layer.close(loadVal);
+                $("#ajax_return").html(data);
+            }
+        });
+    }
+    // 点击排序
+    function sort(field){
+        $("input[name='order_by']").val(field);
+        var v = $("input[name='sort']").val() == 'desc' ? 'asc' : 'desc';
+        $("input[name='sort']").val(v);
+        ajax_get_table('search-form2', cur_page);
+    }
+</script>
+</body>
+
+</html>

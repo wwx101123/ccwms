@@ -1,0 +1,9 @@
+<foreach name="list" item="v">
+    <tr>
+        <td>{$v['id']}</td>
+        <td>{$v['money']}</td>
+        <td>{:moneyLogType($v['bonus_id'])}</td>
+        <td>{$v['note']}</td>
+        <td>{:date('Y-m-d' ,$v['add_time'])}</td>
+    </tr>
+</foreach>

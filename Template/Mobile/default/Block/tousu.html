@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>投诉</title>
+    <include file="Public/top" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/xiaoxi.css" />
+    <style>
+        body {
+            background: #EFF6FE;
+        }
+        .kk {
+            display: none;
+        }
+        .over {
+            position:fixed;
+            left:0;
+            top:0;
+            width:100%;
+            z-index:100;
+        }
+        .tempContainer {
+            position:fixed;
+            width:100%;
+            margin-right:0px;
+            margin-left:0px;
+            text-align:center;
+            z-index:101;
+        }
+    </style>
+</head>
+<body>
+    <div class="publicBox">
+        <!--左侧导航-->
+        <include file="Public/nav"/>
+        <div class="publicBoxzi">
+            <!--公共头部-->
+            <include file="Public/header"/>
+            <!--公共盒子-->
+            <div class="publicHeiz">
+                <div class="communalBox">
+                    <div class="communalTl">
+                        <span class="span_1">投诉</span>
+                    </div>
+                    <div class="communalTx">
+                        <div class="handleBox">
+                            <form class="contentForm_2">
+                                <div class="handleTx">
+                                    <textarea id="hcqk" class="form" rows="5" name="content" placeholder="请输入投诉内容">{$list['note']}</textarea>
+                                </div>
+                                <div class="hui-form-items">
+                                    <div class="hui-form-items-title">汇款截图：</div>
+                                    <input type="file" name="img" id="fileUp" class="upload-iconup-logo-pic" class="hui-input hui-input-clear" value="">
+                                    <input type="hidden" name="file" value=""/>
+                                </div>
+                                <div class="hui-form-items">
+                                    <img style="width:100px;height:100px;" src="{$list['img']}" id="formFile" alt="汇款图片" />
+                                </div>
+                                <input type="hidden" name="id" value="{$info['id']}">
+                                <input type="hidden" name="is_type" value="{$info['is_type']}">
+                                <div class="gonggButtonBox">
+                                    <if condition="$list['id'] gt 0">
+                                        <button type="button" class="gonggButton">你已投诉</button>
+                                    <else />
+                                        <button type="button" class="gonggButton ll">提交</button>
+                                    </if>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<include file="Public/footer"/>
+<script src="__PUBLIC__/js/zfuwl.js"></script>
+
+<script>
+
+
+    var mask=mui.createMask();
+    mui('body').on('tap', '.ll', function() {
+        var obj = $(this);
+        $(obj).attr('disabled', 'true');
+        var data = $('.contentForm_2').serialize();
+        console.log(data);
+        var url = "{:U('')}";
+        mui.showLoading("提交中","div");
+        mask.show();//显示遮罩层
+
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: data,
+            dataType: 'json',
+            success: function (res) {
+                mask.close();//关闭遮罩层
+                mui.hideLoading();
+                if (res.status == 1) {
+                    mui.toast(res.msg, {duration: '2000', type: 'div'});
+                    setTimeout(function () {
+                        mui.openWindow({
+                            id: res.url,
+                            url: res.url
+                        });
+                    }, 2000);
+                } else {
+                    $(obj).removeAttr('disabled');
+                    return mui.toast(res.msg, {duration: '2000', type: 'div'});
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                return mui.toast('网络失败，请刷新页面后重试', {duration: '2000', type: 'div'});
+            }
+        });
+    });
+
+    $("#fileUp").change(function() {
+        var formData = new FormData();
+        // console.log(formData);
+        var img = $('input[type="file"]').val();
+        // var jj = img.substring(2);
+        console.log(img);
+        // console.log(jj);
+        formData.append("img", $('#fileUp')[0].files[0]);
+        $.ajax({
+            url: "{:U('Recharge/upload')}",
+            type: "post",
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            async:false,
+            success: function(data) {
+                // const obj = JSON.parse(data);
+                console.log(data);
+                $('#formFile').attr('src', data.msg);
+                $('input[name="file"]').attr('value', data.msg);
+            },
+            error: function(e) {
+                alert("网络错误，请重试！！");
+            }
+        });
+    })
+</script>
+</body>
+
+</html>

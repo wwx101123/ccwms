@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file='Public/top' />
+</head>
+
+<body>
+<div class="admin-main">
+    <fieldset class="layui-elem-field">
+        <div class="layui-field-box"><div id="ajax_return"></div></div>
+    </fieldset>
+</div>
+<include file="Public/footer" />
+<script>
+    layui.use(['laydate', 'layer', 'form'], function () {
+        var $ = layui.jquery;
+        $(document).ready(function(){
+            ajax_get_table('search-form2',1);
+        });
+    });
+    function ajax_get_table(tab, page){
+        var loadVal = layer.load(3);
+        cur_page = page;
+        $.ajax({
+            type: "POST",
+            url: "{:U('Bonus/index')}?p=" + page,
+            data: $('#' + tab).serialize(),
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                    return;
+                }
+                layer.close(loadVal);
+                $("#ajax_return").html(data);
+            }
+        });
+    }
+    function sort(field){
+        $("input[name='order_by']").val(field);
+        var v = $("input[name='sort']").val() == 'desc' ? 'asc' : 'desc';
+        $("input[name='sort']").val(v);
+        ajax_get_table('search-form2', cur_page);
+    }
+</script>
+</body>
+</html>

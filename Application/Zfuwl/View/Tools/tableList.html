@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <include file='Public/top'/>
+    </head>
+
+    <body>
+        <div class="admin-main">
+            <fieldset class="layui-elem-field">
+                <legend>数据表列表</legend>
+                <div class="layui-field-box">
+                    <button type="button" class="layui-btn" onclick="location.reload();" style="float:right;"><i class="layui-icon">&#x1002;</i> 刷新</button>
+                    <div id="ajax_return">
+                        <button type="button" data-url="{:U('Tools/optimize')}" class="layui-btn layui-btn-normal layui-btn-sm handle"><i class="layui-icon">&#xe609;</i>优化</button>
+                        <button type="button" data-url="{:U('Tools/repair')}" class="layui-btn layui-btn-sm handle"><i class="layui-icon">&#xe609;</i>修复</button>
+                        <table id="table" lay-filter="abc"></table>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <include file="Public/footer" />
+        <script>
+            layui.use(['laydate', 'layer', 'form', 'table'], function () {
+                var form = layui.form, $ = layui.jquery, table = layui.table;
+                var options = {
+                    id: 'idTest',
+                    url: '{:U("Tools/tableList")}',
+                    elem: '#table',
+                    cols: [[
+                    {checkbox: true},
+                    {field: 'name', title: '表名', sort: true},
+                    {field: 'rows', title: '记录条数', sort: true},
+                    {field: 'data_length', title: '大小', sort: true},
+                    {field: 'create_time', title: '创建时间', sort: true},
+                    {title: '操作', templet: '#options'}
+                    ]],
+                    request: {
+                        pageName: 'p',
+                        limitName: 'p_num'
+                    },
+                    page: true,
+                    limits: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+                    limit: 10, //默认采用60
+                    initSort: {
+                        field: 'data_length' //排序字段，对应 cols 设定的各字段名
+                        , type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+                    },
+                    skin: 'line', //行边框风格
+                    even: true, //开启隔行背景
+                    size: 'sm', //小尺寸的表格
+                };
+
+                table.render(options);
+                //监听工具条
+                table.on('tool(abc)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                    var data = obj.data; //获得当前行数据
+                    var layEvent = obj.event; //获得 lay-event 对应的值
+                    var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+                    if(layEvent === 'optimize') {
+                        var url = "{:U('Tools/optimize')}";
+                        var tableName = data.name;
+                        var res = handle(tableName, url);
+                        } else if(layEvent === 'repair') {
+                        var url = "{:U('Tools/repair')}";
+                        var tableName = data.name;
+                        var res = handle(tableName, url);
+                    }
+                });
+                $('.handle').on('click',function(){
+                    var url = $(this).data('url');
+                    var checkStatus = table.checkStatus('idTest'),data = checkStatus.data;
+                    var tableName = '';
+                    for(var i=0; i<data.length; i++) {
+                        tableName+=data[i].name;
+                        if(i+1 < data.length) {
+                            tableName += ',';
+                        }
+                    }
+                    if(tableName == '') {
+                        return layer.msg('请选择要操作的数据表!');
+                    }
+                    handle(tableName, url);
+                });
+                function handle(tableName, url) {
+                    var loadeAdd = layer.msg('操作中...', {
+                        icon: 16
+                        ,shade: 0.01,
+                        time:0
+                    });
+                    return $.post(url, {tableName:tableName}, function (data) {
+                        layer.close(loadeAdd);
+                        if (data.status == 0) {
+                            layer.msg(data.msg, {icon: 5});
+                            return false;
+                            } else if (data.status == 1) {
+                            table.reload('idTest');
+                            layer.msg(data.msg, {icon: 6, time: 2000});
+                            return true;
+                        }
+                    });
+                }
+            });
+        </script>
+        <script type="text/html" id="options">
+            <a data="{{d.file_name}}" class="layui-btn layui-btn-xs layui-btn-normal" lay-event='optimize'>
+                <i class="layui-icon">&#xe609;</i>优化
+            </a>
+            <a data="{{d.file_name}}" class="layui-btn layui-btn-xs" lay-event="repair">
+                <i class="layui-icon">&#xe631;</i>修复
+            </a>
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,265 @@
+/*头部开始*/
+.puBHead{
+	width: 100%;
+	min-width: 1200px;
+	height:80px;
+	background:#000000;
+}
+.puBHeadZi {
+	width:1200px;
+	margin:0 auto;
+	height:100%;
+}
+.puBHeadZi .HeadZiLeift {
+	width:49%;
+	height:100%;
+	float:left;
+}
+.HeadZiLeift .logoBox {
+	margin-left:10px;
+	margin-top:15px;
+	height:60px;
+	overflow: hidden;
+}
+.HeadZiLeift .logoBox img {
+	height:100%;
+}
+
+.puBHeadZi .HeadZiRight {
+	width:49%;
+	height:100%;
+	float:right;
+	text-align: right;
+	color:#dddddd;
+}
+.HeadZiRight_1 {
+	padding:15px 10px 10px 5px;
+}
+.HeadZiRight_1 a {
+	color:#dddddd;
+	margin-left:8px;
+}
+.HeadZiRight_1 a:hover {
+	border-bottom:1px solid #fff;
+}
+.HeadZiRight_2 {
+	padding-right:10px;
+}
+
+.HeadZiRight_2 .linkA {
+	margin-left:5px;
+	color:#DD5044;
+	border-bottom:2px solid #DD5044;
+}
+/*头部结束*/
+body {
+	background: #F5F6F8;
+	color:#666666;
+	font-size:14px;
+}
+.regiBox {
+	/*width:1200px;*/
+	margin:0 auto;
+}
+.regiTitleF {
+	padding: 10px;
+}
+.regiTitleF .regiTitleLeft {
+	float:left;
+	font-size:16px;
+	color:#555555;
+}
+.regiTitleF .regiTitleLeft i {
+	font-weight: 800;
+}
+.regiTitleF .regiTiteRight {
+	float:right;
+}
+.regiTiteRight .linkA {
+	margin-left:5px;
+	color:#4D90E5;
+}
+.regiInputBox {
+	padding:10px;
+	background: #fff;
+}
+.dengLuXXBox {
+	
+}
+
+.dengLuTitle {
+	font-size:18px;
+	text-align: center;
+	padding-top:30px;
+}
+.dengLuTitle i {
+	font-weight: 700;
+	font-size:20px;
+	color:#888888;
+}
+
+.hengXianF {
+	border-top: 2px solid #dddddd;
+	margin-top:15px;
+	text-align: center;
+}
+.hengXianF .hengXian {
+	display: inline-block;
+	width:100px;
+	border-top: 3px solid #4D90E5;
+	position: relative;
+	top:-12px;
+}
+.formBox {
+	max-width:800px;
+	margin: 0 auto;
+	margin-top:10px;
+}
+
+.formBox .layui-form-label {
+	width:100px;
+	padding:9px 10px 9px 1px;
+}
+.formBox .formInputBlockF {
+	margin-left:115px;
+	position: relative;
+}
+.formInputBlockF .layui-input {
+	padding-right:35px;
+}
+.formBox .formInputBlockF .ii {
+	position: absolute;
+	right:5px;
+	top:8px;
+	font-size:20px;
+	color:#999999;
+}
+.tiShiBoxF {
+	padding-left:20px;
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.tiShiBoxF .tiShi_1 {
+	display: inline-block;
+	padding: 0px 5px;
+	position: relative;
+	line-height: 36px;
+	color:#666666;
+	font-size:12px;
+	background: #F5F6F8;
+	border: 1px solid #dddddd;
+	max-width:95%;
+
+}
+.tiShiBoxF .tiShi_1 .error {
+	color:#CC0000;
+
+}
+.tiShiBoxF .tiShi_1 .success {
+	color:#03BF62;
+
+}
+
+.tiShi_1 .span_ii {
+	position: absolute;
+	top:10px;
+	left:-15px;
+	display: inline-block;
+	height:16px;
+	line-height:16px;
+	width:15px;
+	background: #fff;
+}
+.tiShi_1 .span_ii .i {
+	font-size:20px;
+	color:#dddddd;
+}
+.tiShi_2 {
+	padding-top:3px;
+	color:#FF0000;
+	font-size:12px;
+}
+
+
+
+
+/*安全设置---->手机*/
+.securTitle {
+	padding: 10px;
+	border-bottom: 2px solid #dddddd;
+	font-size:16px;
+}
+.securTitle .i {
+	font-size:20px;
+}
+.securInputBox {
+	background: #fff;
+}
+.securLiuCh {
+	padding-bottom: 5px;
+}
+.securLiuCh .liuchen_1 {
+	height: 38px;
+	line-height: 38px;
+	background: #CBDEF7;
+	text-align: center;
+	color: #FF890F;
+	font-size:16px;
+	position: relative;
+}
+.liuchen_1 .zhiXiangBox {
+	height:50px;
+	width:50px;
+	line-height: 50px;
+	position: absolute;
+	right:-16px;
+	top:-3px;
+	z-index: 10;
+}
+.liuchen_1 .zhiXiangBox .jian {
+	font-size:65px;
+	color: #fff;
+}
+.formBox .formInputBlockF .yanZhInput {
+	padding-right:5px;
+	width:170px;
+}
+.formBox .formInputBlockF .yanZhSpan {
+	display: inline-block;
+	border: 1px solid #DDDDDD;
+	line-height: 36px;
+	padding: 0px 15px;
+	position: absolute;
+	right:0px;
+	top:0px;
+	color:#555555;
+	cursor: pointer;
+	font-size: 14px;
+	border-radius: 2px;
+	background: #E3E3E3;
+}
+
+
+
+
+
+
+
+
+
+/*安全设置---->邮箱*/
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,67 @@
+<table class="layui-table layui-form">
+    <thead>
+    <tr>
+        <!--<th><input type="checkbox" lay-filter="allChoose"lay-skin="primary" /></th>-->
+        <th><a href="javascript:sort('id');" class="active">ID</a></th>
+        <th>操作ip</th>
+        <th>时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <if condition="count($info) eq 0">
+        <tr align="center">
+            <td colspan="20">暂无数据</td>
+        </tr>
+        <else/>
+        <foreach name="info" key="k" item="v">
+            <tr>
+                <!--<td><input type="checkbox" name="selected[]" value="{$v['log_id']}" lay-skin="primary"></td>-->
+                <td>{$v['id']+1}</td>
+                <td>{$v['ip']}</td>
+                <td>{$v['time']}</td>
+                <td>
+                    <a data="{$v['id']}" class="layui-btn layui-btn-danger layui-btn-mini del">
+                        <i class="layui-icon">&#xe640;</i>删除
+                    </a>
+                </td>
+            </tr>
+        </foreach>
+    </if>
+    </tbody>
+</table>
+<button type="button" class="layui-btn layui-btn-danger del" style="float:left;margin:20px 0px;"><i class="layui-icon">&#xe640;</i>删除</button>
+{$page}
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form();
+        form.render('checkbox'); //刷新checkbox渲染
+        // 全选
+        form.on('checkbox(allChoose)', function(data){
+            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+            child.each(function(index, item){
+                item.checked = data.elem.checked;
+            });
+            form.render('checkbox');
+        });
+    });
+    $(".pagination a").click(function () {
+        var page = $(this).data('p');
+        ajax_get_table('search-form2', page);
+    });
+    $('.del').click(function(){
+        var url = "{:U('Assist/delIpLog')}";
+        var id = $(this).attr('data');
+        layer.confirm('确定删除吗?', {icon: 3,skin: 'layer-ext-moon',btn: ['确认', '取消']}, function() {
+            $.post(url, {id: id}, function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                } else if (data.status == 1) {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        ajax_get_table('search-form2', 1);
+                    });
+                }
+            });
+        });
+    });
+</script>

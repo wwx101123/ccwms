@@ -1,0 +1,60 @@
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员账号</label>
+        <div class="layui-form-mid layui-word-aux">{$info['account']}</div>
+    </div>
+    <div class='layui-form-item'>
+        <label class='layui-form-label'>左区总业绩</label>
+        <div class='layui-input-block' style='width:90%;'>
+            <input type="text" name='leftTotal' value="{$info['left_total']}" placeholder='左区总业绩' class='layui-input' />
+        </div>
+    </div>
+    <div class='layui-form-item'>
+        <label class='layui-form-label'>左区新增业绩</label>
+        <div class='layui-input-block' style='width:90%;'>
+            <input type="text" name='leftNew' value="{$info['left_new']}" placeholder='左区新增业绩' class='layui-input' />
+        </div>
+    </div>
+    <div class='layui-form-item'>
+        <label class='layui-form-label'>右区总业绩</label>
+        <div class='layui-input-block' style='width:90%;'>
+            <input type="text" name='rightTotal' value="{$info['right_total']}" placeholder='右区总业绩' class='layui-input' />
+        </div>
+    </div>
+    <div class='layui-form-item'>
+        <label class='layui-form-label'>右区新增业绩</label>
+        <div class='layui-input-block' style='width:90%;'>
+            <input type="text" name='rightNew' value="{$info['right_new']}" placeholder='右区新增业绩' class='layui-input' />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="hidden" name="id" value="{$info['user_id']}" />
+            <button class="layui-btn" lay-submit lay-filter="siteHandle">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form(),$ = layui.jquery;
+        //监听提交
+        form.on('submit(siteHandle)', function (data) {
+            var siteInfo = data.field;
+            var url = "{:U()}";
+            $.post(url, siteInfo, function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                } else if(data.status == 1) {
+                	layer.closeAll();
+                    var page = $('.pagination .active').find('a').data('p');
+                    ajax_get_table('search-form2', page);
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                    });
+                }
+            });
+            return false; //阻止表单跳转
+        });
+    });
+</script>

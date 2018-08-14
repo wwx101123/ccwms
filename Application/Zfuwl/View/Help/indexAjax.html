@@ -1,0 +1,99 @@
+<table class="layui-table layui-form">
+    <thead>
+    <tr>
+        <th>分类属性</th>
+        <th>标题</th>
+        <th>内容</th>
+        <th>显示</th>
+        <th>排序</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <if condition="count($list) eq 0">
+        <tr align="center">
+            <td colspan="20">暂无数据</td>
+        </tr>
+    <else/>
+        <foreach name="list" key="k" item="v">
+            <tr>
+                <td>{$helpCatInfo[$v[cat_id]]}</td>
+                <td>{$v[title]}</td>
+                <td>
+                    <a href="javaScript:void(0);" class="checkContent">点击查看</a>
+                    <div style="display:none;">
+                        {$v['content']|htmlspecialchars_decode}
+                    </div>
+                </td>
+                <td><input name="close" lay-skin="switch" autocomplete='off' lay-filter='switchStatu' value='{$v["statu"]}' data-value="{$v['id']}" lay-text="开启|关闭" <if condition="$v['statu'] eq 1">checked</if> type="checkbox"></td>
+                 <td>
+                    <div class="layui-input-inline">
+                        <input type="text" name="sort" value="{$v['sort']}" onchange="updateSort('about', 'id', '{$v.id}', 'sort', this)" onkeyup="this.value = this.value.replace(/[^\d]/g, '')" onpaste="this.value=this.value.replace(/[^\d]/g,'')" class="layui-input" >
+                    </div>
+                </td>
+                <td>
+                    <a href="{:U('Help/edit')}?id={$v['id']}" class="layui-btn layui-btn-mini layui-btn-normal edit"><i class="layui-icon">&#xe642;</i>编辑({$v['id']})</a>
+                    <a data="{$v['id']}" class="layui-btn layui-btn-danger layui-btn-mini del"><i class="layui-icon">&#xe640;</i>删除({$v['id']})</a>
+                </td>
+            </tr>
+        </foreach>
+    </if>
+    </tbody>
+</table>
+{$page}
+<script>
+    layui.use(['form'], function () {
+        var laypage = layui.laypage, $ = layui.jquery,form=layui.form;
+        form.render('checkbox'); 
+        form.on('switch(switchStatu)', function(data){
+            var obj = data.elem;
+            var val = data.value;
+            var id = $(obj).data('value');
+            console.log(id);
+            val = (val == 1 ? 2 : 1);
+            var url = "{:U('Help/saveStatu')}";
+            $.post(url, {val:val,id:id}, function(res) {
+                if (res.status == 0) {
+                    layer.msg(res.msg, {icon: 5});
+                    return;
+                } else {
+                    layer.msg(res.msg, {icon: 6, time: 2000, shade:0.01}, function() {
+                        location.reload();
+                    });
+                }
+            });
+        });
+    });
+    $('.checkContent').click(function(){
+        var obj = $(this);
+        top.layer.open({
+            type: 1,
+            title: false,
+            area:['80%', '80%'],
+            closeBtn: true,
+            shade: 0.8,
+            id: 'checkImg' //设定一个id，防止重复弹出
+            ,content: $(obj).next().html()
+        });
+    });
+    $('.del').click(function(){
+        var url = "{:U('Help/del')}";
+        var id = $(this).attr('data');
+        layer.confirm('确定删除吗?', {icon: 3,skin: 'layer-ext-moon',btn: ['确认', '取消']}, function() {
+            $.post(url, {id: id}, function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                } else if (data.status == 1) {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        var page = $('.pagination .active').find('a').data('p');
+                        ajax_get_table('search-form2', page);
+                    });
+                }
+            });
+        });
+    });
+    $(".pagination a").click(function () {
+        var page = $(this).data('p');
+        ajax_get_table('search-form2', page);
+    });
+</script>

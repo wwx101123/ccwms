@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>积分兑换</title>
+    <include file="Public/top" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/xiaoxi.css" />
+</head>
+<body>
+        <div class="publicBox">
+            <!--左侧导航-->
+            <include file="Public/nav"/>
+            <div class="publicBoxzi">
+                <!--公共头部-->
+                <include file="Public/header"/>
+                <!--公共盒子-->
+                <div class="publicHeiz">
+
+                    <!--公告-->
+                    <div class="communalBox">
+                        <div class="communalTl">
+                            <span class="span_1">{:moneyList($info['mid'])}兑换{:blockList($info['bid_a'])}</span>
+                        </div>
+                        <div class="communalTx">
+                            <div class="handleBox">
+                                <form class="contentForm_2">
+                                    <div class="handleTx">
+                                        <div class="handleTl"></div>
+                                        <input type="text" name="" autocomplete="off" readonly value="" class="mui-input-clear handleInput" placeholder="{:moneyList($info['mid'])} 余额：{:usersMoney($user['user_id'], $info['mid'], 1)}">
+                                    </div>
+                                    <input type="hidden" name="mid" value="{$info['mid']}">
+                                    <div class="handleTx">
+                                        <div class="handleTl">兑换</div>
+                                        <input type="text" name="" autocomplete="off" readonly value="" class="mui-input-clear handleInput" placeholder="{:blockList($info['bid_a'])} 余额: {:userBlock($user['user_id'], $info['bid_a'], 1)}">
+                                    </div>
+                                    <input type="hidden" name="bid" value="{$info['bid_a']}">
+
+                                    <div class="handleTx">
+                                        <div class="handleTl">当前兑换率</div>
+                                        <input type="text" name="num_c" autocomplete="off" readonly value="{:blockList($info['bid_a'], 2)}" class="mui-input-clear handleInput" placeholder="">
+                                    </div>
+                                    <div class="handleTx">
+                                        <div class="handleTl">输入兑换个数</div>
+                                        <input type="text" name="money" autocomplete="off" id="Daccount" value="" class="mui-input-clear handleInput" placeholder="请输入兑换个数">
+                                    </div>
+                                    <div class="handleTx">
+                                        <div class="handleTl">扣除{:moneyList($info['mid'])}数量</div>
+                                        <input type="text" name="fenNum" autocomplete="off" value="" id="Dmobile" readonly class="mui-input-clear handleInput" placeholder="扣除{:moneyList($info['mid'])}数量">
+                                    </div>
+                                    <div class="handleTx">
+                                        <div class="handleTl">交易密码</div>
+                                        <input type="password" name="secpwd" autocomplete="off" class="mui-input-clear handleInput" placeholder="交易密码(注意：不是登录密码)">
+                                    </div>
+                                    <div class="gonggButtonBox">
+                                        <button type="button" class="gonggButton">提交</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<include file="Public/footer"/>
+<script>
+    var mask=mui.createMask();
+    mui('body').on('tap', '.gonggButton', function() {
+        var obj = $(this);
+        $(obj).attr('disabled', 'true');
+        var data = $('.contentForm_2').serialize();
+        console.log(data);
+        var url = "{:U('Block/transfrom')}";
+        mui.showLoading("提交中","div");
+        mask.show();//显示遮罩层
+
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: data,
+            dataType: 'json',
+            success: function (res) {
+                mask.close();//关闭遮罩层
+                mui.hideLoading();
+                if (res.status == 1) {
+                    mui.toast(res.msg, {duration: '2000', type: 'div'});
+                    setTimeout(function () {
+                        mui.openWindow({
+                            id: res.url,
+                            url: res.url
+                        });
+                    }, 2000);
+                } else {
+                    $(obj).removeAttr('disabled');
+                    return mui.toast(res.msg, {duration: '2000', type: 'div'});
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                return mui.toast('网络失败，请刷新页面后重试', {duration: '2000', type: 'div'});
+            }
+        });
+    });
+
+    var id = {$info['bid_a']};
+    $('#Daccount').blur(function () {
+        var fenNum = $('#Daccount').val();
+        console.log(fenNum);
+
+        if (fenNum == '') {
+            return mui.toast('请输入兑换数量');
+        }
+
+        var url = "{:U('Block/fenNum')}";
+        mui.showLoading("计算中","div");
+        mask.show();//显示遮罩层
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: {fenNum:fenNum, id:id},
+            dataType: 'json',
+            success: function (res) {
+                mask.close();//关闭遮罩层
+                mui.hideLoading();
+                if (res.status == 1) {
+                    $('#Dmobile').val(res.msg);
+                } else {
+                    return mui.toast(res.msg, {duration: '2000', type: 'div'});
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                return mui.toast('网络失败，请刷新页面后重试', {duration: '2000', type: 'div'});
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>

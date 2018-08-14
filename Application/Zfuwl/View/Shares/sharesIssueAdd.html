@@ -1,0 +1,64 @@
+<form class="layui-form">
+    <br />
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-inline">
+            <select name="shares_id" lay-search="">
+                <!--<option value="">&#45;&#45;请选择&#45;&#45;</option>-->
+                <foreach name="sharesList" item="v" key="k">
+                    <option value="{$k}">{$v}</option>
+                </foreach>
+            </select>
+        </div>
+    </div>
+   <div class="layui-form-item">
+        <label class="layui-form-label">发行价格</label>
+        <div class="layui-input-inline" style="width:80%;">
+            <input type="text" name="issuePrice"  lay-verify="required" placeholder="发行价格" autocomplete="off" class="layui-input"onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">发行数量</label>
+        <div class="layui-input-inline" style="width:80%;">
+            <input type="text" name="issueNum"  lay-verify="required" placeholder="发行数量" autocomplete="off" class="layui-input"onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-inline" style="width:80%;">
+            <input type="text" name="note"  lay-verify="required" placeholder="请输入描述" autocomplete="off" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="BankHandle">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+    <div style="clear:both;"></div>
+</form>
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form, $ = layui.jquery;
+        form.render('select'); //刷新select选择框渲染
+        form.render('radio'); //刷新select选择框渲染
+        form.on('submit(BankHandle)', function (data) {
+            var getMoreLoad = layer.msg('发行交易中...',{shade:0.3, icon:16, time:0});
+            var siteInfo = data.field;
+            var url = "{:U()}";
+            $.post(url, siteInfo, function (data) {
+                layer.close(getMoreLoad);
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                } else if (data.status == 1) {
+                    layer.closeAll();
+                    var page = $('.pagination .active').find('a').data('p');
+                    ajax_get_table('search-form2', page);
+                    layer.msg(data.msg, {icon: 6, time: 2000});
+                }
+            });
+            return false; //阻止表单跳转
+        });
+    });
+</script>

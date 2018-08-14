@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <div class="layui-field-box" style='overflow:scorll;'>
+            <!-- <blockquote class="layui-elem-quote">
+                <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>  {$userInfo['user_name']} 资料管理</button>
+                <button class="layui-btn" onclick="location.reload();" style="float:right;"><i class="layui-icon">&#x1002;</i> 刷新 </button>
+                <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+                <div style="clear:both;"></div>
+            </blockquote> -->
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">登录用户名</label>
+                            <div class="layui-input-block"> <input type="text" name="user_name" value="{$userInfo['user_name']}" placeholder="登录用户名"  autocomplete="off" class="layui-input" lay-verify="required"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">联系手机号</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="mobile" value="{$userInfo['mobile']}" placeholder="联系手机号" autocomplete="off" class="layui-input" lay-verify="required" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">联系邮箱号</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="email" value="{$userInfo['email']}" placeholder="联系邮箱号" autocomplete="off" class="layui-input" lay-verify="required" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">登录密码</label>
+                        <div class="layui-input-inline">
+                            <input type="password" name="password"  placeholder="登录密码" autocomplete="off" class="layui-input" <if condition="$userInfo.password eq ''">lay-verify="required"</if>/>
+                        </div>
+                        <sapn class="layui-form-mid layui-word-aux"><b style="color:red;">为空 表示不修改当前登录密码</b></sapn>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="id" value="{$userInfo.admin_id}" />
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <include file="Public/footer" />
+    <script>
+            layui.use(['layer', 'form', 'upload', 'laydate','admin'], function () {
+                var form = layui.form, $ = layui.jquery,admin=parent.layui.admin;
+                form.on('submit(articleHandle)', function (data) {
+                    var ArticleInfo = data.field;
+                    var url = "{:U('')}";
+                    $.post(url, ArticleInfo, function (data) {
+                        if (data.status != 1) {
+                            layer.msg(data.msg, {icon: 5});
+                        } else {
+                            layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                                admin.events.closeThisTabs();
+                            });
+                        }
+                    });
+                    return false;//阻止表单跳转
+                });
+
+            });
+    </script>
+</body>
+</html>

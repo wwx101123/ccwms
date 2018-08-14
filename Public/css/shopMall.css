@@ -1,0 +1,135 @@
+.shopMallBox {
+    color:#666666;
+}
+
+.placeBox {
+    padding:10px;
+    background: #E8EBEC;
+    border-bottom:1px solid #dddddd;
+}
+.placeBox .linkA {
+    color:#444444;
+}
+.placeBox .linkA:hover {
+    color:#158BCB;
+}
+
+.classifyBox {
+
+}
+.classifyBox .classifyUl_1 {
+     border-bottom:1px solid #dddddd;
+ }
+.classifyBox .classifyUl_1 li {
+    height:40px;
+    line-height: 40px;
+    float:left;
+    margin-right:15px;
+}
+.classifyBox .classifyUl_1 .classifyLiTitle {
+    min-width:120px;
+    padding-left:10px;
+    background: #E8E8E8;
+}
+.classifyBox .classifyUl_1 li .linkA:hover {
+    color:#219BD8;
+}
+/*检索*/
+.retrievalBox {
+    border-bottom:1px solid #dddddd;
+}
+.priceJG {
+    float:left;
+    height:40px;
+}
+.priceJG .priceLinkA {
+   display: inline-block;
+    height:100%;
+    line-height: 40px;
+    padding:0px 10px;
+    border-right:1px solid #dddddd;
+}
+.priceJG .priceLinkA .zhiXia {
+    display: inline-block;
+}
+.priceJG .priceLinkA .zhiShang {
+    display: inline-block;
+}
+.retrievalCZ {
+    float:left;
+    padding-top:5px;
+    margin-left:20px;
+    line-height: 30px;
+}
+.retrievalCZ .span_1 {
+    display: inline-block;
+}
+.retrievalCZ .span_1 input {
+    width:100px;
+    padding-left:10px;
+    color:#666666;
+}
+.retrievalCZ .span_2 {
+    margin-left:20px;
+}
+.retrievalCZ .span_2 .qdAnNiu {
+    padding:0px;
+    width:70px;
+}
+
+
+/*商品排列开始*/
+.goodsArranged .arrangedLi {
+    width:25%;
+    float:left;
+}
+.arrangedLi .splbF {
+    padding: 10px;
+}
+.arrangedLi .splbF .splbBox {
+    height:330px;
+    border:1px solid #dddddd;
+}
+.splbF .splbBox .imgBox {
+    height:240px;
+    width:95%;
+    display:block;
+    margin:10px auto;
+    overflow: hidden;
+    text-align: center;
+}
+.splbF .splbBox .imgBox img {
+    width: 100%;
+}
+.splbF .splbBox .priceF {
+    height:20px;
+    padding:0px 10px;
+    font-size:18px;
+    font-weight: 600;
+    color:#FF5722;
+}
+.splbBox .mingChenNM {
+    margin-top:10px;
+    padding:0px 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.splbBox .mingChenNM .linkA {
+   color:#666666;
+}
+.splbBox .mingChenNM .linkA:hover {
+    color:#CC0000;
+}
+
+.pagination {
+    padding:0px 10px;
+}
+
+/*商品排列结束*/
+
+
+
+
+
+

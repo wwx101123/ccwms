@@ -1,0 +1,200 @@
+body{
+	background: #E8EBEC;
+	color: #666666;
+	font-size: 14px;
+}
+.backstageBox {
+	padding:10px;
+}
+/*上部分*/
+.backstageTop {
+
+}
+.backstageTop .topZIjiF {
+	padding: 10px;
+}
+.backstageTop .topZIjiF .topZIji {
+	overflow: hidden;
+	border-radius: 3px;
+	min-height:82px;
+	background: #fff;
+}
+.topZIji .topZIjiLeft {
+	width: 40%;
+	height: 100%;
+	float: left;
+	color: #fff;
+	text-align: center;
+	line-height: 82px;
+	background: #4689EA;
+}
+.topZIji .topZIjiLeft_1 {
+	background: #4689EA;
+}
+.topZIji .topZIjiLeft_2 {
+	background: #FF6C60;
+}
+.topZIji .topZIjiLeft_3 {
+	background: #009688;
+}
+.topZIji .topZIjiLeft_4 {
+	background: #5FB878;
+}
+.topZIji .topZIjiLeft_5 {
+	background: #FF5722;
+}
+.topZIji .topZIjiLeft_6 {
+	background: #F7B824;
+}
+.topZIjiF .topZIji .topZIjiLeft i {
+	font-size: 30px;
+}
+
+.topZIjiF .topZIji .topZIjiRight {
+	display: inline-block;
+	width: 60%;
+	height: 100%;
+	float: left;
+	text-align: center;
+	padding-top:20px;
+}
+.topZIji .topZIjiRight .p_1 {
+	font-size: 18px;
+	font-weight: 600;
+	color: #444444;
+	word-break: break-all;
+}
+.topZIji .topZIjiRight .p_2 {
+	color: #444444;
+	padding-top: 2px;
+	word-break: break-all;
+}
+
+/*下部分开始*/
+.backstageBottom {
+	
+}
+.backstageBottom .bottomZIjiF {
+	padding: 10px;
+}
+
+/*左下*/
+.bottomZIjiLeft_1 {
+	border-radius: 3px;
+	background: #fff;
+	margin-bottom:20px;
+}
+.bottomZIjiLeft_1 .titleF {
+	padding: 10px;
+	border-bottom: 1px solid #dddddd;
+}
+.titleF .leftTitle {
+	float: left;
+	padding: 3px 0px;
+}
+.titleF .rightTitle {
+	float: right;
+}
+.titleF .rightTitle .linkAANN {
+	display: inline-block;
+	padding: 3px 10px;
+}
+.titleF .rightTitle .linkAANN i {
+	font-size: 18px;
+	color: #666666;
+}
+.titleF .rightTitle .linkAANNBG {
+	background: #4089F5;
+	color: #fff;
+	border-radius: 2px;
+} 
+.ZIjiContentBox {
+	padding: 10px;
+	/*overflow: auto;*/
+}
+/*.ZIjiContentBox table {
+	min-width: 550px;
+}*/
+.ZIjiContentBox th {
+	font-weight: 600;
+	padding: 10px 5px 10px 10px;
+}
+.ZIjiContentBox td {
+	padding: 10px 5px 10px 10px;
+}
+
+.dialOutBox {
+}
+
+.dialOutBox .sumdialOut {
+	padding: 5px;
+	border-bottom:1px dashed #dddddd ;
+}
+.dialOutBox .sumdialOut .span_1 {
+	font-size: 34px;
+	font-weight: 600;
+	color: #444444;
+}
+
+.dialOutBox .notesBox {
+	padding: 10px 0px;
+	font-weight: 600;
+	color: #1AB394;
+}
+.dialOutBox .geXianOut {
+	border-bottom:1px solid #dddddd;
+}
+.formulateBox .p_2 {
+	padding: 10px 0px;
+	font-weight: 600;
+}
+
+
+
+
+
+
+/*下部分结束*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file='Public/top' />
+</head>
+<body>
+<div class="admin-main">
+    <fieldset class="layui-elem-field">
+        <div class="test-table-reload-btn" style="margin-top: 10px;margin-left:15px;">
+            <form  class='layui-form' id="search-form2">
+                <div class="layui-inline">
+                    <input type="text" name="parent_id" value="{$_GET['parent_id']}" readonly placeholder="地址编号" class="layui-input" />
+                </div>
+                <div class="layui-inline">
+                    <input type="text" name="name_cn" value="{$info[name_cn]}" placeholder="国家名称" class="layui-input" />
+                </div>
+                <input type="hidden" name="order_by" value="id">
+                <input type="hidden" name="sort" value="desc">
+                <button class="layui-btn" type="button" onclick="ajax_get_table('search-form2', 1);">搜索</button>
+                <if condition="$_GET['parent_id'] gt 0">
+                    <button  type="button" class="layui-btn layui-btn-danger" onclick="history.go(-1);"><i class="layui-icon">&#xe603;</i> 返回</button>
+                    <a href="{:U('Website/regionAdd',array('parent_id'=>$info['id']))}">
+                        <button type="button" class="layui-btn layui-btn-normal">新增地址</button>
+                    </a>
+                <else />
+                    <a href="{:U('Website/regionAdd')}">
+                        <button type="button" class="layui-btn layui-btn-normal">新增省份</button>
+                    </a>
+                </if>
+                <button type="button" class="layui-btn layui-btn-normal createDataCity">生成前台地址</button>
+                <div style="clear: both;"></div>
+            </form>
+        </div>
+        <div class="layui-field-box"><div id="ajax_return"></div></div>
+    </fieldset>
+</div>
+<include file="Public/footer" />
+<script>
+    layui.use(['laydate', 'layer', 'form'], function () {
+        var $ = layui.jquery;
+        $(document).ready(function(){
+            ajax_get_table('search-form2',1);
+        });
+    });
+    function ajax_get_table(tab, page){
+        var loadVal = layer.load(3);
+        cur_page = page;
+        $.ajax({
+            type: "POST",
+            url: "{:U('Website/regionIndex')}?p=" + page,
+            data: $('#' + tab).serialize(),
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                    return;
+                }
+                layer.close(loadVal);
+                $("#ajax_return").html(data);
+            }
+        });
+    }
+    $(document).on('click', '.createDataCity', function(){
+        layer.confirm('是否确认重新生成?', {icon:3}, function(){
+            var loadAdd = layer.msg('生成中', {icon:16,shade:0.1,time:0});
+            $.ajax({
+                url:"{:U('Api/createDataCity')}",
+                type:'post',
+                success:function(data) {
+                    layer.close(loadAdd);
+                    if(data.status == 1) {
+                        layer.msg(data.msg, {icon:6});
+                    } else {
+                        layer.msg(data.msg, {icon:5});
+                    }
+                }
+            });
+        });
+    });
+    function sort(field){
+        $("input[name='order_by']").val(field);
+        var v = $("input[name='sort']").val() == 'desc' ? 'asc' : 'desc';
+        $("input[name='sort']").val(v);
+        ajax_get_table('search-form2', cur_page);
+    }
+</script>
+</body>
+
+</html>

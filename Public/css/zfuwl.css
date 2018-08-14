@@ -1,0 +1,41 @@
+@charset "UTF-8";
+/*页眉头部开始*/
+.zf_top{padding-top:10px;}
+.zf_top span a, #Display a {display: inline-block;height: 40px;line-height: 40px;margin-left: 30px; font-size: 0.875em;color:#fff;}
+.zf_top button {vertical-align: middle; margin-left: 35px;width: 40px;height: 40px;}
+.zf_top button:hover {background: #fd8;}
+.zf_top button img {height: 14px;margin: 0 auto;}
+@media (max-width:440px) {
+    .zf_top span {margin-left: 0;}
+    .zf_top span a {margin-left: 0;margin-right: 30px;}
+    .zf_top button {margin-left: 0;}
+}
+.zf_top a:hover{color:#FF0000;}
+@media (min-width:901px) {
+    a.zoombtn {display: none; }
+    #Display {position: static;width: 100% !important;height: 100%;text-align: right; }
+    #Display a {margin-left: 30px;height: 40px;line-height: 40px;}
+    .Film {display: none;}
+}
+.Film {position: fixed;z-index: 9999;background: rgba(0,0,0,0.3);bottom: 0; right: 0;left: 0;}
+.Cover .Film {top: 0;}
+@media (max-width:900px) {
+    .zoombtn {display: block;position: relative; z-index: 99999;width: 40px;height: 40px;font-size: 0em;line-height: 0em; float: right; background: url(../images/zoom.png) no-repeat center center;background-size: 50px 35px;}
+    .Cover .zoombtn {
+        background: url(../images/false.png) no-repeat center center;
+        margin-right: 205px;
+        background-size: 30px 30px;
+    }
+    #Display { width: 0;height: 100%;background: #222222; position: fixed; top: 0; right: 0;z-index: 99999;overflow: auto !important;}
+    #Display a {display: block; width: 100%;height: 44px;line-height: 44px; margin-left: 0;font-size: 1.0em;text-align: center; border-bottom: solid #ccc 1px;}
+}
+/*页眉头部结束*/
+
+/*加*/
+.layui-elem-quote{
+    min-width:800px;
+}
+.layui-elem-field{
+    min-width:800px;
+}
+

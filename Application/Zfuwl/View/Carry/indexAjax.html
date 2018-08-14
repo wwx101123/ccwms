@@ -1,0 +1,100 @@
+<table class="layui-table layui-form">
+    <thead>
+        <tr>
+            <th>钱包名称</th>
+            <!--<th>会员等级</th>-->
+            <th>提现参数</th>
+            <th>提现规则</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+    <if condition="count($list) eq 0">
+        <tr align="center">
+            <td colspan="20">暂无数据</td>
+        </tr>
+        <else/>
+        <foreach name="list" key="k" item="v">
+            <tr>
+                <td>{$moneyCarryInfo[$v[mid]]}</td>
+                <!--<td>{$levelInfo[$v[level_id]]}<if condition="$v.level_id elt 0"><b style="color:red;">不限级别</b></if></td>-->
+                <td><!--{$v.low} 起 {$v.bei} 的倍数-->
+                    <!--<if condition="$v.out gt 0">,<b style="color:red;">单笔最高 {$v.out}</b></if>-->
+                    <if condition="$v.day_total gt 0">单日最高 {$v.day_total}</if>
+                    <if condition="$v.fee gt 0">,手续费 {$v.fee} %</if>
+                    <if condition="$v.total_fee gt 0">,单笔最高手续费 {$v.total_fee}</if>
+                </td>
+                <td>
+                     <if condition="$v.is_tk eq 1">每{$moneyCarryTk[$v[is_tk]]}：{$v[add_time]} H  - {$v[out_time]} H </if>
+                     <if condition="$v.is_tk eq 2">每{$moneyCarryTk[$v[is_tk]]}星期：{$v.week_time} 的 {$v[add_time]} H  - {$v[out_time]} H  </if>
+                    <if condition="$v.is_tk eq 3">每{$moneyCarryTk[$v[is_tk]]}：{$v.month_time}  号的 {$v[add_time]} H  - {$v[out_time]} H </if>
+                </td>
+                <td><input name="close" lay-skin="switch" autocomplete='off' lay-filter='switchStatu' value='{$v["statu"]}' data-value="{$v['id']}" lay-text="开启|关闭" <if condition="$v['statu'] eq 1">checked</if> type="checkbox"></td>
+                <td>
+                    <a href="{:U('Carry/edit',array('id'=>$v['id']))}" class="layui-btn layui-btn-mini layui-btn-normal"><i class="layui-icon">&#xe642;</i>编辑({$v['id']})</a>
+                    <a data="{$v['id']}" class="layui-btn layui-btn-danger layui-btn-mini del"><i class="layui-icon">&#xe640;</i>删除({$v['id']})</a>
+                </td>
+            </tr>
+        </foreach>
+    </if>
+</tbody>
+</table>
+{$page}
+<script>
+    layui.use(['form'], function () {
+        var laypage = layui.laypage, $ = layui.jquery,form=layui.form;
+        form.render('checkbox'); //刷新checkbox渲染
+        form.on('switch(switchStatu)', function(data){
+            var obj = data.elem;
+            var val = data.value;
+            var id = $(obj).data('value');
+            console.log(id);
+            val = (val == 1 ? 2 : 1);
+            var url = "{:U('Carry/saveStatu')}";
+            $.post(url, {val:val,id:id}, function(res) {
+                if (res.status == 0) {
+                    layer.msg(res.msg, {icon: 5});
+                    return;
+                } else {
+                    var page = $('.pagination .active').find('a').data('p');
+                    ajax_get_table('search-form2', page);
+                    layer.msg(res.msg, {icon: 6, time: 2000});
+                }
+            });
+        });
+    });
+    $(".pagination a").click(function () {
+        var page = $(this).data('p');
+        ajax_get_table('search-form2', page);
+    });
+    $('.del').click(function () {
+        var url = "{:U('Carry/del')}";
+        var id = $(this).attr('data');
+        if (!id) {
+            var obj = $("input[name*='selected']");
+            if (obj.is(":checked")) {
+                var check_val = [];
+                for (var k in obj) {
+                    if (obj[k].checked)
+                        check_val.push(obj[k].value);
+                }
+                id = check_val;
+            }
+        }
+        if (!id) {
+            return false;
+        }
+        layer.confirm('确定删除吗?', {icon: 3, skin: 'layer-ext-moon', btn: ['确认', '取消']}, function () {
+            $.post(url, {id: id}, function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                } else if (data.status == 1) {
+                    var page = $('.pagination .active').find('a').data('p');
+                    ajax_get_table('search-form2', page);
+                    layer.msg(data.msg, {icon: 6, time: 2000});
+                }
+            });
+        });
+    });
+</script>

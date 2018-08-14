@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file='Public/top'/>
+    <!-- 编辑器start -->
+    <link rel="stylesheet" href="__PUBLIC__/plugins/editor/themes/default/default.css" />
+    <script charset="utf-8" src="__PUBLIC__/plugins/editor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="__PUBLIC__/plugins/editor/lang/zh_CN.js"></script>
+    <script>
+        KindEditor.ready(function (K) {
+            window.editor = K.create('#editor_id', {
+                cssPath: '__PUBLIC__/plugins/editor/plugins/code/prettify.css',
+                uploadJson: '__PUBLIC__/plugins/editor/php/upload_json.php',
+                fileManagerJson: '__PUBLIC__/plugins/editor/php/file_manager_json.php',
+                resizeType: 1,
+                allowPreviewEmoticons: true,
+                allowImageUpload: true,
+            });
+        });
+    </script>
+    <!-- 编辑器 end -->
+</head>
+<body>
+<div class="admin-main">
+    <fieldset class="layui-elem-field">
+        <div class="test-table-reload-btn" style="margin-top: 10px;margin-left:15px;">
+            <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>  帮助页面内容管理</button>
+            <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);"><i class="layui-icon">&#xe603;</i> 返回</button>
+            <div style="clear:both;"></div>
+        </div>
+        <div class="layui-field-box">
+            <form class="layui-form layui-form-pane" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分类属性</label>
+                    <div class="layui-input-inline">
+                        <select name="cat_id" lay-search="">
+                            <if condition="count($helpCatInfo) gt 1">
+                                <option value="0">--请选择分类--</option>
+                            </if>
+                            <foreach name="helpCatInfo" item='v' key='k'>
+                                <option value="{$k}" <if condition="$info.cat_id eq $k">selected</if>>{$v}</option>
+                            </foreach>
+                        </select>
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">必选</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" autocomplete="off" placeholder="请输入标题"  value="{$info['title']}" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">帮助关键词</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="keywords" autocomplete="off" placeholder="帮助关键词"  value="{$info['keywords']}" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">帮助内容</label>
+                    <div class="layui-input-block">
+                        <textarea name="content" placeholder="请输入内容" class="layui-textarea" id="editor_id" style='height:300px;'>{$info['content']|htmlspecialchars_decode}</textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">简要描述</label>
+                    <div class="layui-input-block">
+                        <textarea name="description" placeholder="请输入内容" class="layui-textarea" id="AboutEditor" >{$info['description']|htmlspecialchars_decode}</textarea>
+                    </div>
+                </div>
+                <input type="hidden" name="id" value="{$info['id']}">
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" id="submitBtn" lay-submit lay-filter="aboutHandle">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </fieldset>
+</div>
+<include file="Public/footer" />
+<script>
+    layui.use(['layer', 'form', 'upload', 'layedit'], function () {
+        var layedit = layui.layedit,form = layui.form,$ = layui.jquery;
+        layedit.set({
+            uploadImage: {
+                url: '{:U("Editor/imageUp")}?imgUrl=about' //接口url
+                ,type: 'post'
+            }
+        });
+        var AboutEditor = layedit.build('AboutEditor');
+        $('#submitBtn').click(function(){
+            layedit.sync(AboutEditor);
+            editor.sync();
+        });
+        form.on('submit(aboutHandle)', function (data) {
+            var AboutInfo = data.field;
+            var url = "{:U('')}";
+            $.post(url, AboutInfo, function (data) {
+                if (data.status != 1) {
+                    layer.msg(data.msg, {icon: 5});
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        history.go(-1);
+                    });
+                }
+            });
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

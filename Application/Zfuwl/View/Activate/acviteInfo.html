@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <div class="test-table-reload-btn" style="margin-top: 10px;margin-left:15px;">
+                <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i> 会员激活管理</button>
+                <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline"> <input type="text"value="{$userInfo['account']}" readonly="" placeholder="会员账号"  autocomplete="off" class="layui-input" lay-verify="required"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">注册时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" value="{$userInfo.reg_time|date='Y-m-d H:i:s', ###}"  readonly="" placeholder="英文名称" autocomplete="off" class="layui-input" lay-verify="required"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">当前等级</label>
+                            <div class="layui-input-inline">
+                                <input type="text" value="{$levelInfo[$userInfo[level]]}"  readonly="" placeholder="当前等级" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <fieldset class="layui-elem-field site-demo-button" >
+                        <legend><input type="radio" name="istype" value="2" title="空单激活会员"></legend>
+                        <div>不扣任何费用，激活时，有节点关系的的会员不产生任何奖金，空单会员主要是公司使用</div>
+                        <div style="color:red;"><b>激活后 与正式会员享受平等的资格 做市场，并赚取收益，可根据实际情况以收入的百分比补填报单金额，补填完报单金额后，补发节点关系的奖金</b></div>
+                    </fieldset>
+                    <fieldset class="layui-elem-field site-demo-button" >
+                        <legend><input type="radio" name="istype" value="3" title="回填单激活会员"></legend>
+                        <div>不扣任何费用，激活时，有节点关系的的会员不产生任何奖金，主要是为团队领导人使用，实现快速引进团队</div>
+                        <div style="color:red;"><b>激活后 与正式会员享受平等的资格做市场，并赚取收益，根据实际收入的百分比补填报单金额，补填完报单金额后，补发节点关系的奖金，并自动升级为实单会员</b></div>
+                    </fieldset> -->
+                    <fieldset class="layui-elem-field site-demo-button" >
+                        <!-- <legend><input type="radio" name="istype" value="1" title="实单激活会员"></legend> -->
+                        <div style="color:red;"><b>直接扣除会员自己的费用激活，管理员只是起到一个协助的作用</b></div>
+
+                        <fieldset class="layui-elem-field site-demo-button" >
+                            <legend><input type="radio" name="isavtivate" value="1" title="扣款方案一"></legend>
+                             <div>针对新会员，单一的扣款方式，此类较为常用</div>
+                            <div><b style="color:red;">{:moneyOne($config['regInfo_ma_id'])[name_cn]} {$config['regInfo_ma_per']}%</b> &nbsp;{$userlevel[amount]}</div>
+                        </fieldset>
+                       <!-- <fieldset class="layui-elem-field site-demo-button" >
+                            <legend><input type="radio" name="isavtivate" value="2" title="扣款方案二"></legend>
+                            <div>此方案主要是针对领导人，有收入的情况下，鼓励以报单的金额对冲自己的奖金，实现快速扩张团队</div>
+                            <div>
+                                <?php if ($config['regInfo_mb_id'] > 0 && $config['regInfo_mb_per'] > 0 ): ?>
+                                <b style="color:red;">{:moneyOne($config['regInfo_mb_id'])[name_cn]} {$config['regInfo_mb_per']}%</b> &nbsp;{$userlevel[amount] * $config['regInfo_mb_per'] /100}；
+                                <?php endif ?>
+                                <?php if ($config['regInfo_mc_id'] > 0 && $config['regInfo_mc_per'] > 0 ): ?>
+                                <b style="color:red;">{:moneyOne($config['regInfo_mc_id'])[name_cn]} {$config['regInfo_mc_per']}%</b> &nbsp;{$userlevel[amount] * $config['regInfo_mc_per'] /100}；
+                                <?php endif ?>
+                                &lt;!&ndash; <?php if ($config['regInfo_md_id'] > 0 && $config['regInfo_md_per'] > 0 ): ?>
+                                <b style="color:red;">{:moneyOne($config['regInfo_md_id'])[name_cn]} {$config['regInfo_md_per']}%</b> &nbsp;{$userlevel[amount] * $config['regInfo_md_per'] /100}
+                                <?php endif ?> &ndash;&gt;
+                            </div>
+                        </fieldset>-->
+                        <!-- <fieldset class="layui-elem-field site-demo-button" >
+                            <legend><input type="radio" name="isavtivate" value="3" title="扣款方案三"></legend>
+                            <div>主要针对用激活码 或者排单码类以的方式来激活，然后公司对外出售激活码或者排单码 多少费用一个此类的场景使用</div>
+                            <div><b style="color:red;">{:moneyOne($config['regInfo_me_id'])[name_cn]} </b> &nbsp;{$config['regInfo_me_per']} 个</div>
+                        </fieldset> -->
+                    </fieldset>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="user_id" value="{$userInfo['user_id']}" />
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+<include file="Public/footer" />
+<script>
+    layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+        var form = layui.form, $ = layui.jquery;
+        form.on('submit(articleHandle)', function (data) {
+            var ArticleInfo = data.field;
+            var url = "{:U('')}";
+            $.post(url, ArticleInfo, function (data) {
+                if (data.status != 1) {
+                    layer.msg(data.msg, {icon: 5});
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        history.go(-1);
+                    });
+                }
+            });
+            return false;//阻止表单跳转
+        });
+    });
+</script>
+</body>
+</html>

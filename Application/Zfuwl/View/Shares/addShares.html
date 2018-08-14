@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+    <link rel="stylesheet" href="__PUBLIC__/plugins/layui/build/css/layui.css"  media="all">
+    <link rel="stylesheet" href="__PUBLIC__/css/style.css" media="all">
+</head>
+<body>
+    <div class="admin-main">
+        <blockquote class="layui-elem-quote">
+            <button type="button" class="layui-btn"><i class="icon iconfont">&#xe617;</i> {$info['name']}参数设置</button>
+            <button type="button" class="layui-btn pull-right layui-inline" onclick="location.reload();"><i class="layui-icon">&#x1002;</i> 刷新</button>
+            <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+            <div style="clear:both;"></div>
+        </blockquote>
+        <div style="clear:both;"></div>
+        <fieldset class="layui-elem-field">
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">名称</label>
+                            <div class="layui-input-block jiadefan" style="width:40%;">
+                                <input type="text" name="name_cn" value="{$info['name_cn']}"  placeholder="名称" autocomplete="off" class="layui-input" lay-verify="required">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">英语简称</label>
+                            <div class="layui-input-inline jiadefan" style="width:40%;">
+                                <input type="text" name="name_en" value="{$info['name_en']}" placeholder="英语简称" autocomplete="off" class="layui-input" lay-verify="required"/>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">发行总数量</label>
+                            <div class="layui-input-inline jiadefan" style="width:40%;">
+                                <input type="text" name="total" value="{$info['total']}" placeholder="发行总数量" autocomplete="off" class="layui-input" lay-verify="required"/>
+                            </div><span class="houjiade">{$info['thigh']}</span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">单位</label>
+                            <div class="layui-input-inline jiadefan" style="width:40%;">
+                                <input type="text" name="thigh" value="{$info['thigh']}" placeholder="单位" autocomplete="off" class="layui-input" lay-verify="required"/>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">当前交易价</label>
+                            <div class="layui-input-block jiadefan" style="width:40%;">
+                                <input type="text" name="now_price" value="{$info['now_price']}"  placeholder="当前交易价" autocomplete="off" class="layui-input" lay-verify="required">
+                            </div><span class="houjiade">￥</span>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">发行价格</label>
+                            <div class="layui-input-inline jiadefan" style="width:40%;">
+                                <input type="text" name="shares_price" value="{$info['shares_price']}" placeholder="发行价格" autocomplete="off" class="layui-input" lay-verify="required"/>
+                            </div><span class="houjiade">￥</span>
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">涨价机制</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="rise_auto" value="1" title="自动" <if condition="$info.rise_auto eq 1">checked=""</if>>
+                                <input type="radio" name="rise_auto" value="2" title="关闭" <if condition="$info.rise_auto eq 2">checked=""</if>>
+                            </div>
+                        </div>
+                    </div>
+<!--                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">最高买入价</label>
+                            <div class="layui-input-inline jiadefan" style="width:40%;">
+                                <input type="text" name="max_add_price" value="{$info['max_add_price']}" placeholder="最高买入价" autocomplete="off" class="layui-input" lay-verify="required"/>
+                            </div><span class="houjiade">￥</span>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">最高卖出价</label>
+                            <div class="layui-input-inline jiadefan" style="width:40%;">
+                                <input type="text" name="max_out_price" value="{$info['max_out_price']}" placeholder="最高卖出价" autocomplete="off" class="layui-input" lay-verify="required"/>
+                            </div><span class="houjiade">￥</span>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">最低买入价</label>
+                            <div class="layui-input-inline jiadefan" style="width:40%;">
+                                <input type="text" name="min_add_price" value="{$info['min_add_price']}" placeholder="最低买入价" autocomplete="off" class="layui-input" lay-verify="required"/>
+                            </div><span class="houjiade">￥</span>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">最低卖出价</label>
+                            <div class="layui-input-inline jiadefan" style="width:40%;">
+                                <input type="text" name="min_out_price" value="{$info['min_out_price']}" placeholder="最低卖出价" autocomplete="off" class="layui-input" lay-verify="required"/>
+                            </div><span class="houjiade">￥</span>
+                        </div>
+                    </div>-->
+<!--                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                              <label class="layui-form-label">交易时间段</label>
+                              <div class="layui-input-inline" style="width: 100px;">
+                                <input type="text" name="trade_add_time" value="{$info['trade_add_time']}"  placeholder="H" autocomplete="off" class="layui-input">
+                              </div>
+                              <div class="layui-form-mid">-</div>
+                              <div class="layui-input-inline" style="width: 100px;">
+                                <input type="text" name="trade_out_time" value="{$info['trade_out_time']}"  placeholder="H" autocomplete="off" class="layui-input">
+                              </div>
+                        </div>
+                        <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">交易模式</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="trade_auto" value="1" title="自动" <if condition="$info.trade_auto eq 1">checked=""</if>>
+                                <input type="radio" name="trade_auto" value="2" title="手动" <if condition="$info.trade_auto eq 2">checked=""</if>>
+                            </div>
+                        </div>
+                    </div>-->
+                    <!--<div class="layui-form-item">-->
+                        <!--<div class="layui-inline layui-form-item" pane="">-->
+                            <!--<label class="layui-form-label">自动拆分</label>-->
+                            <!--<div class="layui-input-block">-->
+                                <!--<input type="radio" name="split_auto" value="1" title="开启" <if condition="$info.split_auto eq 1">checked=""</if>>-->
+                                <!--<input type="radio" name="split_auto" value="2" title="关闭" <if condition="$info.split_auto eq 2">checked=""</if>>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="layui-inline">-->
+                            <!--<label class="layui-form-label">自动拆分价</label>-->
+                            <!--<div class="layui-input-inline jiadefan" style="width:40%;">-->
+                                <!--<input type="text" name="split_price" value="{$info['split_price']}" placeholder="自动拆分价" autocomplete="off" class="layui-input" lay-verify="required"/>-->
+                            <!--</div><span class="houjiade">$</span>-->
+                        <!--</div>-->
+                        <!--<div class="layui-inline">-->
+                            <!--<label class="layui-form-label">拆分倍数</label>-->
+                            <!--<div class="layui-input-inline jiadefan" style="width:40%;">-->
+                                <!--<input type="text" name="split_per" value="{$info['split_per']}" placeholder="拆分倍数" autocomplete="off" class="layui-input" lay-verify="required"/>-->
+                            <!--</div><span class="houjiade">倍</span>-->
+                        <!--</div>-->
+                        <!--<div class="layui-inline">-->
+                            <!--<label class="layui-form-label">拆分后价格</label>-->
+                            <!--<div class="layui-input-inline jiadefan" style="width:40%;">-->
+                                <!--<input type="text" name="split_fall_price" value="{$info['split_fall_price']}" placeholder="拆分后价格" autocomplete="off" class="layui-input" lay-verify="required"/>-->
+                            <!--</div><span class="houjiade">$</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">交易时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="trade_add_time"  value="{$info['trade_add_time']|default='9'}" placeholder="H" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid">-</div>
+                            <div class="layui-input-inline">
+                                  <input type="text" name="trade_out_time"  value="{$info['trade_out_time']|default='18'}" placeholder="H" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">H</div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="id" value="{$info.id}">
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <script type="text/javascript" src="__PUBLIC__/plugins/layui/layui.js"></script>
+    <script src="__PUBLIC__/plugins/layui/build/layui.js" charset="utf-8"></script>
+    <script>
+        layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+            var form = layui.form, $ = layui.jquery;
+            //监听提交
+            form.on('submit(articleHandle)', function (data) {
+                var ArticleInfo = data.field;
+                var obj = data.elem;
+                var url = "{:U('')}";
+                var layerIndex = layer.msg('提交中...', {icon:16, time:0, shade:0.1});
+                $.post(url, ArticleInfo, function (data) {
+                    layer.close(layerIndex);
+                    if (data.status != 1) {
+                        layer.msg(data.msg, {icon: 5});
+                    } else {
+                        $(obj).attr('disabled', 'true');
+                        layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                            location.reload();
+                        });
+                    }
+                });
+                return false;//阻止表单跳转
+            });
+
+        });
+    </script>
+</body>
+</html>

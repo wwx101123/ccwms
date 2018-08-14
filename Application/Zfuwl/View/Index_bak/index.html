@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top' />
+    <style>
+        /*禁止选中文本*/
+        .noselect {
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Chrome/Safari/Opera */
+            -khtml-user-select: none; /* Konqueror */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+        }
+        .mainContentF::-webkit-scrollbar {
+            display:none;
+        }
+        .layui-tab-content::-webkit-scrollbar {display:none}
+        body{
+    		min-width: 1200px;
+    	}
+    </style>
+</head>
+<body>
+    <div class="layui-layout layui-layout-admin" style="width:100%;min-width:1200px;">
+        <include file="Public/header" />
+        <!-- 左边菜单 -->
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll noselect">
+                <ul class="layui-nav layui-nav-tree admin-nav-tree">
+                    <foreach name="menus" item="v">
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">{$v.title}</a>
+                            <dl class="layui-nav-child">
+                                <foreach name="v[$v['id']]" item="val">
+                                    <dd>
+                                        <a href="javascript:;" data-url="{:U($val['menu_name'])}">
+                                            <i class="layui-icon" style="top: 1px; font-size: 18px;">{:html_entity_decode($val['icon'])}</i>
+                                            <cite>{$val.title}</cite>
+                                        </a>
+                                    </dd>
+                                </foreach>
+                            </dl>
+                        </li>
+                    </foreach>
+
+                </ul>
+            </div>
+        </div>
+        <!-- 左边菜单 -->
+        <script>
+            $('.admin-nav-tree .layui-nav-item').click(function(){
+            if($(this).attr('class').indexOf('layui-nav-itemed') > 0) {
+                    $(this).addClass('layui-nav-itemed').siblings().removeClass('layui-nav-itemed');
+                } else {
+                    $(this).removeClass('layui-nav-itemed');
+                }
+            });
+        </script>
+
+        <div class="layui-body" style="bottom: 0;min-width:1000px;">
+            <div class="layui-tab admin-nav-card" lay-filter="admin-tab">
+                <ul class="layui-tab-title noselect" id="admin-tab">
+                    <li class="layui-this"><i class="layui-icon" style="top: 2px; font-size: 16px;">&#xe68e;</i><cite> 控制台</cite></li>
+                </ul>
+                <div class="layui-tab-content" style="min-height: 150px; padding: 5px 0 0 0;-webkit-overflow-scrolling:touch;overflow:auto;" id="admin-tab-container">
+                    <div class="layui-tab-item layui-show"><iframe src="{:U('Index/welcome')}"></iframe></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-footer footer footer-demo">
+            <div class="layui-main"><p>{$config['webInfo_web_time']} &copy; <a href="http://www.zfuwl.com/" target="_blank">推荐使用IE9+,Firefox、Chrome 浏览器访问</a></p></div>
+        </div>
+        <div class="site-tree-mobile layui-hide"><i class="layui-icon">&#xe602;</i></div>
+        <div class="site-mobile-shade"></div>
+        <script type="text/javascript" src="__PUBLIC__/plugins/layui/layui.js"></script>
+        <script>
+            // todo 超时自动退出
+            layui.use(['element', 'layer'], function () {
+                var element = layui.element,
+                        $ = layui.jquery,
+                        layer = layui.layer;
+                //iframe自适应
+                $(window).on('resize', function () {
+                    var $content = $('.admin-nav-card .layui-tab-content');
+                    $content.height($(this).height() - 147);
+                    $content.find('iframe').each(function () {
+                        $(this).height($content.height());
+                    });
+                }).resize();
+                //添加tab
+                var $tabs = $('#admin-tab');
+                //绑定 nav 点击事件
+                $('ul.admin-nav-tree').find('dd > a').each(function () {
+                    var $this = $(this);
+                    //获取设定的url
+                    var url = $this.data('url');
+                    if (url !== undefined) {
+                        $this.on('click', function () {
+                            var $li = $tabs.find('li');
+                            var iframe = '<iframe src="' + url + '" id="frame' + $li.length + '"></iframe>';
+                            var aHtml = $this.html();
+                            var count = 0;
+                            var tabIndex;
+                            $tabs.find('li').each(function (i, e) {
+                                var $cite = $(this).children('cite');
+                                if ($cite.text() === $this.find('cite').text()) {
+                                    count++;
+                                    tabIndex = i;
+                                }
+                            });
+                            //tab不存在
+                            if (count === 0) {
+                                var loadValIfrm = layer.load(3);
+                                //添加删除样式
+                                aHtml += '<i class="layui-icon layui-unselect layui-tab-close">&#x1006;</i>';
+                                //添加tab
+                                var $li = $tabs.find('li');
+                                element.tabAdd('admin-tab', {
+                                    title: aHtml,
+                                    content: iframe,
+                                    id: url,
+                                });
+                                var $li = $tabs.find('li');
+                                //iframe 自适应
+                                var $content = $('.admin-nav-card .layui-tab-content');
+                                $content.find('iframe').each(function () {
+                                    $(this).height($content.height());
+                                });
+                                //绑定关闭事件
+                                $tabs = $('#admin-tab');
+                                $li.eq($li.length - 1).children('i.layui-tab-close').on('click', function () {
+                                    element.tabDelete('admin-tab', url).init();
+                                });
+                                $li.eq($li.length - 1).on('dblclick', function () {
+                                    document.getElementById('frame' + ($li.length - 1)).contentWindow.location.reload(true);
+                                });
+                                //获取焦点
+                                element.tabChange('admin-tab', url);
+                            } else {
+                                //切换tab
+                                element.tabChange('admin-tab', url);
+                            }
+                            layer.close(loadValIfrm);
+                        });
+                    }
+                });
+                $('#user').on('click', function () {
+                    $('#user-item').toggle();
+                });
+                //手机设备的简单适配
+                var treeMobile = $('.site-tree-mobile'),
+                        shadeMobile = $('.site-mobile-shade');
+                treeMobile.on('click', function () {
+                    $('body').addClass('site-mobile');
+                });
+                shadeMobile.on('click', function () {
+                    $('body').removeClass('site-mobile');
+                });
+            });
+        </script>
+    </div>
+</body>
+
+</html>

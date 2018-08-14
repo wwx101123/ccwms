@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <blockquote class="layui-elem-quote">
+            <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>  {$userInfo['account']} 密保问题管理</button>
+            <button type="button" class="layui-btn pull-right layui-inline" onclick="location.reload();"><i class="layui-icon">&#x1002;</i> 刷新</button>
+            <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+            <div style="clear:both;"></div>
+        </blockquote>
+        <div style="clear:both;"></div>
+        <fieldset class="layui-elem-field">
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-block"> <input type="text" readonly value="{$userInfo['account']}" placeholder="会员账号"  autocomplete="off" class="layui-input" lay-verify="required"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">注册时间</label>
+                            <div class="layui-input-block">
+                                <input type="text" readonly value="{$userInfo.reg_time|date='Y-m-d H:i:s', ###}" placeholder="注册时间" autocomplete="off" class="layui-input"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密保问题一</label>
+                        <div class="layui-input-inline">
+                            <select name="security_ida" lay-search="">
+                                <option value="0">--请选择--</option>
+                                    <foreach name="userSecurityList" item="v" key="k">
+                                        <option value="{$k}" <if condition="$k eq $securitylist['p_one']">selected</if>>{$v}</option>
+                                    </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">我的答案是</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="answera" value="{$securitylist['d_one']}" placeholder="密保问题一的答案" autocomplete="off" class="layui-input"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密保问题二</label>
+                        <div class="layui-input-inline">
+                            <select name="security_idb" lay-search="">
+                                <option value="0">--请选择--</option>
+                                    <foreach name="userSecurityList" item="v" key="k">
+                                        <option value="{$k}" <if condition="$k eq $securitylist['p_two']">selected</if>>{$v}</option>
+                                    </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">我的答案是</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="answerb" value="{$securitylist['d_two']}" placeholder="密保问题二的答案" autocomplete="off" class="layui-input"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密保问题三</label>
+                        <div class="layui-input-inline">
+                            <select name="security_idc" lay-search="">
+                                <option value="0">--请选择--</option>
+                                    <foreach name="userSecurityList" item="v" key="k">
+                                        <option value="{$k}" <if condition="$k eq $securitylist['p_three']">selected</if>>{$v}</option>
+                                    </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">我的答案是</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="answerc" value="{$securitylist['d_three']}" placeholder="密保问题三的答案" autocomplete="off" class="layui-input"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="id" value="{$securitylist['id']}" />
+                            <input type="hidden" name="uid" value="{$userInfo['user_id']}" />
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <script src="__PUBLIC__/js/global.js"></script><!--全站通用js /--> 
+    <include file="Public/footer" />
+    <script>
+            layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+                var form = layui.form, $ = layui.jquery,upload = layui.upload;
+                upload.render({
+                    elem: '.uploadImg',
+                    url:'{:U("Api/imageUp")}',
+                    before: function(){
+                    }
+                    ,done: function(res, index, upload){
+                        $('#'+this.data.field).val(res.data.src);
+                        $('.'+this.data.field).attr('src', res.data.src);
+                    }
+                });
+                //监听提交
+                form.on('submit(articleHandle)', function (data) {
+                    var ArticleInfo = data.field;
+                    var obj = data.elem;
+                    var url = "{:U('')}";
+                    var index = layer.msg('提交中...', {icon:16, time:0, shade:0.1});
+                    $.post(url, ArticleInfo, function (data) {
+                        layer.close(index);
+                        if (data.status != 1) {
+                            layer.msg(data.msg, {icon: 5});
+                        } else {
+                            layer.msg(data.msg, {icon: 6, time: 2000});
+                        }
+                    });
+                    return false;//阻止表单跳转
+                });
+            });
+    </script>
+</body>
+</html>

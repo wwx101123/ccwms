@@ -1,0 +1,118 @@
+<div class="leftNavigationBox">
+    <div class="CloseButton"></div>
+    <div class="leftNavigation">
+        <div class="navigationBox">
+            <div class="navigBox"><img src="{$config['webInfo_web_logo_img']|default='__PUBLIC__/images/not_head.jpg'}" alt="" /></div>
+            <div class="headlineBox">源码链用户中心</div>
+            <ul class="navigationUl">
+                <li class="navigationLi ">
+                    <div class="navigTop df">
+                        <div class="fx1">
+                            <span class="span_1"><i class="fa fa-user i"></i></span>
+                            <span class="span_2">用户管理</span>
+                        </div>
+                        <div class="pointTo">
+                            <i class="fa fa-angle-right zhiyou"></i>
+                            <i class="fa fa-angle-down zhixia"></i>
+                        </div>
+                    </div>
+                    <div class="navigTxHei">
+                        <div class="likeA" data-url="{:U('User/userIndex')}">用户主页</div>
+                        <div class="likeA" data-url="{:U('User/lookData')}">用户资料</div>
+                        <!--<div class="likeA" data-url="{:U('User/userIndex')}">用户银行卡</div>-->
+                    </div>
+                </li>
+                <li class="navigationLi ">
+                    <div class="navigTop df">
+                        <div class="fx1">
+                            <span class="span_1"><i class="fa fa-users i"></i></span>
+                            <span class="span_2">团队管理</span>
+                        </div>
+                        <div class="pointTo">
+                            <i class="fa fa-angle-right zhiyou"></i>
+                            <i class="fa fa-angle-down zhixia"></i>
+                        </div>
+                    </div>
+                    <div class="navigTxHei">
+                        <div class="likeA" data-url="{:U('Team/ztIndex')}">团队列表</div>
+                    </div>
+                </li>
+                <li class="navigationLi ">
+                    <div class="navigTop df">
+                        <div class="fx1">
+                            <span class="span_1"><i class="fa fa-pie-chart i"></i></span>
+                            <span class="span_2">交易管理</span>
+                        </div>
+                        <div class="pointTo">
+                            <i class="fa fa-angle-right zhiyou"></i>
+                            <i class="fa fa-angle-down zhixia"></i>
+                        </div>
+                    </div>
+                    <div class="navigTxHei">
+                        <!--<div class="likeA" data-url="{:U('User/userIndex')}">交易变现</div>-->
+                        <div class="likeA" data-url="{:U('Change/getIntegral')}">领取积分</div>
+                        <div class="likeA" data-url="{:U('Change/storeRollout')}">存储YML转出</div>
+                        <div class="likeA" data-url="{:U('Change/pointsRoll')}">分享积分转出</div>
+                        <div class="likeA" data-url="{:U('Block/transAdd')}">流动YML转存储YML</div>
+                        <div class="likeA" data-url="{:U('Block/flowAround')}">流动YML转流动YML</div>
+                    </div>
+                </li>
+                <li class="navigationLi ">
+                    <div class="navigTop df">
+                        <div class="fx1">
+                            <span class="span_1"><i class="fa fa-calendar-check-o i"></i></span>
+                            <span class="span_2">日志管理</span>
+                        </div>
+                        <div class="pointTo">
+                            <i class="fa fa-angle-right zhiyou"></i>
+                            <i class="fa fa-angle-down zhixia"></i>
+                        </div>
+                    </div>
+                    <div class="navigTxHei">
+                        <div class="likeA" data-url="{:U('Order/storeoutgoingLog')}">存储YML转出日志</div>
+                        <div class="likeA" data-url="{:U('Block/stream')}">流动YML转出日志</div>
+                        <div class="likeA" data-url="{:U('Order/flowOutLog')}">流动YML转账日志</div>
+                        <div class="likeA" data-url="{:U('Order/scoreCollectionLog')}">领取积分日志</div>
+                        <div class="likeA" data-url="{:U('Order/integralLog')}">积分日志</div>
+                        <div class="likeA" data-url="{:U('Money/moneyLog')}">钱包日志</div>
+                        <div class="likeA" data-url="{:U('Block/fenmoneyLog')}">交易日志</div>
+                    </div>
+                </li>
+                <li class="navigationLi ">
+                    <div class="navigTop df">
+                        <div class="fx1">
+                            <span class="span_1"><i class="fa fa-shield i"></i></span>
+                            <span class="span_2">安全管理</span>
+                        </div>
+                        <div class="pointTo">
+                            <i class="fa fa-angle-right zhiyou"></i>
+                            <i class="fa fa-angle-down zhixia"></i>
+                        </div>
+                    </div>
+                    <div class="navigTxHei">
+                        <div class="likeA" data-url="{:U('User/editData')}">设置资料</div>
+                        <div class="likeA" data-url="{:U('User/editPassword')}">设置登录密码</div>
+                        <div class="likeA" data-url="{:U('User/editSecpwd')}">设置交易密码</div>
+                      	<div class="likeA" data-url="{:U('Validate/validateBank')}">设置银行卡</div>
+                        <div class="logout guanbicbl">退出登录</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+
+    // //退出
+    // mui('body').on('tap', ".logout", function () {
+    //     var btnArray = ['确认', '取消'];
+    //     mui.confirm('是否确认退出？', '温馨提示', btnArray, function (e) {
+    //         if (e.index == 0) {
+    //             mui.openWindow({
+    //                 id: 'logout',
+    //                 url: "{:U('User/logout')}"
+    //             });
+    //         }
+    //     });
+    // });
+</script>

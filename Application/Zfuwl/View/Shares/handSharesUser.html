@@ -1,0 +1,92 @@
+<form class="layui-form">
+   <br />
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员账号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="account" id='account'  lay-verify="required" placeholder="请输入会员账号" autocomplete="off" class="layui-input"/>
+        </div>
+        <div class="layui-form-mid layui-word-aux" id='username' style="color:red;font-weight: 800;"></div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择</label>
+        <div class="layui-input-inline">
+            <select name="shares_id" lay-search="">
+                <foreach name="sharesList" item="v" key="k">
+                    <option value="{$k}">{$v}</option>
+                </foreach>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">操作类型</label>
+        <div class="layui-input-inline">
+            <select name="is_type" lay-search="">
+                <option value="">--类型选择--</option>
+                <option value="1">增加</option>
+                <option value="2">减少</option>
+                <option value="3">冻结</option>
+                <option value="4">释放</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">调整金额</label>
+        <div class="layui-input-inline">
+            <input type="text" name="money"  lay-verify="required" placeholder="要调整的金额" autocomplete="off" class="layui-input"onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-inline">
+            <input type="text" name="note"  lay-verify="required" placeholder="请输入描述" autocomplete="off" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="BankHandle">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+    <div style="clear:both;"></div>
+</form>
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form, $ = layui.jquery;
+        //监听提交
+        form.render('select'); //刷新select选择框渲染
+        form.render('radio'); //刷新select选择框渲染
+        form.on('submit(BankHandle)', function (data) {
+            var loadeAdd = layer.msg('充值中...', {
+                icon: 16
+                , shade: 0.03,
+                time:0
+            });
+            var siteInfo = data.field;
+            var url = "{:U()}";
+            $.post(url, siteInfo, function (data) {
+                layer.close(loadeAdd);
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                } else if (data.status == 1) {
+                    layer.closeAll();
+                    var page = $('.pagination .active').find('a').data('p');
+                    ajax_get_table('search-form2', page);
+                    layer.msg(data.msg, {icon: 6, time: 2000});
+                }
+            });
+            return false; //阻止表单跳转
+        });
+        $('#account').blur(function(){
+           var account = $(this).val();
+            var url = "{:U('Api/oppositeAccount')}";
+           $.post(url, {name:account}, function(data){
+               if(data.cg == 1) {
+                   $('#username').html(data.username);
+               }else{
+                   $('#username').html('此会员不存在');
+               }
+           });
+
+        });
+    });
+</script>

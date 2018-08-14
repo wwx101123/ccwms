@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+    <style>
+        /* 案例 */
+        .fly-case-header{position: relative; height: 260px; text-align: center; background: #393D49;}
+        .fly-case-year{position: absolute; top: 30px; width: 100%; line-height: 50px; font-size: 50px; text-align: center; color: #fff; font-weight: 300;}
+        .fly-case-banner{position: absolute; left: 50%; top: 100px; width: 670px; margin-left: -335px;}
+        .fly-case-btn{position: absolute; bottom: 30px; left: 0; width: 100%; text-align: center;}
+        .fly-case-btn a{color: #fff;}
+        .fly-case-btn .layui-btn-primary{background: none; color: #fff;}
+        .fly-case-btn .layui-btn-primary:hover{border-color: #5FB878;}
+        .fly-case-tab{margin-top: 20px; text-align: center;}
+        .fly-case-tab span,
+        .fly-case-tab span a{border-color: #009688;}
+        .fly-case-tab .tab-this{background-color: #009688; color: #fff;}
+        .fly-case-list{margin-top: 15px; font-size: 0;}
+        .fly-case-list li,
+        .layer-ext-ul li{display: inline-block; vertical-align: middle; *display: inline; *zoom:1; font-size: 14px; background-color: #fff;}
+        .fly-case-list{width: 100%;}
+        .fly-case-list li{width: 239px; margin: 0 15px 15px 0; padding: 10px;}
+        .fly-case-list li:hover{box-shadow: 1px 1px 5px rgba(0,0,0,.1);}
+        .fly-case-img{position: relative; display: block;}
+        .fly-case-img img{width: 239px; height: 150px;}
+        .fly-case-img .layui-btn{display: none; position: absolute; bottom: 20px; left: 50%; margin-left: -29px;}
+        .fly-case-img:hover .layui-btn{display: inline-block;}
+        .fly-case-list li h2{padding: 10px 0 5px; line-height: 22px; font-size: 18px; white-space: nowrap; overflow: hidden; text-align: center;}
+        .fly-case-desc{height: 60px; line-height: 20px; font-size: 12px; color: #666; overflow: hidden;}
+        .fly-case-info{position: relative; margin: 10px 0 0; padding: 10px 65px 0 45px; border-top: 1px dotted #eee;}
+        .fly-case-info p{height:24px; line-height: 24px;}
+        .fly-case-user{position: absolute; left: 0; top: 15px; width: 35px; height: 35px;}
+        .fly-case-user img{width: 35px; height: 35px; border-radius: 100%;}
+        .fly-case-info .layui-btn{position: absolute; right: 0; top: 15px;  padding: 0 15px;}
+        .layer-ext-ul{margin: 10px; max-height: 500px;}
+        .layer-ext-ul img{width: 50px; height: 50px; border-radius: 100%;}
+        .layer-ext-ul li{margin: 8px;}
+        .layer-ext-case .layui-layer-title{border: none; background-color: #009688; color: #fff;}
+    </style>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <div class="test-table-reload-btn" style="margin-top: 10px;margin-left:15px;">
+                <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>  {$info[name]} 管理</button>
+                <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">所属广告位</label>
+                        <div class="layui-input-inline">
+                            <select name="site_id" lay-search="">
+                                <option value="0">--请选择--</option>
+                                <foreach name="siteInfo" item='v' key='k'>
+                                    <option value="{$k}" <if condition="$info.site_id eq $k">selected</if>>{$v}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">必选</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">广告名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" autocomplete="off" placeholder="请输入广告名称"  value="{$info['name']}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">链接地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="ad_link" autocomplete="off" placeholder="请输入链接地址"  value="{$info['ad_link']}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">打开方式</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="target" value="1" title="新窗口打开" <if condition="$info.target eq 1">checked=""</if>>
+                                <input type="radio" name="target" value="4" title="本窗口打开" <if condition="$info.target eq 4">checked=""</if>>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">投放时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="start_time" value="<if condition="$info.start_time gt 1">{$info.start_time|date='Y-m-d',###}</if>" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input test-item">
+                            </div>
+                            <div class="layui-form-mid"> 起 </div>
+                            <div class="layui-input-inline">
+                                  <input type="text" name="end_time" value="<if condition="$info.end_time gt 1">{$info.end_time|date='Y-m-d',###}</if>" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input test-item">
+                            </div>
+                            <div class="layui-form-mid">止</div>
+                        </div>
+                    </div>
+                    <ul class="fly-case-list">
+                        <li data-id="123">
+                            <input type="hidden" name="ad_code" value="{$info['ad_code']}" placeholder="请上传图片" autocomplete="off" id="ggImg" class="layui-input" />
+                            <a class="fly-case-img" href="javaScript:void(0);"><img class="ggImg checkImg" src="{$info['ad_code']}" alt="广告显示图"></a>
+                            <div class="fly-case-info">
+                                <a href="javaScript:void(0);" class="fly-case-user" target="_blank"><img src="{$config['web_ico_img']|default='__PUBLIC__/images/not_adv.jpg'}"></a>
+                                <p class="layui-elip" style="font-size: 12px;"><span style="color: #666;">规格</span> 1920 * 1080  px</p>
+                                <p>广告显示图</p>
+                                <button class="layui-btn uploadImg" type="button" lay-data="{field: 'ggImg',data:{dir:'gg', field:'ggImg'}}"><i class="layui-icon">&#xe62f;</i>上传</button>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">背景颜色</label>
+                            <div class="layui-input-inline">
+                                <input type="color" name="bgcolor" value="{$info.bgcolor}" placeholder="{$info.bgcolor}" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="id" value="{$info['id']}">
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <include file="Public/footer" />
+    <script>
+            layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+                var form = layui.form, $ = layui.jquery,upload = layui.upload,laydate=layui.laydate;
+                upload.render({
+                    elem: '.uploadImg',
+                    url:'{:U("Api/imageUp")}',
+                    before: function(){
+                    }
+                    ,done: function(res, index, upload){
+                        $('#'+this.data.field).val(res.data.src);
+                        $('.'+this.data.field).attr('src', res.data.src);
+                    }
+                });
+                $('#submitBtn').click(function () {
+                    editor.sync();
+                });
+                form.on('submit(articleHandle)', function (data) {
+                    var ArticleInfo = data.field;
+                    var url = "{:U('')}";
+                    $.post(url, ArticleInfo, function (data) {
+                        if (data.status != 1) {
+                            layer.msg(data.msg, {icon: 5});
+                        } else {
+                            layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                                location.reload();
+                            });
+                        }
+                    });
+                    return false;//阻止表单跳转
+                });
+                lay('.test-item').each(function(){
+                    laydate.render({
+                      elem: this
+                      ,trigger: 'click'
+                    });
+                  });
+                });
+    </script>
+</body>
+</html>

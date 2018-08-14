@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file='Public/top' />
+</head>
+<body>
+<div class="admin-main">
+    <fieldset class="layui-elem-field">
+        <div class="test-table-reload-btn" style="margin-top: 10px;margin-left:15px;">
+            <form class='layui-form' id="search-form2">
+                <div class="layui-inline">
+                    <select name="type" class="layui-input">
+                        <option value="">--请选择属性分类--</option>
+                        <foreach name='aboutType' item='v' key='k'>
+                            <option value="{$k}">{$v}</option>
+                        </foreach>
+                    </select>
+                </div>
+                <button type="button" onclick="ajax_get_table('search-form2',1);" class="layui-btn">搜索</button>
+                <a href="{:U('About/add')}" class="layui-btn layui-btn-normal">新增</a>
+                <div style="clear: both;"></div>
+            </form>
+        </div>
+    <div class="layui-field-box"><div id="ajax_return"></div></div>
+    </fieldset>
+</div>
+<include file="Public/footer" />
+<script>
+    layui.use(['laypage', 'layer', 'form'], function () {
+        var $ = layui.jquery;
+        $(document).ready(function(){
+            ajax_get_table('search-form2',1);
+        });
+    });
+    function ajax_get_table(tab, page){
+        var loadVal = layer.load(3);
+        cur_page = page;
+        $.ajax({
+            type: "POST",
+            url: "{:U('About/index')}?p=" + page,
+            data: $('#' + tab).serialize(),
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                    return;
+                }
+                layer.close(loadVal);
+                $("#ajax_return").html(data);
+            }
+        });
+    }
+</script>
+</body>
+
+</html>

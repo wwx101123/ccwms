@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>后台登录 - {$config['web_title']}</title>
+    <link rel="shortcut icon" href="{$config['web_ico_img']}" />
+    <link rel="stylesheet" href="__PUBLIC__/plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="__PUBLIC__/css/login.css" />
+</head>
+<body class="beg-login-bg noselect">
+<div class="layui-canvs"></div>
+    <div class="beg-login-box">
+        <header><h1>{$config['web_name']}后台管理系统</h1></header>
+        <div class="beg-login-main">
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <label class="beg-login-icon"><i class="layui-icon">&#xe612;</i></label>
+                    <input type="text" name="username" id="name" autocomplete="off" placeholder="登录帐号" class="layui-input" />
+                </div>
+                <div class="layui-form-item">
+                    <label class="beg-login-icon"><i class="layui-icon">&#xe64e;</i></label>
+                    <input type="password" name="password" id="pwd" autocomplete="off" placeholder="登录密码" class="layui-input" />
+                </div>
+                <div class="layui-form-item">
+                    <label class="beg-login-icon"><i class="layui-icon">&#xe715;</i></label>
+                    <input type="test" name="verifyCode" id="verifyCode" autocomplete="off" placeholder="输入验证码" class="layui-input" style="width:50%;display:inline" />
+                    <span style="float:right;"><img id="code_img" src="{:U('Login/verify')}" onclick="this.src = this.src+'?'+Math.random()"/></span>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn  layui-btn-big login" onclick="return false;"><i class="layui-icon">&#xe605;</i>&nbsp;&nbsp;登录</button>
+                    <button class="layui-btn  layui-btn-warm"><a href="https://zhidu.zfuwl.cn/detail_27.html" target="_blank"><i class="layui-icon">&#xe607;</i>&nbsp;忘记密码</a></button>
+                    <div class="beg-clear"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript" src="__PUBLIC__/plugins/layui/layui.js"></script>
+    <script>
+        layui.use(['layer'], function() {
+            var layer = layui.layer,
+                $ = layui.jquery
+            $('.login').click(function() {
+                var name = $('#name').val();
+                var pwd = $('#pwd').val();
+                var verifyCode = $('#verifyCode').val();
+                if (name.length < 1) {
+                    layer.tips('请输入用户名', '#name');
+                    return;
+                }
+                if (pwd.length < 1) {
+                    layer.tips('请输入密码', '#pwd');
+                    return;
+                }
+                if (verifyCode.length < 1) {
+                    layer.tips('请输入验证码', '#verifyCode');
+                    return;
+                }
+                var loadeIndex = layer.load(0, {
+                    shade: [0.5, '#8F8F8F']
+                });
+                var url = "/index.php?m=Zfuwl&c=Login&a=doLogin&t="+Math.random();
+                $.post(url, {name: name, pwd: pwd, verifyCode: verifyCode}, function(data) {
+                    if (data.status != 1) {
+                        $('#code_img').click();
+                        layer.close(loadeIndex);
+                        layer.msg(data.msg);
+                    } else {
+                        layer.msg('登录成功', {icon:1}, function(){
+                            window.location.href = "{:U('Index/index')}";
+                        });
+                    }
+                })
+            })
+        });
+    </script>
+</body>
+</html>

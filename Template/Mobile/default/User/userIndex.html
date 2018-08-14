@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>个人中心</title>
+        <include file="Public/top" />
+        <link rel="stylesheet" type="text/css" href="__STATIC__/css/xiaoxi.css" />
+    </head>
+    <body>
+    <div class="publicBox">
+        <!--左侧导航-->
+        <include file="Public/nav"/>
+        <div class="publicBoxzi">
+            <!--公共头部-->
+            <include file="Public/header"/>
+            <!--公共盒子-->
+            <div class="publicHeiz">
+                <!--公告-->
+                <div class="noticeBox df">
+                    <span class="span_1"><i class="fa fa-volume-up i"></i></span>
+                    <div class="dowebok fx1" style="line-height: 35px;font-size:0.9em;">
+                        <a class="likeA" data-url="{:U('Notice/detail', array('id' => $notice_top['id']))}">{$notice_top['title']}</a>
+                    </div>
+                </div>
+                <!--数据汇总-->
+                <ul class="collectBox clearfix">
+                    <li class="collectLi">
+                        <div class="collectTb collectTb_1"><i class="fa fa-retweet"></i></div>
+                        <div class="collectBt">实时兑换</div>
+                        <div class="collectBt">{:blockList(1,2)}</div>
+                    </li>
+                    <li class="collectLi">
+                        <div class="collectTb collectTb_2"><i class="fa fa-graduation-cap"></i></div>
+                        <div class="collectBt">会员等级</div>
+                        <div class="collectBt">{$levelInfo[$user['level']]}</div>
+                    </li>
+                    <li class="collectLi">
+                        <div class="collectTb collectTb_3"><i class="fa fa-credit-card"></i></div>
+                        <div class="collectBt">总投资钱包</div>
+                        <div class="collectBt">{$user['invest_money']|default='0.00'}</div>
+                    </li>
+                    <li class="collectLi likeA" data-url="{:U('Block/transAdd')}">
+                        <div class="collectTb collectTb_4"><i class="fa fa-database"></i></div>
+                        <div class="collectBt">存储YML</div>
+                        <div class="collectBt">{:usersBlock($user['user_id'], 1, 5)}</div>
+                    </li>
+                    <li class="collectLi likeA" data-url="{:U('Block/flowAround')}">
+                        <div class="collectTb collectTb_5"><i class="fa fa-stack-overflow"></i></div>
+                        <div class="collectBt">流动YML</div>
+                        <div class="collectBt">{:userBlock($user['user_id'], 1, 1)}</div>
+                    </li>
+                    <li class="collectLi likeA" data-url="{:U('Block/blockSellIndex')}">
+                        <div class="collectTb collectTb_6"><i class="fa fa-tags"></i></div>
+                        <div class="collectBt">卖出YML</div>
+                        <div class="collectBt">0.00</div>
+                    </li>
+                    <li class="collectLi likeA" data-url="{:U('Block/fenmoneyLog')}">
+                        <div class="collectTb collectTb_6"><i class="fa fa-tags"></i></div>
+                        <div class="collectBt">买入YML</div>
+                        <div class="collectBt">0.00</div>
+                    </li>
+                    <li class="collectLi">
+                        <div class="collectTb collectTb_7"><i class="fa fa-cubes"></i></div>
+                        <div class="collectBt">释放积分</div>
+                        <div class="collectBt">{$releaseMoney|default="0.00"}</div>
+                    </li>
+                    <li class="collectLi likeA" data-url="{:U('Change/getIntegral')}">
+                        <div class="collectTb collectTb_8"><i class="fa fa-map-o"></i></div>
+                        <div class="collectBt">领取积分</div>
+                        <div class="collectBt">{$receiveMoney|default="0.00"}</div>
+                    </li>
+                    <li class="collectLi likeA" data-url="{:U('Block/transfrom')}">
+                        <div class="collectTb collectTb_5"><i class="fa fa-stack-overflow"></i></div>
+                        <div class="collectBt">分享积分</div>
+                        <div class="collectBt">{:usersMoney($user['user_id'],1, 1)}</div>
+                    </li>
+                    <li class="collectLi likeA" data-url="{:U('Bonus/logIndex')}">
+                        <div class="collectTb collectTb_10"><i class="fa fa-bookmark-o"></i></div>
+                        <div class="collectBt">展示积分</div>
+                        <div class="collectBt">{$moneyAll|default="0.00"}</div>
+                    </li>
+                  	<if condition="$user['invest_money'] gt 0 && $config['securityInfo_returnben'] eq 1">
+                        <li class="collectLi likeA" data-url="{:U('Block/returnben')}">
+                            <div class="collectTb collectTb_5"><i class="fa fa-stack-overflow"></i></div>
+                            <div class="collectBt">一键回本</div>
+                            <div class="collectBt">{$user['invest_money']|default='0.00'}</div>
+                        </li>
+                    <elseif condition="$recovery['is_type' ] eq 1" />
+                        <li class="collectLi">
+                            <div class="collectTb collectTb_5"><i class="fa fa-stack-overflow"></i></div>
+                            <div class="collectBt">回本处理中</div>
+                        </li>
+                    </if>
+                  	
+                </ul>
+                <!--走势-->
+                <div class="communalBox">
+                    <div class="communalTl">
+                       <span class="span_1">源码链走势</span>
+                    </div>
+                    <div class="communalTx">
+                        <div class="communalTxbt">算力图表</div>
+                        <div class="chartBox zgui-PE-img"><div id="main" style="width:100%;height:350px;borcontainerder:1px solid #dddddd;margin:10px auto;"></div></div>
+                    </div>
+                </div>
+                <!--公告-->
+                <div class="communalBox">
+                    <div class="communalTl">
+                        <span class="span_1">公告</span>
+                    </div>
+                    <div class="communalTx">
+                        <ul class="journalismUl">
+                            <foreach name="notice" item="v">
+                                <li class="journalismLi likeA" data-url="{:U('Notice/detail', array('id' => $v['id'], 'cat_id' => 1))}">
+                                    <div class="caption">
+                                        <i class="fa fa-circle i"></i>
+                                        {$v['title']}
+                                    </div>
+                               <!--     <div class="journalismTime">【{:date('Y-m-d' ,$v['add_time'])}】</div> -->
+                                </li>
+                            </foreach>
+                        </ul>
+                    </div>
+                </div>
+                <!--新闻-->
+                <div class="communalBox">
+                    <div class="communalTl">
+                        <span class="span_1">新闻</span>
+                    </div>
+                    <div class="communalTx">
+                        <ul class="journalismUl">
+                            <foreach name="news" item="v">
+                                <li class="journalismLi likeA" data-url="{:U('Notice/detail', array('id' => $v['id'], 'cat_id' => 2))}">
+                                    <div class="caption">
+                                        <i class="fa fa-circle i_1"></i>
+                                        {$v['title']}
+                                    </div>
+                                 <!--       <div class="journalismTime">【{:date('Y-m-d' ,$v['add_time'])}】</div> -->
+                                </li>
+                            </foreach>
+                        </ul>
+                    </div>
+                </div>
+                <!--邀请好友-->
+                <div class="communalBox">
+                    <div class="communalTl">
+                        <span class="span_1">邀请好友</span>
+                    </div>
+                    <div class="communalTx">
+                        <div class="inviteBox">
+                            <div id="qrcode"></div>
+                            <div class="inviteTx"><span>邀请链接 ： </span><span>{$tgurl}</span></div>
+                            <button type="button" class="gonggButtonlj" id="copyTgUrl" data-clipboard-text="{$tgurl}">复制链接</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <include file="Public/footer"/>
+    <script src="__STATIC__/js/clipboard.min.js"></script>
+    <script src="__PUBLIC__/js/qrcode.js"></script>
+    <script src="__STATIC__/js/xiaoxi.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__PUBLIC__/js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+            var myChart = echarts.init(document.getElementById('main'));
+            option = {
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    }
+                },
+
+                legend: {
+                    data:['价格走势图']
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        type : 'category',
+                        boundaryGap : false,
+                        data : {$timeArr}
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        name:'¥',
+                        type:'line',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        },
+                        areaStyle: {normal: {}},
+                        data:{$priceArr}
+                    }
+                ]
+            };
+            myChart.setOption(option);
+		</script>
+    <script type="text/javascript" charset="utf-8">
+
+        mui('body').on('tap', '.development', function () {
+            mui.confirm('功能暂未开放','温馨提示', ['确定']);
+        });
+
+        $(function() {
+            $('.dowebok').liMarquee({
+                drag: false
+            });
+        });
+
+        mui('body').on('tap', ".serviceAniu", function () {
+            if($('.serviceText').css('display') == 'none'){
+                $(this).next('.serviceText').show();
+                $('.zhixiJiant').css('display','inline-block');
+                $('.regularJiant').css('display','none');
+            }else {
+                $(this).next('.serviceText').hide();
+                $('.regularJiant').css('display','inline-block');
+                $('.zhixiJiant').css('display','none');
+            }
+        });
+
+    	//    复制链接
+        window.onload = function(){
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                width : 150,//设置宽高
+                height : 150
+            });
+            qrcode.makeCode("{$tgurl}");
+        };
+        var clipboard = new Clipboard('#copyTgUrl');
+        clipboard.on('success', function (e) {
+            e.clearSelection();
+            mui.toast('复制成功', {duration: 'long', type: 'div'});
+        });
+        clipboard.on('error', function (e) {
+            mui.toast('复制失败', {duration: 'long', type: 'div'});
+        });
+
+    </script>
+</body>
+
+</html>

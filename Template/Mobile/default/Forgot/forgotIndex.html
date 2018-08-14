@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>找回密码</title>
+    <include file="Public/top" />
+    <style>
+        body {background: #1F242A;}
+    </style>
+</head>
+
+<body>
+    <div class="boxesHei">
+        <div class="logoBox"><img src="{$config['webInfo_web_logo_img']|default='__PUBLIC__/images/not_head.jpg'}" alt="" /></div>
+        <div class="headlineBox">源码链管理平台找回密码</div>
+        <div id="item2" class="inputBox">
+            <form id='forgotByMobileForm'>
+                <!--<div class="parentInput">
+                    <span class="spanLabel"><i class="fa fa-user-circle-o i"></i></span>
+                    <input type="text" name="account" autocomplete="off" class="mui-input-clear blicInput" placeholder="请输入手机号" />
+                </div>-->
+                <div class="parentInput">
+                    <span class="spanLabel"><i class="fa fa-mobile i"></i></span>
+                    <input type="text" name="account" id="mobile" autocomplete="off" class="mui-input-clear blicInput" placeholder="请输入手机号">
+                </div>
+                <div class="parentInput">
+                    <span class="spanLabel"><i class="fa fa-key i"></i></span>
+                    <input type="text" name="mobile_code" autocomplete="off" class="mui-input-clear blicInput" placeholder="手机验证码">
+                    <button type="button" onclick="send_sms_reg_code(this);" class="sjyzmStyle">获取验证码</button>
+                </div>
+                <div class="parentInput">
+                    <span class="spanLabel"><i class="fa fa-lock i"></i></span>
+                    <input type="password" autocomplete="off" name='new_pass' class="mui-input-password blicInput" placeholder="请设置新密码">
+                </div>
+                <div class="parentInput">
+                    <span class="spanLabel"><i class="fa fa-lock i"></i></span>
+                    <input type="password" autocomplete="off" name='confirm_new_pass' class="mui-input-password blicInput" placeholder="确认新密码">
+                </div>
+                <div>
+                    <button type="button" class="pushButton forgotByMobile">立即重置</button>
+                </div>
+            </form>
+        </div>
+        <div class="interlinkageBox">
+            <a href="{:U('Login/index')}" class="inLinkA">立即登录</a>
+        </div>
+    </div>
+
+<include file="Public/footer" />
+<script src="__PUBLIC__/js/zfuwl.js"></script>
+<script type="text/javascript">
+    var mask=mui.createMask();
+    mui('body').on('tap', '.forgotByMobile', function () {
+        var obj = $(this);
+        $(obj).attr('disabled', 'true');
+        mui.showLoading("提交中","div");
+        mask.show();//显示遮罩层
+        $.ajax({
+            type: 'post',
+            url: '{:U("Forgot/forgotByMobile")}?t=' + Math.random(),
+            data: $('#forgotByMobileForm').serialize(),
+            dataType: 'json',
+            success: function (res) {
+                mask.close();//关闭遮罩层
+                mui.hideLoading();
+                if (res.status == 1) {
+                    mui.toast(res.msg, {duration: '2000', type: 'div'});
+                    setTimeout(function () {
+                        mui.openWindow({
+                            id: res.url,
+                            url: res.url
+                        });
+                    }, 2000);
+                } else {
+                    refreshVerify();
+                    $(obj).removeAttr('disabled');
+                    return mui.toast(res.msg, {duration: '2000', type: 'div'});
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                return mui.toast('网络失败，请刷新页面后重试', {duration: '2000', type: 'div'});
+            }
+        });
+    });
+    function refreshVerify() {
+        $('.imgYzm').attr('src', '{:U("Login/verify", array("type" => "forgotPass"))}&a=' + Math.random());
+    }
+
+    var smsObj = [];
+    // 发送手机短信
+    function send_sms_reg_code(obj) {
+        smsObj = obj;
+        var mobile = $('#mobile').val();
+        if (!checkMobile(mobile)) {
+            mui.toast('请输入正确的手机号码', {
+                duration: 'long',
+                type: 'div'
+            });
+            return;
+        } <if condition = "$config['securityInfo_sendsms_is_imgcode'] eq 1" >
+            var code = $('#verifyCode').val();
+        var data = {
+            mobile: mobile,
+            code: code,
+            check_code: 'forgotPass'
+        }; <else />
+        var data = {
+            mobile: mobile
+        };
+    </if>
+        var url = "{:U('Reg/sendSmsRegCode')}";
+        mui.showLoading("正在发送", "div");
+        mask.show(); //显示遮罩层
+        $.post(url, data, function(data) {
+            mask.close(); //关闭遮罩层
+            mui.hideLoading();
+            obj = $.parseJSON(data);
+            if (obj.status == 1) {
+                $(smsObj).attr("disabled", "disabled");
+                intAs = {$config.smtpSmsInfo_sms_time_out|default = '120'}; // 手机短信超时时间
+                jsInnerTimeout(intAs);
+                mui.toast(obj.msg, {
+                    duration: 'long',
+                    type: 'div'
+                });
+            } else {
+                mui.toast(obj.msg, {
+                    duration: 'long',
+                    type: 'div'
+                });
+            }
+        });
+    }
+    mui('body').on('tap','.imgYzm', refreshVerify);
+    //倒计时函数
+    function jsInnerTimeout(intAs) {
+        intAs--;
+        if (intAs <= -1) {
+            $(smsObj).removeAttr("disabled");
+            $(smsObj).text("获取验证码");
+            return true;
+        }
+        $(smsObj).text(intAs + '秒');
+        setTimeout("jsInnerTimeout(" + intAs + ")", 1000);
+    };
+</script>
+</body>
+
+</html>

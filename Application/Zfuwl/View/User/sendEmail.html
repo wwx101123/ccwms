@@ -1,0 +1,59 @@
+<script type=text/javascript src="__PUBLIC__/js/jquery-1.8.3.min.js"></script>
+<script src="__PUBLIC__/js/global.js"></script><!--全站通用js /-->
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员列表</label>
+        <div class="layui-input-inline" style="width:40%;max-height:150px;overflow-y:auto;">
+            <foreach name="users" item="v" key="k">
+                <input type="hidden" name="user_id[{$k}]" value="{$v['user_id']}"/>
+                <p><span>ID:{$v['user_id']}</span>&nbsp;<span>昵称:{$v['nickname']}</span>&nbsp;<span>邮箱:{$v['email']}</span>
+                </p>
+            </foreach>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮件主题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="theme" lay-verify="required" placeholder="邮件主题" autocomplete="off" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮件标题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" lay-verify="required" placeholder="邮件标题" autocomplete="off" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮件内容</label>
+        <div class="layui-input-inline">
+            <textarea name="content" id="" cols="50" rows="10"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="siteHandle">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form,$ = layui.jquery;
+        form.on('submit(siteHandle)', function (data) {
+            var siteInfo = data.field;
+            var url = "{:U()}";
+            $.post(url, siteInfo, function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                } else if(data.status == 1) {
+                    var page = $('.pagination .active').find('a').data('p');
+                    ajax_get_table('search-form2', page);
+                    layer.msg(data.msg, {icon: 6, time: 2000});
+                }
+            });
+            return false; //阻止表单跳转
+        });
+
+    });
+</script>

@@ -1,0 +1,17 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+li {
+	list-style: none;
+}
+a {
+	text-decoration: none;
+}
+img {
+	outline: none;
+	border: none
+}
+.zf_border{
+	border:1px solid #ff33cc;
+}

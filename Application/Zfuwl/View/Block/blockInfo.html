@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+        <style>
+        /* 案例 */
+        .fly-case-header{position: relative; height: 260px; text-align: center; background: #393D49;}
+        .fly-case-year{position: absolute; top: 30px; width: 100%; line-height: 50px; font-size: 50px; text-align: center; color: #fff; font-weight: 300;}
+        .fly-case-banner{position: absolute; left: 50%; top: 100px; width: 670px; margin-left: -335px;}
+        .fly-case-btn{position: absolute; bottom: 30px; left: 0; width: 100%; text-align: center;}
+        .fly-case-btn a{color: #fff;}
+        .fly-case-btn .layui-btn-primary{background: none; color: #fff;}
+        .fly-case-btn .layui-btn-primary:hover{border-color: #5FB878;}
+        .fly-case-tab{margin-top: 20px; text-align: center;}
+        .fly-case-tab span,
+        .fly-case-tab span a{border-color: #009688;}
+        .fly-case-tab .tab-this{background-color: #009688; color: #fff;}
+        .fly-case-list{margin-top: 15px; font-size: 0;}
+        .fly-case-list li,
+        .layer-ext-ul li{display: inline-block; vertical-align: middle; *display: inline; *zoom:1; font-size: 14px; background-color: #fff;}
+        .fly-case-list{width: 100%;}
+        .fly-case-list li{width: 150px; margin: 0 15px 15px 0; padding: 10px;}
+        .fly-case-list li:hover{box-shadow: 1px 1px 5px rgba(0,0,0,.1);}
+        .fly-case-img{position: relative; display: block;}
+        .fly-case-img img{width: 150px; height: 150px;}
+        .fly-case-img .layui-btn{display: none; position: absolute; bottom: 20px; left: 50%; margin-left: -29px;}
+        .fly-case-img:hover .layui-btn{display: inline-block;}
+        .fly-case-list li h2{padding: 10px 0 5px; line-height: 22px; font-size: 18px; white-space: nowrap; overflow: hidden; text-align: center;}
+        .fly-case-desc{height: 60px; line-height: 20px; font-size: 12px; color: #666; overflow: hidden;}
+        .fly-case-info{position: relative; margin: 10px 0 0; padding: 10px 65px 0 45px; border-top: 1px dotted #eee;}
+        .fly-case-info p{height:24px; line-height: 24px;}
+        .fly-case-user{position: absolute; left: 0; top: 15px; width: 35px; height: 35px;}
+        .fly-case-user img{width: 35px; height: 35px; border-radius: 100%;}
+        .fly-case-info .layui-btn{position: absolute; right: 0; top: 15px;  padding: 0 15px;}
+        .layer-ext-ul{margin: 10px; max-height: 500px;}
+        .layer-ext-ul img{width: 50px; height: 50px; border-radius: 100%;}
+        .layer-ext-ul li{margin: 8px;}
+        .layer-ext-case .layui-layer-title{border: none; background-color: #009688; color: #fff;}
+    </style>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <blockquote class="layui-elem-quote">
+                <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>  {$info['name']}管理</button>
+                <button type="button" class="layui-btn pull-right layui-inline" onclick="location.reload();" style="float:right;"><i class="layui-icon">&#x1002;</i> 刷新</button>
+                <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+                <div style="clear:both;"></div>
+            </blockquote>
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">中文名称</label>
+                            <div class="layui-input-inline"> <input type="text" name="name_cn" value="{$info['name_cn']}" placeholder="中文名称"  autocomplete="off" class="layui-input" lay-verify="required"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">单位</label>
+                            <div class="layui-input-inline"> <input type="text" name="thigh" value="{$info['thigh']}" placeholder="单位"  autocomplete="off" class="layui-input" lay-verify="required"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">发行总数量</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="taotal" value="{$info['taotal']}" placeholder="发行总数量" autocomplete="off" class="layui-input" lay-verify="required" />
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="fly-case-list">
+                        <li data-id="123">
+                            <input type="hidden" name="logo" value="{$info['logo']|default='__PUBLIC__/images/not_adv.jpg'}" placeholder="银行图片" autocomplete="off" id="BlockLogo" class="layui-input" />
+                            <a class="fly-case-img" href="javaScript:void(0);"><img src="{$info['logo']|default='__PUBLIC__/images/not_adv.jpg'}" alt="银行图片" class="BlockLogo checkImg" ></a>
+                            <h5><a href="javaScript:void(0);">LOGO 100 * 100px</a></h5>
+                            <button class="layui-btn layui-btn-sm uploadImg" type="button" lay-data="{field: 'BlockLogo',data:{dir:'Block', field:'BlockLogo'}}"><i class="layui-icon">&#xe62f;</i> 上传LOGO</button>
+                        </li>
+                    </ul>
+<!--                    <div class="layui-form-item">
+                        <label class="layui-form-label">买入用</label>
+                        <div class="layui-input-inline">
+                            <select name="buy_mid" lay-search="">
+                                <option value="0">--请选择--</option>
+                                <foreach name="moneyInfo" item="v" key="k">
+                                    <option value="{$k}" <if condition="$k eq $info['buy_mid']">selected</if>>{$v}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">交易</div>
+                    </div>-->
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">当前交易价</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="now_price" value="{$info['now_price']|default='1'}" lay-verify="required" placeholder="当前交易价" autocomplete="off" class="layui-input"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux" id='username' style="color:red;font-weight: 800;"><i class="layui-icon" style="color:red;">&#xe65e;</i></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">每日上涨</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="day_price" value="{$info['day_price']|default='0'}" lay-verify="required" placeholder="每日上涨" autocomplete="off" class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux" id='float_price' style="color:red;font-weight: 800;"></div>
+                    </div>
+                  	<div class="layui-form-item">
+                        <label class="layui-form-label">打款限时</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="dakuan_time" value="{$info['dakuan_time']|default='0'}" lay-verify="required" placeholder="打款限时" autocomplete="off" class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux" style="color:red;font-weight: 800;">H</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">收款限时</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="shoukuan_time" value="{$info['shoukuan_time']|default='0'}" lay-verify="required" placeholder="打款限时" autocomplete="off" class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux" style="color:red;font-weight: 800;">H</div>
+                    </div>
+                    <!--<div class="layui-form-item">-->
+<!--                        <label class="layui-form-label">价格浮动</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="float_price" value="{$info['float_price']|default='0'}" lay-verify="required" placeholder="价格浮动" autocomplete="off" class="layui-input"/>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux" id='float_price' style="color:red;font-weight: 800;">%</div>
+                    </div>-->
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">买入最低</label>
+                            <div class="layui-input-inline" >
+                                <input type="text" name="buy_low" value="{$info['buy_low']|default='100'}" placeholder="买入最低数量" autocomplete="off" class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">起</div>
+                            <div class="layui-input-inline" >
+                                <input type="text" name="buy_bei" value="{$info['buy_bei']|default='1'}" placeholder="买入的倍数" autocomplete="off" class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">的倍数，手续费</div>
+                            <div class="layui-input-inline" >
+                                <input type="text"  name="buy_fee" value="{$info['buy_fee']|default='0'}"  placeholder="手续费" autocomplete="off" class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">%</div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">卖出最低</label>
+                            <div class="layui-input-inline" >
+                                <input type="text" name="sell_low" value="{$info['sell_low']|default='100'}" placeholder="卖出最低数量" autocomplete="off" class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">起</div>
+                            <div class="layui-input-inline" >
+                                <input type="text" name="sell_bei" value="{$info['sell_bei']|default='1'}" placeholder="卖出的倍数" autocomplete="off" class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">的倍数，手续费</div>
+                            <div class="layui-input-inline" >
+                                <input type="text"  name="sell_fee" value="{$info['sell_fee']|default='0'}"  placeholder="手续费" autocomplete="off" class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">%,每日最多可售</div>
+                            <div class="layui-input-inline" >
+                                <input type="text"  name="day_sell_per" value="{$info['day_sell_per']|default='0'}"  placeholder="每日可售比例" autocomplete="off" class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">%</div>
+                        </div>
+                    </div>
+<!--                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">担保手续费</label>
+                            <div class="layui-input-block"> 
+                                <input type="text" name="dbr_fee" value="{$info.dbr_fee|floatval}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">%</label>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">卖出分配一</label>
+                        <div class="layui-input-inline">
+                            <select name="s_m1" lay-search="">
+                                <option value="0">--钱包请选择--</option>
+                                <foreach name="moneyInfo" item="v" key="k">
+                                    <option value="{$k}" <if condition="$k eq $info['s_m1']">selected</if>>{$v}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">进</div>
+                        <div class="layui-input-inline" >
+                            <input type="text"  name="s_p1" value="{$info['s_p1']|default='0'}"  placeholder="进账比例" autocomplete="off" class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">%</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">卖出分配二</label>
+                        <div class="layui-input-inline">
+                            <select name="s_m2" lay-search="">
+                                <option value="0">--钱包请选择--</option>
+                                <foreach name="moneyInfo" item="v" key="k">
+                                    <option value="{$k}" <if condition="$k eq $info['s_m2']">selected</if>>{$v}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">进</div>
+                        <div class="layui-input-inline" >
+                            <input type="text"  name="s_p2" value="{$info['s_p2']|default='0'}"  placeholder="进账比例" autocomplete="off" class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">%</div>
+                    </div>-->
+<!--                    <div class="layui-form-item">
+                        <label class="layui-form-label">卖出分配三</label>
+                        <div class="layui-input-inline">
+                            <select name="s_m3" lay-search="">
+                                <option value="0">--钱包【三】请选择--</option>
+                                    <foreach name="moneyInfo" item="v" key="k">
+                                        <option value="{$k}" <if condition="$k eq $info['s_m3']">selected</if>>{$v}</option>
+                                    </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">进</div>
+                        <div class="layui-input-inline" >
+                            <input type="text"  name="s_p3" value="{$info['s_p3']|default='0'}"  placeholder="进账比例" autocomplete="off" class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">%</div>
+                     </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">卖出分配四</label>
+                        <div class="layui-input-inline">
+                            <select name="s_m4" lay-search="">
+                                <option value="0">--钱包【四】请选择--</option>
+                                    <foreach name="moneyInfo" item="v" key="k">
+                                        <option value="{$k}" <if condition="$k eq $info['s_m4']">selected</if>>{$v}</option>
+                                    </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">进</div>
+                        <div class="layui-input-inline" >
+                            <input type="text"  name="s_p4" value="{$info['s_p4']|default='0'}"  placeholder="进账比例" autocomplete="off" class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">%</div>
+                    </div>-->
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">是否启用</label>
+                            <div class="layui-input-inline">
+                                <input type="radio" name="statu" value="1" title="启用" <if condition="$info.statu eq 1">checked=""</if>>
+                                <input type="radio" name="statu" value="2" title="禁用" <if condition="$info.statu eq 2">checked=""</if>>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="id" value="{$info['id']}"/>
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+<include file="Public/footer" />
+    <script>
+    layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+    var form = layui.form, $ = layui.jquery,upload = layui.upload;
+    upload.render({
+     elem: '.uploadImg',
+     url:'{:U("Api/imageUp")}',
+     before: function(){
+     }
+     ,done: function(res, index, upload){
+         $('#'+this.data.field).val(res.data.src);
+         $('.'+this.data.field).attr('src', res.data.src);
+     }
+    });
+    $('#submitBtn').click(function () {
+     editor.sync();
+    });
+    form.on('submit(articleHandle)', function (data) {
+     var ArticleInfo = data.field;
+     var url = "{:U('')}";
+     $.post(url, ArticleInfo, function (data) {
+         if (data.status != 1) {
+             layer.msg(data.msg, {icon: 5});
+         } else {
+             layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                 history.go(-1);
+             });
+         }
+     });
+     return false;//阻止表单跳转
+    });
+    });
+    </script>
+    </body>
+    </html>

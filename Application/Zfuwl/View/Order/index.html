@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <div class="test-table-reload-btn" style="margin-top: 10px;margin-left:15px;">
+                <form class='layui-form' id="search-form2">
+                    <div class="layui-input-inline">
+                        <input type="text" name="account" placeholder="会员账号" class="layui-input"/>
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="text" name="order_sn" placeholder="订单编号" class="layui-input"/>
+                    </div>
+                    <div class="layui-input-inline" style='width:120px;'>
+                        <select name="statu">
+                            <option value="">--订单状态--</option>
+                            <foreach name='orderStatu' item='v' key='k'>
+                                <option value="{$k}">{$v}</option>
+                            </foreach>
+                        </select>
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="text" name="time" placeholder="下单时间" id="time" class="layui-input" />
+                    </div>
+                    <input type="hidden" name="order_by" value="goods_id">
+                    <input type="hidden" name="sort" value="desc">
+                    <button class="layui-btn" type="button" onclick="ajax_get_table('search-form2', 1);">搜索</button>
+                </form>
+            </div>
+            <div class="layui-field-box"><div id="ajax_return"></div></div>
+        </fieldset>
+    </div>
+<include file="Public/footer" />
+<script>
+    layui.use(['laydate','laypage', 'layer', 'form'], function () {
+        var $ = layui.jquery,laydate=layui.laydate;
+        $(document).ready(function () {
+            ajax_get_table('search-form2', 1);
+        });
+        laydate.render({
+            elem: '#time'
+            ,range: true,
+            format:'yyyy/MM/dd'
+        });
+    });
+    /**
+     * 统一修改状态
+     */
+    function saveState(fieldVal, val, id, obj)
+    {
+        var url = $(obj).data('url');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {fieldVal: fieldVal, id: id, val: val},
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                    return;
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 1000}, function () {
+                        var page = $('.pagination .active').find('a').data('p');
+                        ajax_get_table('search-form2', page);
+                    });
+                }
+            }
+        });
+
+    }
+
+    function ajax_get_table(tab, page) {
+        var loadVal = layer.load(3);
+        cur_page = page;
+        $.ajax({
+            type: "POST",
+            url: "{:U('Order/index')}?p=" + page,
+            data: $('#' + tab).serialize(),
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                    return;
+                }
+                layer.close(loadVal);
+                $("#ajax_return").html(data);
+            }
+        });
+    }
+</script>
+</body>
+
+</html>

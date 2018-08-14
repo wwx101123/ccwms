@@ -1,0 +1,155 @@
+<foreach name="list" item="v">
+    <li class="tradingRecordLi">
+        <div class="tradingRecordTop">
+            <span class="span_1">委拖价格：<span class="span_1_1">{$v['price']}  / 个</span></span>
+            <a href="javascript:;" class="tradingRecordLink">{:blockTradeStatus($v[is_type])}</a>
+        </div>
+        <div class="tradingRecordTx">
+            <div class="tradLeft">
+                <div class="tradImg">
+                    <img src="{:blockOneImg($v[mid])}" alt="">
+                </div>
+            </div>
+            <div class="tradRight">
+                <div class="tradText_2">
+                    <span class="span_1">交易数量：</span>
+                    <span class="span_2">{$v['num']}</span>
+                </div>
+                <div class="tradText_2">
+                    <span class="span_1">交易金额：</span>
+                    <span class="span_2">{$v['money']}</span>
+                </div>
+                <div class="tradText_2">
+                    <span class="span_1">买入账号：</span>
+                    <span class="span_2">{:userInfo($v['buy_uid'])['account']}</span>
+                </div>
+                <div class="tradText_2">
+                    <span class="span_1">卖出账号：</span>
+                    <span class="span_2">{:userInfo($v['sell_uid'])['account']}</span>
+                </div>
+                <div class="tradText_2">
+                    <span class="span_1">收款倒计时：</span>
+                    <?php
+                        $time = $v['pay_time'] + ($block['shoukuan_time'] * 3600) - time();
+                    ?>
+                    <if condition="$v['is_type'] eq 2">
+                        <span class="span_2 daojishi" data-val="{$time}">{$time<=0?'收款截止':''}</span>
+                    <elseif condition="$v['is_type'] eq 4 && $v['buy_uid'] eq $user['user_id']" />
+                        <span class="span_2">对方超时收款</span>
+                    <else />
+                        <span class="span_2">超时收款</span>
+                    </if>
+                </div>
+                <div class="tradText_2">
+                    <span class="span_1">委托时间：</span>
+                    <span class="span_2">{:date('Y-m-d H:i:s' ,$v['add_time'])}</span>
+                </div>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="tradingRecordCZ">
+            <!--<span class="czLink sellWithdraw" data-id="{$v['id']}">卖出</span>-->
+            <if condition="$v['is_type'] eq 4 && $v['buy_uid'] eq $user['user_id']">
+                <div style="color: red;" class="clickCyjys likeA" data-url="{:U('Block/tousu', array('id' => $v['id'], 'is_type' => $v['is_type']))}">
+                    投诉
+                </div>
+            <else/>
+                <div class="clickCyjy">
+                    对方收款信息
+                </div>
+            </if>
+            <?php
+				$bankInfo = D("UserView")->where(['user_id' => $v['sell_uid']])->find();
+            ?>
+            <div class="cyjyBox">
+                <form class="contentForm_2">
+                    <div class="mui-input-row cyjyRow">
+                        <label class="tr">姓名：</label>
+                        <input type="text" name="" value="{$bankInfo['bank_name']}" readonly class="mui-input-clear sell_num" placeholder="银行卡持有者">
+                    </div>
+                    <div class="mui-input-row cyjyRow">
+                        <label class="tr">银行账号：</label>
+                        <input type="text" name="" value="{$bankInfo['bank_account']}" readonly class="mui-input-clear sell_num" placeholder="银行账号">
+                    </div>
+                    <div class="mui-input-row cyjyRow">
+                        <label class="tr">开户银行：</label>
+                        <input type="text" name="" value="{$bankList[$bankInfo['opening_id']]}" readonly class="mui-input-password sellSecpwd" placeholder="开户银行">
+                    </div>
+                    <div class="mui-input-row cyjyRow">
+                        <label class="tr">分支分行：</label>
+                        <input type="text" name="" value="{$bankInfo['bank_address']}" readonly class="mui-input-password sellSecpwd" placeholder="分支分行">
+                    </div>
+                    <!--<if condition="$v['is_type'] eq 2">
+                        <div class="mui-input-row cyjyRow">
+                            <label class="tr">收款倒计时：</label>
+                            <input type="text" name="" value="{$v[id]|sellPaytimeBlock}" readonly class="mui-input-password sellSecpwd" placeholder="收款倒计时">
+                        </div>
+                    </if>-->
+                    <div class="cyjyButtom">
+                        <if condition="$v['is_type'] eq 1">
+                            <button type="button" data-id="{$v['id']}" class="mui-btn mui-btn-primary sellOneAdd" >等待对方打款</button>
+                        <elseif condition="$v['is_type'] eq 2 && $v['buy_uid'] eq $user['user_id']" />
+                            <button type="button" data-id="{$v['id']}" class="mui-btn mui-btn-primary sellOneAdd" >等待对方收款</button>
+                        <elseif condition="$v['is_type'] eq 2 || $v['is_type'] eq 4"/>
+                            <button type="button" data-id="{$v['id']}" class="mui-btn mui-btn-primary sellOneAdd sellAdd" >确认收款</button>
+                        </if>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </li>
+</foreach>
+<script>
+    mui("body").on('tap','.sellAdd',function(){
+
+        var obj = $(this);
+        $(obj).attr('disabled',true);
+        var url = "{:U('Block/confirmPay')}";
+        var id = $(this).attr('data-id');
+        $.post(url, {id:id}, function (data) {
+            if (data.status == 0) {
+                $(obj).removeAttr('disabled');
+                mui.toast(data.msg,{ duration:'long', type:'div' });
+            } else {
+                mui.toast(data.msg, {icon: 5});
+                setTimeout(function () {
+                    mui.openWindow({
+                        url: data.url
+                    });
+                }, 2000);
+            }
+        })
+    });
+
+    $(".daojishi").each(function(i){
+        var intDiff = $(this).attr('data-val');
+        console.log(intDiff);
+        that = $(this);
+        $(function () {
+            timer(intDiff, that);
+        });
+    });
+
+    function timer(intDiff, that) {
+        if (intDiff <= 0) {
+            that.val('收款截止');
+            return;
+        }
+        setInterval(function () {
+            var day = 0,
+                hour = 0,
+                minute = 0,
+                second = 0; //时间默认值
+            if (intDiff > 0) {
+                day = Math.floor(intDiff / (60 * 60 * 24));
+                hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+                minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+                second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+            }
+            if (minute <= 9) minute = '0' + minute;
+            if (second <= 9) second = '0' + second;
+            that.html(day + "天"  + hour + '时' + minute + '分' +  second + '秒');
+            intDiff--;
+        }, 1000);
+    }
+</script>

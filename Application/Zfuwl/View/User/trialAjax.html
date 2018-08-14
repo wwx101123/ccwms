@@ -1,0 +1,120 @@
+<table class="layui-table layui-form">
+    <thead>
+    <tr>
+        <th style="width: 5px;"><input type="checkbox" lay-filter="allChoose"lay-skin="primary" /></th>
+        <th><a href="javascript:sort('user_id');" class="active">ID</a></th>
+        <th>基本信息</th>
+        <th>推荐人</th>
+        <th>报单人</th>
+        <th>注册时间</th>
+        <th>省份</th>
+        <th>市区</th>
+        <th>县区</th>
+        <th>基本操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <if condition="count($list) eq 0">
+        <tr align="center">
+            <td colspan="20">暂无数据</td>
+        </tr>
+        <else/>
+        <foreach name="list" key="k" item="v">
+            <?php $userData = dataInfo($v['data_id']); ?>
+            <tr>
+                <td><input type="checkbox" name="selected[]" value="{$v['user_id']}" lay-skin="primary"></td>
+                <td>{$v['user_id']}</td>
+                <td>
+                    账号：{$v['account']}<br/>
+                    级别：{$levelInfo[$v['level']]}
+                </td>
+                <td>{$tjrList[$v['tjr_id']]|default='主账号引荐'}</td>
+                <td>{$tjrList[$v['bdr_id']]|default='主账号报单'}</td>
+                <td>{$v.reg_time|date='Y-m-d H:i:s', ###} </td>
+                <td>{$regionInfo[$userData['province']]|default='未填'}</td>
+                <td>{$regionInfo[$userData['city']]|default='未填'}</td>
+                <td>{$regionInfo[$userData['district']]|default='未填'} </td>
+                <td>
+                    <a href="javaScript:void(0);" class="layui-btn layui-btn-sm layui-btn-normal activate" data-id="{$v['user_id']}"><i class="layui-icon">&#xe605;</i>协助激活会员</a><br/>
+                    <!--<a href="{:U('Activate/acviteInfo',array('user_id'=>$v['user_id']))}" class="layui-btn layui-btn-sm layui-btn-normal"><i class="layui-icon">&#xe605;</i>协助激活会员</a><br/>-->
+                    <a data="{$v.user_id}" class="layui-btn layui-btn-sm layui-btn-danger del"><i class="layui-icon">&#xe640;</i>删除当前会员</a><br/>
+                </td>
+            </tr>
+        </foreach>
+    </if>
+    </tbody>
+</table>
+{$page}
+<script>
+    var jh_type;
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render('checkbox'); //刷新checkbox渲染
+        form.render();
+        form.on('radio(filter)', function(data){
+             jh_type = data.value;
+        });
+        form.on('checkbox(allChoose)', function(data){
+            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+            child.each(function(index, item){
+                item.checked = data.elem.checked;
+            });
+            form.render('checkbox');
+        });
+    });
+    $(".pagination a").click(function () {
+        var page = $(this).data('p');
+        ajax_get_table('search-form2', page);
+    });
+    $('.del').click(function(){
+        var url = "{:U('User/delWeUsers')}";
+        var id = $(this).attr('data');
+        if (!id) {
+            var obj = $("input[name*='selected']");
+            if (obj.is(":checked")) {
+                var check_val = [];
+                for (var k in obj) {
+                    if (obj[k].checked)
+                        check_val.push(obj[k].value);
+                }
+                id = check_val;
+            }
+        }
+        if (!id) {
+            return false;
+        }
+        layer.confirm('确定删除吗?', {icon: 3,skin: 'layer-ext-moon',btn: ['确认', '取消']}, function() {
+            var loadAdd = layer.msg('删除中', {icon:16, time:0, shade:0.1});
+            $.post(url, {id: id}, function (data) {
+                layer.close(loadAdd);
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                } else if (data.status == 1) {
+                    var page = $('.pagination .active').find('a').data('p');
+                    ajax_get_table('search-form2', page);
+                    layer.msg(data.msg, {icon: 6, time: 2000});
+                }
+            });
+        });
+    });
+    $('.activate').click(function(){
+        var url = "{:U('Activate/acviteInfo')}";
+        var id = $(this).data('id');
+        if (!id) {
+            return false;
+        }
+        layer.confirm('是否确认激活?', {icon: 3,skin: 'layer-ext-moon',btn: ['确认', '取消']}, function() {
+            var loadAdd = layer.msg('激活中', {icon:16, time:0, shade:0.1});
+            $.post(url, {id: id}, function (data) {
+                layer.close(loadAdd);
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                } else if (data.status == 1) {
+                    var page = $('.pagination .active').find('a').data('p');
+                    ajax_get_table('search-form2', page);
+                    layer.msg(data.msg, {icon: 6, time: 2000});
+                }
+            });
+        });
+    });
+</script>

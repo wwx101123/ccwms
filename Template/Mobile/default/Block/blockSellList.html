@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>交易日志</title>
+    <include file="Public/top" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/xiaoxi.css" />
+</head>
+<body>
+    <div class="publicBox">
+        <!--左侧导航-->
+        <include file="Public/nav"/>
+        <div class="publicBoxzi">
+            <!--公共头部-->
+            <include file="Public/header"/>
+            <!--公共盒子-->
+            <div class="publicHeiz">
+
+                <!--公告-->
+                <div class="communalBox">
+                    <div class="communalTl">
+                        <span class="span_1">钱包日志</span>
+                    </div>
+                    <div class="communalTx">
+                        <div class="purswitchBox df">
+                            <div class="purswitch fx1 likeA" data-url="{:U('Block/fenmoneyLog')}">买入</div>
+                            <div class="purswitch purswitchBG fx1 likeA" data-url="{:U('Block/blockSellList')}">卖出</div>
+                            <div class="purswitch fx1 likeA" data-url="{:U('Block/blockStatusOne')}">待打款</div>
+                            <!--<div class="purswitch fx1">挂卖</div>-->
+                            <div class="purswitch fx1 likeA" data-url="{:U('Block/blockStatusTwo')}">待收款</div>
+                            <div class="purswitch fx1 likeA" data-url="{:U('Block/blockStatusOk')}">已完成</div>
+                        </div>
+                    </div>
+                    <ul class="tradingRecordUl">
+
+                    </ul>
+                    <div class="loadAdd" style="text-align:center;color:#999;margin-bottom:2px;display:none;">加载中...</div>
+                    <div class="loadAdd_bottom" style="text-align:center;color:#999;margin-bottom:2px;display:none;">到底了~</div>
+                </div>
+            </div>
+        </div>
+    </div>
+<include file="Public/footer"/>
+<script>
+    mui('body').on('tap', ".purswitch", function () {
+        $('.purswitch').removeClass('purswitchBG');
+        $(this).addClass('purswitchBG');
+    });
+
+    $(document).ready(function () {
+        ajax_get_table();
+    });
+    var page = 0;
+    function ajax_get_table() {
+        if (stop == true) {
+            stop = false;
+            $('.loadAdd').show();
+            $.ajax({
+                type: "GET",
+                url: "{:U('',null,'')}/is_list/1/p/" + page, //+tab,
+                success: function (data) {
+                    page += 1;
+                    $('.loadAdd').hide();
+                    // layer.close(getMoreLoad);
+                    if ($.trim(data) == '') {
+                        stop = false;
+                        $('.loadAdd_bottom').show();
+                    } else {
+                        stop = true;
+                        $('.tradingRecordUl').append(data);
+                        var countSize = $('.tradingRecordUl').find('li').length;
+                        if (countSize >= {$count}) {
+                            stop = false;
+                            $('.loadAdd_bottom').show();
+                        }
+                    }
+                }, error: function () {
+                    mui.toast('网络失败，请刷新后重试', {duration: 'long', type: 'div'})
+                }
+            });
+        }
+    }
+
+    var bottomH = 50;//距离底部多少像素开始加载
+    var stop = true;
+    $(window).scroll(function () {
+        totalheight = parseFloat($(window).height()) + parseFloat($(window).scrollTop() + bottomH);
+        if ($(document).height() <= totalheight) {
+            ajax_get_table();
+        }
+    });
+</script>
+</body>
+
+</html>

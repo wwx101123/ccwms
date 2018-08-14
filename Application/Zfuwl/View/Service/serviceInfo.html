@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <div class="test-table-reload-btn" style="margin-top: 10px;margin-left:15px;">
+               <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>  {$info['name']}管理</button>
+               <button  type="button" class="layui-btn layui-btn-danger pull-right" layadmin-event="back" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+               <div style="clear:both;"></div>
+           </div>
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">中文名称</label>
+                        <div class="layui-input-inline"> <input type="text" name="name_cn" value="{$info['name_cn']}" placeholder="中文名称"  autocomplete="off" class="layui-input" lay-verify="required"></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">加盟费</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="amount" value="{$info['amount']}" placeholder="投资金额" autocomplete="off" class="layui-input" lay-verify="required" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">代理推荐奖</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="per" value="{$info[per]}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d,.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d,.]/g, '')">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;">代理推荐人拿</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">代理团队奖</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="team_money" value="{$info[team_money]}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d,.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d,.]/g, '')">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;">自己成为代理，拿下级团队的每单费用</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否启用</label>
+                        <div class="layui-input-block" >
+                            <input type="radio" name="statu" value="1" title="启用" <if condition="$info.statu eq 1">checked=""</if>>
+                            <input type="radio" name="statu" value="2" title="禁用" <if condition="$info.statu eq 2">checked=""</if>>
+                        </div>
+                    </div>
+                    <!-- <div class="layui-form-item" pane="" style="width:28.5%;">
+                        <label class="layui-form-label">颜色</label>
+                        <div class="layui-input-block" ><input type="color" name="color" value="{$info.color}"  placeholder="{$info.color}" class="form-control"></div>
+                    </div> -->
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">限制申请</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="xz_sq" value="{$info[xz_sq]|default=1}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d,.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d,.]/g, '')">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">赠送股票</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="give_shares" value="{$info[give_shares]|default=1}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d,.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d,.]/g, '')">
+                        </div>
+                    </div>
+                    <blockquote class="layui-elem-quote">自动升级条件</blockquote>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">团队合伙人</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="team_num" value="{$info[team_num]|default=1}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d,.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d,.]/g, '')">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;">人</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">直推合伙人</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="zt_num" value="{$info[zt_num]|default=1}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d,.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d,.]/g, '')">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"  style="color:red;">人</div>
+                    </div>
+
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="id" value="{$info['id']}" />
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+<include file="Public/footer" />
+<script>
+    layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+        var form = layui.form, $ = layui.jquery;
+        //监听提交
+        form.on('submit(articleHandle)', function (data) {
+            var ArticleInfo = data.field;
+            var url = "{:U('')}";
+            $.post(url, ArticleInfo, function (data) {
+                if (data.status != 1) {
+                    layer.msg(data.msg, {icon: 5});
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        history.go(-1);
+                    });
+                }
+            });
+            return false;//阻止表单跳转
+        });
+
+    });
+</script>
+</body>
+</html>

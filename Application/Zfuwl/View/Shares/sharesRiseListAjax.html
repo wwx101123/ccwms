@@ -1,0 +1,143 @@
+<table class="layui-table layui-form">
+    <thead>
+    <tr>
+        <!--<th style="width: 5px;"><input type="checkbox" lay-filter="allChoose"lay-skin="primary" /></th>-->
+        <th><a href="javascript:sort('rise_id');">ID</a></th>
+        <th><a href="javascript:sort('shares_id');">名称</a></th>
+        <th><a href="javascript:sort('zf_time');">添加时间</a></th>
+
+        <th><a href="javascript:sort('rise_type');">涨价规则</a></th>
+        <!--<th><a href="javascript:sort('trade_price');">涨价前参考价</a></th>-->
+        <th>规则详情</th>
+        <th><a href="javascript:sort('is_type');">状态</a></th>
+        <th><a href="javascript:sort('last_time');">更新时间</a></th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <if condition="count($list) eq 0">
+        <tr align="center">
+            <td colspan="20">暂无数据</td>
+        </tr>
+        <else/>
+        <foreach name="list" key="k" item="v">
+            <tr>
+                <!--<td><input type="checkbox" name="selected[]" value="{$v['rise_id']}" lay-skin="primary"></td>-->
+                <td>{$v.rise_id}</td>
+                <td>{$sharesList[$v['shares_id']]}</td>
+                <td>{$v['zf_time']|date="Y-m-d H:i:s", ###}</td>
+                <td>{$sharesRiseType[$v[rise_type]]}</td>
+                <!--<td>{$v.trade_price}</td>-->
+                <td>
+                    <if condition="$v[rise_type] eq 1">
+                        发行量达 {$v.trade_num} 天后，涨 {$v.rose_price}
+                    </if>
+                    <if condition="$v[rise_type] eq 2">
+                        每次涨价间隔 {$v.cycle_num} 天后，涨 {$v.rose_price}
+                    </if>
+                    <if condition="$v[rise_type] eq 3">
+                        每次累积交易量达 {$v.out_num} 时，涨 {$v.rose_price}
+                    </if>
+                </td>
+                <td>
+                    <if condition="$v.is_type eq 1">
+                        <a href="javaScript:saveData('is_type', {$v['is_type']}, {$v['rise_id']});"><b><i class="layui-icon">&#xe605;</i></b></a>
+                    <else/>
+                        <a href="javaScript:saveData('is_type', {$v['is_type']}, {$v['rise_id']});"><b><i class="layui-icon">&#x1006;</i></b></a>
+                    </if>
+                </td>
+                <td><if condition="$v.last_time gt 0">{$v['last_time']|date="Y-m-d H:i:s", ###}</if></td>
+                <td>
+                    <a data="{$v['rise_id']}" class="layui-btn layui-btn-mini layui-btn-normal edit"><i class="layui-icon">&#xe642;</i>编辑</a>
+                    <!--<a data="{$v['rise_id']}" class="layui-btn layui-btn-danger layui-btn-mini del"><i class="layui-icon">&#xe640;</i>删除</a>-->
+                </td>
+            </tr>
+        </foreach>
+    </if>
+    </tbody>
+</table>
+<!--<button type="button" class="layui-btn layui-btn-danger del" style="float:left;margin:20px 0px;"><i class="layui-icon">&#xe640;</i>删除</button>-->
+{$page}
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render('checkbox'); //刷新checkbox渲染
+        // 全选
+        form.on('checkbox(allChoose)', function(data){
+            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+            child.each(function(index, item){
+                item.checked = data.elem.checked;
+            });
+            form.render('checkbox');
+        });
+    });
+    $(".pagination a").click(function () {
+        var page = $(this).data('p');
+        ajax_get_table('search-form2', page);
+    });
+    $('.del').click(function () {
+        var url = "{:U('Shares/delRise')}";
+        var id = $(this).attr('data');
+        if (!id) {
+            var obj = $("input[name*='selected']");
+            if (obj.is(":checked")) {
+                var check_val = [];
+                for (var k in obj) {
+                    if (obj[k].checked)
+                        check_val.push(obj[k].value);
+                }
+                id = check_val;
+            }
+        }
+        if (!id) {
+            return false;
+        }
+        layer.confirm('确定删除吗?', {icon: 3, skin: 'layer-ext-moon', btn: ['确认', '取消']}, function () {
+            $.post(url, {id: id}, function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                } else if (data.status == 1) {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        var page = $('.pagination .active').find('a').data('p');
+                        ajax_get_table('search-form2', page);
+                    });
+                }
+            });
+        });
+    });
+    $('.edit').click(function () {
+        var url = "{:U('Shares/editRise')}";
+        var id = $(this).attr('data');
+        $.get(url, {id:id}, function (data) {
+            if (data.status == 0) {
+                layer.msg(data.msg, {icon: 5});
+                return;
+            }
+            layer.open({
+                title: '编辑规则',
+                type: 1,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['80%', '80%'], //宽高
+                content: data
+            });
+        });
+    });
+    function saveData(fieldVal, val, id) {
+        $.ajax({
+            type: "POST",
+            url: "{:U('Shares/saveRise')}",
+            data: {fieldVal:fieldVal, id:id, val:val},
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                    return;
+                } else {
+                    layer.msg(data.msg, {icon: 6}, function(){
+                        var page = $('.pagination .active').find('a').data('p');
+                        ajax_get_table('search-form2', page);
+                    });
+                }
+            }
+        });
+    }
+</script>

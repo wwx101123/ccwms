@@ -1,0 +1,19 @@
+.layui-inline .inputGGTfj .inputGGTs {
+    position: relative;
+    z-index: 1;
+    background: rgba(255,255,255, 0);
+    filter:progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#00000000',EndColorStr='#00000000');
+}
+.layui-inline .inputGGTfj .timeGGTs {
+    position: relative;
+    z-index: 1;
+    width:200px;
+    background: rgba(255,255,255, 0);
+    filter:progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#00000000',EndColorStr='#00000000');
+}
+.layui-inline .inputGGTfj .inputGGTx {
+    display: inline-block;
+}
+.layui-inline .inputGGTfj .timeGGTx {
+    display: inline-block;
+}

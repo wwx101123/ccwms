@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <blockquote class="layui-elem-quote">
+                <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>  钱包转换参数管理</button>
+                <button type="button" class="layui-btn pull-right layui-inline" style="float:right;" onclick="location.reload();"><i class="layui-icon">&#x1002;</i> 刷新</button>
+                <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+                <div style="clear:both;"></div>
+            </blockquote>
+            <div class="layui-field-box">
+                <blockquote class="layui-elem-quote layui-text">
+                    <b style="color:red;">温馨提示：</b>钱包转换表示  A 会员将自己的 A 钱或币 转至 B 钱包当中<br />
+                    参数说明： 如 100 起 100 的倍数，单笔最高  1000 ；
+                </blockquote>
+                <form class="layui-form layui-form-pane" action="">
+                    <!--<div class="layui-form-item">-->
+                        <!--<div class="layui-inline">-->
+                            <!--<label class="layui-form-label">会员等级</label>-->
+                            <!--<div class="layui-input-block"> -->
+                                <!--<select name="level_id" class="layui-input">-->
+                                    <!--<option value="0">&#45;&#45;请选择&#45;&#45;</option>-->
+                                    <!--<foreach name="levelInfo" item="v" key="k">-->
+                                        <!--<option value="{$k}" <if condition="$k eq $info['level_id']">selected</if>>{$v}</option>-->
+                                    <!--</foreach>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<label class="control-label" style="color:red;">不选等级 黙认全部通用，选会员级别 只针对当前级别有用</label>-->
+                    <!--</div>-->
+                    <if condition="$id neq 1">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">转出钱包</label>
+                                <div class="layui-input-block">
+                                    <select name="money_id" class="layui-input">
+                                        <option value="0">--请选择--</option>
+                                        <foreach name="moneyInfo" item="v" key="k">
+                                            <option value="{$k}" <if condition="$k eq $info['mid']">selected</if>>{$v}</option>
+                                        </foreach>
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="control-label" style="color:red;">请选择要操作的钱包</label>
+                        </div>
+                    </if>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">{$id==1?'转账钱包':'兑换选择'}</label>
+                            <div class="layui-input-block">
+                                <select name="bid" class="layui-input">
+                                    <option value="0">--请选择--</option>
+                                    <foreach name="blockInfo" item="v" key="k">
+                                            <if condition="$id neq 1">
+                                            <option value="{$k}" <if condition="$k eq $info['bid_a']">selected</if>>{$v}</option>
+                                        <else />
+                                            <option value="{$k}" <if condition="$k eq $info['bid']">selected</if>>{$v}</option>
+                                        </if>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;"></label>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">每日最多转</label>
+                            <div class="layui-input-block"> 
+                                <input type="text" name="day_num" value="{$info.day_num|default='0'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">次，0 表示不限制</label>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">每日上限额</label>
+                            <div class="layui-input-block"> 
+                                <input type="text" name="day_total" value="{$info.day_total|default='0'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">0 表示不限制</label>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">最低金额</label>
+                            <div class="layui-input-block"> 
+                                <input type="text" name="low" value="{$info.low|default='100'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">最低转金额，低于此金额 将不能转账</label>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">参考金额</label>
+                            <div class="layui-input-block"> 
+                                <input type="text" name="bei" value="{$info.bei|default='100'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">参考金额，如设为 100，表示只有 100 的倍数可以转； </label>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">最高金额</label>
+                            <div class="layui-input-block"> 
+                                <input type="text" name="out" value="{$info.out|default='100'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">单笔最高转账金额，大于此金额也不能转</label>
+                    </div>
+                    <!--<div class="layui-form-item">-->
+                        <!--<div class="layui-inline">-->
+                            <!--<label class="layui-form-label">{$moneyInfo[7]}</label>-->
+                            <!--<div class="layui-input-block">-->
+                                <!--<input type="text" name="dpr" value="{$info.dpr|default='0'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<label class="control-label" style="color:red;">倍</label>-->
+                    <!--</div>-->
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">转换手续费</label>
+                            <div class="layui-input-block"> 
+                                <input type="text" name="fee" value="{$info.fee|default='0'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">%</label>
+                    </div>
+                   
+                    <!--<blockquote class="layui-elem-quote layui-text">-->
+                        <!--<b style="color:red;">温馨提示：</b>额外转入 就是在转账的金额上 额外扣出一定的比例进入到设定的钱包 <br />-->
+                    <!--</blockquote>-->
+                    <!--<div class="layui-form-item">-->
+                        <!--<div class="layui-inline">-->
+                            <!--<label class="layui-form-label">额外转入</label>-->
+                            <!--<div class="layui-input-block"> -->
+                                <!--<select name="mid">-->
+                                    <!--<option value="0">&#45;&#45;请选择&#45;&#45;</option>-->
+                                    <!--<foreach name="moneyInfo" item="v" key="k">-->
+                                        <!--<option value="{$k}" <if condition="$k eq $info['mid']">selected</if>>{$v}</option>-->
+                                    <!--</foreach>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="layui-inline">-->
+                            <!--<label class="layui-form-label">转入比例</label>-->
+                            <!--<div class="layui-input-block"> -->
+                                <!--<input type="text" name="mpr" value="{$info.mpr|default='1.00'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<label class="control-label" style="color:red;">%</label>-->
+                    <!--</div>-->
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">启用状态</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="statu" value="1" <if condition="$info['statu'] eq 1">checked</if> title="开启" />
+                                <input type="radio" name="statu" value="2" <if condition="$info['statu'] eq 2">checked</if> title="关闭" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">审核状态</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="trial" value="1" <if condition="$info['trial'] eq 1">checked</if> title="开启" />
+                                <input type="radio" name="trial" value="2" <if condition="$info['trial'] eq 2">checked</if> title="关闭" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="id" value="{$info['id']}"/>
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+<include file="Public/footer" />
+<script>
+    layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+        var form = layui.form, $ = layui.jquery;
+        form.on('submit(articleHandle)', function (data) {
+            var ArticleInfo = data.field;
+            var url = "{:U('')}";
+            $.post(url, ArticleInfo, function (data) {
+                if (data.status != 1) {
+                    layer.msg(data.msg, {icon: 5});
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        history.go(-1);
+                    });
+                }
+            });
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+<foreach name="list" item="v">
+    <tr>
+        <td>{$v['id']}</td>
+        <td>{$v['money']}</td>
+        <td>{$v['per']|default="5"}</td>
+        <td>{:date('Y-m-d' ,$v['zf_time'])}</td>
+    </tr>
+</foreach>

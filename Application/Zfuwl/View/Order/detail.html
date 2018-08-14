@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file='Public/top'/>
+</head>
+<body>
+<div class="admin-main">
+    <div class="test-table-reload-btn" style="margin-top: 10px;margin-left:15px;">
+        <div class="layui-btn">订单详情</div>
+        <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+        <div style="clear:both;"></div>
+    </div>
+    <div style="clear:both;"></div>
+    <div class="layui-field-box">
+    <fieldset class="layui-elem-field">
+        <legend>基本信息</legend>
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th>订单id</th>
+                <th>会员账号</th>
+                <th>订单编号</th>
+                <th>订单状态</th>
+                <th>订单金额</th>
+                <th>下单时间</th>
+                <th>支付时间</th>
+                <th>发票抬头</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{$order['order_id']}</td>
+                    <td>{$user['account']}</td>
+                    <td>{$order['order_sn']}</td>
+                    <td>{$orderStatu[$order[statu]]}</td>
+                    <td>{$order['total_amount']}</td>
+                    <td>{$order['add_time']|date="Y-m-d H:i:s", ###}</td>
+                    <td><if condition="$order['pay_time'] elt 0">待支付<else/>{$order['pay_time']|date="Y-m-d H:i:s", ###}</if></td>
+                    <td>{$user['invoice_title']}</td>
+                </tr>
+            </tbody>
+        </table>
+    </fieldset>
+
+    <fieldset class="layui-elem-field">
+        <legend>收货信息</legend>
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th>收货人</th>
+                <th>联系方式</th>
+                <th>联系地址</th>
+                <th>配送方式</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{$order['consignee']}</td>
+                    <td>{$order['mobile']}</td>
+                    <td>{$region[$order['province']]} - {$region[$order['city']]} - {$region[$order['district']]} - {$region[$order['twon']]} - {$order['address']}</td>
+                    <td>
+                        <if condition="$order['statu'] gt 2">
+                            {$order['shopping_name']} - {$order['shopping_code']}
+                        </if>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </fieldset>
+    <fieldset class="layui-elem-field">
+        <legend>商品信息</legend>
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th>商品名称</th>
+                <th>规格属性</th>
+                <th>购买数量</th>
+                <th>商品单价</th>
+                <th>会员价格</th>
+                <th>PV值</th>
+                <th>小计</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="orderGoodsList" item="v">
+                <tr>
+                    <td>{$v['goods_name']}</td>
+                    <td>{$v['spec_name']}</td>
+                    <td>{$v['goods_num']}</td>
+                    <td>{$v['goods_price']}</td>
+                    <td>{$v['member_price']}</td>
+                    <td>{$v['goods_num'] * $v['pv']}</td>
+                    <td>{$v['goods_num'] * $v['goods_price']}</td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </fieldset>
+    <fieldset class="layui-elem-field">
+        <legend>订单备注</legend>
+        <blockquote class="layui-elem-quote layui-text">{$order['note']} </blockquote>
+    </fieldset>
+    </div>
+</div>
+</body>
+</html>

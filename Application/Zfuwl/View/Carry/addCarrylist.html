@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <blockquote class="layui-elem-quote">
+                <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>  批量提现管理</button>
+                <button type="button" class="layui-btn pull-right layui-inline" onclick="location.reload();" style="float:right;"><i class="layui-icon">&#x1002;</i> 刷新</button>
+                <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+                <div style="clear:both;"></div>
+            </blockquote>
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">提现方案</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="istype" value="1" title="保留余额提现">
+                                <input type="radio" name="istype" value="2" title="统一提现金额">
+                                <input type="radio" name="istype" value="3" title="账户余额比例">
+                            </div>
+                        </div>
+                    </div>
+                    <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
+                        <legend>提现方案说明</legend>
+                        <div>
+                            <b style="color:red;">保留余额提现</b><label class="control-label">：如输入 100；会员账号保留 100，多出的全部提现</label><br />
+                            <b style="color:red;">统一提现金额</b><label class="control-label">：如输入 100；则只提现 100 </label><br />
+                            <b style="color:red;">账户余额比例</b><label class="control-label">：如输入 50；则表示提账户余额的  50 %，最大值不可超过 100 % </label>
+                        </div>
+                    </fieldset>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">操作金额</label>
+                            <div class="layui-input-block"> 
+                                <input type="text" name="money" value="{$info.money|default='100'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">请输入金额</label>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">提现手续费</label>
+                            <div class="layui-input-block"> 
+                                <input type="text" name="fee" value="{$info.fee|default='0'}"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">请输入提现手续费</label>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">钱包选择</label>
+                            <div class="layui-input-block"> 
+                                <select name="mid" class="layui-input">
+                                    <option value="0">--请选择--</option>
+                                    <foreach name="moneyCarryInfo" item="v" key="k">
+                                        <option value="{$k}" <if condition="$k eq $info['mid']">selected</if>>{$v}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">请选择要提现的钱包</label>
+                    </div>
+                    
+                    
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <include file="Public/footer" />
+    <script>
+        layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+            var form = layui.form, $ = layui.jquery;
+            form.on('submit(articleHandle)', function (data) {
+                var ArticleInfo = data.field;
+                var url = "{:U('')}";
+                $.post(url, ArticleInfo, function (data) {
+                    if (data.status != 1) {
+                        layer.msg(data.msg, {icon: 5});
+                    } else {
+                        layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                            history.go(-1);
+                        });
+                    }
+                });
+                return false;//阻止表单跳转
+            });
+        });
+    </script>
+</body>
+</html>

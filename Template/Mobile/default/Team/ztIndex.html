@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>团队列表</title>
+	<include file="Public/top" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/xiaoxi.css" />
+</head>
+<body>
+	<div class="publicBox">
+		<!--左侧导航-->
+		<include file="Public/nav"/>
+		<div class="publicBoxzi">
+			<!--公共头部-->
+			<include file="Public/header"/>
+			<!--公共盒子-->
+			<div class="publicHeiz">
+
+				<!--公告-->
+				<div class="communalBox">
+					<div class="communalTl">
+						<span class="span_1">团队列表</span>
+					</div>
+					<div class="communalTx">
+						<div class="teamBox">
+							<div class="teamShuju df">
+								<div class="fx1">
+									<div class="teamShujuzi">
+										<p>{:count($tjrNum)|"default=0"}</p>
+										<p>直推</p>
+									</div>
+								</div>
+								<div class="fx1">
+									<div class="teamShujuzi">
+										<p>{$countDuan|default="0"}</p>
+										<p>团队</p>
+									</div>
+								</div>
+								<div class="fx1">
+									<div class="teamShujuzi">
+										<p>{$teamAllMoney|default="0"}</p>
+										<p>团队总业绩</p>
+									</div>
+								</div>
+							</div>
+
+							<table border="0" class="teamTable">
+								<tr>
+									<th>账号</th>
+									<th>姓名</th>
+									<th>级别</th>
+									<th>注册时间</th>
+								</tr>
+								<foreach name="tjrNum" item="v">
+									<tr>
+										<td>{$v['account']}</td>
+										<td>{$v['username']|default="无"}</td>
+										<td>{$levelInfo[$v['level']]}</td>
+										<td>{:date('Y-m-d H:i:s' ,$v['reg_time'])}</td>
+									</tr>
+								</foreach>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<include file="Public/footer"/>
+</body>
+
+</html>

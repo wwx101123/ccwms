@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>一键回本</title>
+    <include file="Public/top" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/xiaoxi.css" />
+</head>
+<body>
+        <div class="publicBox">
+            <!--左侧导航-->
+            <include file="Public/nav"/>
+            <div class="publicBoxzi">
+                <!--公共头部-->
+                <include file="Public/header"/>
+                <!--公共盒子-->
+                <div class="publicHeiz">
+
+                    <!--公告-->
+                    <div class="communalBox">
+                        <div class="communalTl">
+                            <span class="span_1">一键回本</span>
+                        </div>
+                        <div class="communalTx">
+                            <div class="handleBox">
+                                <form class="contentForm_2">
+                                    <div class="handleTx">
+                                        <div class="handleTl">回本金额</div>
+                                        <input type="text" name="money" autocomplete="off" readonly value="{$user['invest_money']|default='0.00'}" class="mui-input-clear handleInput" placeholder="回本金额">
+                                    </div>
+                                    <div class="handleTx">
+                                        <div class="handleTl">扣除分享积分</div>
+                                        <input type="text" name="deduct_fen" autocomplete="off" readonly value="{$user['invest_money']|default='0.00'}" class="mui-input-clear handleInput" placeholder="扣除分享积分">
+                                    </div>
+                                    <div class="handleTx">
+                                        <div class="handleTl">持卡人姓名</div>
+                                        <input type="text" name="bank_name" autocomplete="off" readonly value="{$bankInfo['bank_name']}" class="mui-input-clear handleInput" placeholder="持卡人姓名">
+                                    </div>
+                                    <div class="handleTx">
+                                        <div class="handleTl">开户银行</div>
+                                        <input type="text" name="" autocomplete="off" readonly value="{$bankList[$bankInfo['opening_id']]}" class="mui-input-clear handleInput" placeholder="银行账号">
+                                    </div>
+                                    <div class="handleTx">
+                                        <div class="handleTl">银行账号</div>
+                                        <input type="text" name="bank_account" autocomplete="off" readonly value="{$bankInfo['bank_account']}" class="mui-input-clear handleInput" placeholder="银行账号">
+                                    </div>
+                                    <div class="handleTx">
+                                        <div class="handleTl">分支分行</div>
+                                        <input type="text" name="bank_address" autocomplete="off" readonly value="{$bankInfo['bank_address']}" class="mui-input-clear handleInput" placeholder="分支分行">
+                                    </div>
+                                    <div class="handleTx">
+                                        <div class="handleTl">交易密码</div>
+                                        <input type="password" name="secpwd" autocomplete="off" value="" class="mui-input-clear handleInput" placeholder="交易密码">
+                                    </div>
+                                    <div class="gonggButtonBox">
+                                        <input type="hidden" name="opening_id" value="{$bankInfo['opening_id']}">
+                                        <if condition="$recovery['is_type'] eq 1">
+                                            <button type="button" class="gonggButton">等待处理</button>
+                                        <else />
+                                            <button type="button" class="gonggButton return">一键回本</button>
+                                        </if>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<include file="Public/footer"/>
+<script>
+    var mask=mui.createMask();
+    mui('body').on('tap', '.return', function() {
+        var obj = $(this);
+        $(obj).attr('disabled', 'true');
+        var data = $('.contentForm_2').serialize();
+        console.log(data);
+        var url = "{:U('Block/returnben')}";
+        mui.showLoading("提交中","div");
+        mask.show();//显示遮罩层
+
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: data,
+            dataType: 'json',
+            success: function (res) {
+                mask.close();//关闭遮罩层
+                mui.hideLoading();
+                if (res.status == 1) {
+                    mui.toast(res.msg, {duration: '2000', type: 'div'});
+                    setTimeout(function () {
+                        mui.openWindow({
+                            id: res.url,
+                            url: res.url
+                        });
+                    }, 2000);
+                } else {
+                    $(obj).removeAttr('disabled');
+                    return mui.toast(res.msg, {duration: '2000', type: 'div'});
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                return mui.toast('网络失败，请刷新页面后重试', {duration: '2000', type: 'div'});
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>

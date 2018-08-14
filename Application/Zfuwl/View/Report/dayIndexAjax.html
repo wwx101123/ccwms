@@ -1,0 +1,97 @@
+<table class="layui-table layui-form">
+    <thead>
+        <tr>
+            <th style="width: 5px;"><input type="checkbox" lay-filter="allChoose"lay-skin="primary" /></th>
+            <th><a href="javascript:sort('zf_time');">日期</a></th>
+            <volist name="levelList" id="vl">
+                <th><a href="javascript:sort('level_{$vl.level_id}');">{$vl.name_cn}</a></th>
+            </volist>
+            <volist name="bonusList" id="vb">
+                <th><a href="javascript:sort('bonus_{$vb.bonus_id}');">{$vb.name_cn}</a></th>
+            </volist>
+            <volist name="taxList" id="vt">
+                <th><a href="javascript:sort('tax_{$vt.tax_id}');">{$vt.name_cn}</a></th>
+            </volist>
+            <volist name="moneylist" id="vm">
+                <th><a href="javascript:sort('money_{$vm.money_id}');">{$vm.name_cn}</a></th>
+            </volist>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+    <if condition="count($list) eq 0">
+        <tr align="center">
+            <td colspan="20">暂无数据</td>
+        </tr>
+        <else/>
+        <foreach name="list" key="k" item="v">
+            <tr>
+                <td><input type="checkbox" name="selected[]" value="{$v['id']}" lay-skin="primary"></td>
+                <td>{$v.zf_time|date='Y-m-d',###}</td>
+                <volist name="levelList" id="vla">
+                    <td><?php echo $v['level_'.$vla['level_id']]; ?></td>
+                </volist>
+                <volist name="bonusList" id="vba">
+                    <td><?php echo $v['bonus_'.$vba['bonus_id']]; ?></td>
+                </volist>
+                <volist name="taxList" id="vta">
+                    <td><?php echo $v['tax_'.$vta['tax_id']]; ?></td>
+                </volist>
+                <volist name="moneylist" id="vma">
+                    <td><?php echo $v['money_'.$vma['money_id']]; ?></td>
+                </volist>
+                <td><a data="{$v['id']}" class="layui-btn layui-btn-danger layui-btn-mini del"><i class="layui-icon">&#xe640;</i>删除({$v.id})</a></td>
+            </tr>
+        </foreach>
+    </if>
+</tbody>
+</table>
+<button type="button" class="layui-btn layui-btn-danger del" style="float:left;margin:20px 0px;"><i class="layui-icon">&#xe640;</i>删除</button>
+{$page}
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render('checkbox'); 
+        form.on('checkbox(allChoose)', function (data) {
+            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+            child.each(function (index, item) {
+                item.checked = data.elem.checked;
+            });
+            form.render('checkbox');
+        });
+    });
+    $(".pagination a").click(function () {
+        var page = $(this).data('p');
+        ajax_get_table('search-form2', page);
+    });
+    $('.del').click(function () {
+        var url = "{:U('Report/del')}";
+        var id = $(this).attr('data');
+        if (!id) {
+            var obj = $("input[name*='selected']");
+            if (obj.is(":checked")) {
+                var check_val = [];
+                for (var k in obj) {
+                    if (obj[k].checked)
+                        check_val.push(obj[k].value);
+                }
+                id = check_val;
+            }
+        }
+        if (!id) {
+            return false;
+        }
+        layer.confirm('确定删除吗?', {icon: 3, skin: 'layer-ext-moon', btn: ['确认', '取消']}, function () {
+            $.post(url, {id: id}, function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                } else if (data.status == 1) {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        var page = $('.pagination .active').find('a').data('p');
+                        ajax_get_table('search-form2', page);
+                    });
+                }
+            });
+        });
+    });
+</script>

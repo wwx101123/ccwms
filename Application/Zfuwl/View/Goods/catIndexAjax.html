@@ -1,0 +1,116 @@
+<table class="layui-table layui-form">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>分类名称</th>
+        <th>手机分类名称</th>
+        <th>推荐</th>
+        <th>显示</th>
+        <th>排序</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <if condition="count($catList) eq 0">
+        <tr align="center">
+            <td colspan="20">暂无数据</td>
+        </tr>
+    <else/>
+        <foreach name="catList" key="k" item="v">
+            <tr>
+                <td>{$v['cat_id']}</td>
+                <if condition="$v['level'] gt 0">
+                    <td><?php echo str_repeat("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——",$v["level"]);?>{$v['name']}</td>
+                <else/>
+                    <td>{$v['name']}</td>
+                </if>
+                <td>{$v['name_mobile']}</td>
+                <td><input name="close" lay-skin="switch" autocomplete='off' lay-filter='switchIsTop' value='{$v["is_top"]}' data-value="{$v['cat_id']}" lay-text="开启|关闭" <if condition="$v['is_top'] eq 1">checked</if> type="checkbox"></td>
+                <td><input name="close" lay-skin="switch" autocomplete='off' lay-filter='switchStatu' value='{$v["statu"]}' data-value="{$v['cat_id']}" lay-text="开启|关闭" <if condition="$v['statu'] eq 1">checked</if> type="checkbox"></td>
+                <td><input type="text" name="sort" value="{$v['sort']}" onchange="updateSort2('goods_cate', 'cat_id', '{$v.cat_id}', 'sort', this)"  style="height:30px;" class="layui-input" ></td>
+                <td>
+                    <a href="{:U('Goods/editCat',array('id'=>$v['cat_id']))}" class="layui-btn layui-btn-mini layui-btn-normal"><i class="layui-icon">&#xe642;</i>编辑({$v['cat_id']})</a>
+                    <a data="{$v['cat_id']}" class="layui-btn layui-btn-danger del"><i class="layui-icon">&#xe640;</i>删除({$v['cat_id']})</a>
+                </td>
+            </tr>
+        </foreach>
+    </if>
+    </tbody>
+</table>
+{$page}
+<script>
+    layui.use(['form'], function () {
+        var laypage = layui.laypage, $ = layui.jquery,form=layui.form;
+        form.render('checkbox'); //刷新checkbox渲染
+        form.on('switch(switchStatu)', function(data){
+            var obj = data.elem;
+            var val = data.value;
+            var id = $(obj).data('value');
+            console.log(id);
+            val = (val == 1 ? 2 : 1);
+            var url = "{:U('Goods/saveCatStatu')}";
+            $.post(url, {val:val,id:id}, function(res) {
+                if (res.status == 0) {
+                    layer.msg(res.msg, {icon: 5});
+                    return;
+                } else {
+                    layer.msg(res.msg, {icon: 6, time: 2000, shade:0.01}, function() {
+                        location.reload();
+                    });
+                }
+            });
+        });
+        form.on('switch(switchIsTop)', function(data){
+            var obj = data.elem;
+            var val = data.value;
+            var id = $(obj).data('value');
+            console.log(id);
+            val = (val == 1 ? 2 : 1);
+            var url = "{:U('Goods/saveCatTop')}";
+            $.post(url, {val:val,id:id}, function(res) {
+                if (res.status == 0) {
+                    layer.msg(res.msg, {icon: 5});
+                    return;
+                } else {
+                    layer.msg(res.msg, {icon: 6, time: 2000, shade:0.01}, function() {
+                        location.reload();
+                    });
+                }
+            });
+        });
+    });
+    $(".pagination a").click(function () {
+        var page = $(this).data('p');
+        ajax_get_table('search-form2', page);
+    });
+    $('.del').click(function () {
+        var url = "{:U('Goods/delCat')}";
+        var id = $(this).attr('data');
+        if (!id) {
+            var obj = $("input[name*='selected']");
+            if (obj.is(":checked")) {
+                var check_val = [];
+                for (var k in obj) {
+                    if (obj[k].checked)
+                        check_val.push(obj[k].value);
+                }
+                id = check_val;
+            }
+        }
+        if (!id) {
+            return false;
+        }
+        layer.confirm('确定删除吗?', {icon: 3, skin: 'layer-ext-moon', btn: ['确认', '取消']}, function () {
+            $.post(url, {id: id}, function (data) {
+                if (data.status == 0) {
+                    layer.msg(data.msg, {icon: 5});
+                } else if (data.status == 1) {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        var page = $('.pagination .active').find('a').data('p');
+                        ajax_get_table('search-form2', page);
+                    });
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <div class="test-table-reload-btn" style="margin-top: 10px;margin-left:15px;">
+                <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i> 代理等级管理</button>
+                <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline"> <input type="text"value="{$userInfo['account']}" readonly="" placeholder="会员账号"  autocomplete="off" class="layui-input" lay-verify="required"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">注册时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" value="{$userInfo.jh_time|date='Y-m-d H:i:s', ###}"  readonly="" placeholder="英文名称" autocomplete="off" class="layui-input" lay-verify="required"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">当前等级</label>
+                            <div class="layui-input-inline">
+                                <input type="text" value="{$serviceInfo[$userInfo[service]]}"  readonly="" placeholder="当前等级" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">请选择等级</label>
+                        <div class="layui-input-inline">
+                            <select name="service_id" lay-search="">
+                                <option value="0">--请选择--</option>
+                                <foreach name="serviceInfo" item="v" key="k">
+                                    <option value="{$k}" <if condition="$k eq $userInfo['service']">selected</if>>{$v}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                         <div class="layui-form-mid layui-word-aux"><b style="color:red;">不选择或者选择为空即表示取消</b></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">所属省份</label>
+                            <div class="layui-input-inline">
+                                <select name="province" lay-ignore class="layui-input" id="province" onChange="get_city(this)">
+                                    <option value="0">--请选择--</option>
+                                        <volist name="province" id="p">
+                                        <option <if condition="$p['id'] eq $userDataInfo['province']"> selected </if> value="{$p.id}">{$p.name_cn}</option>
+                                    </volist>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">所属城市</label>
+                            <div class="layui-input-inline">
+                                <select name="city" lay-ignore id="city" class="layui-input"  onChange="get_area(this)">
+                                    <option value="0">--请选择--</option>
+                                     <volist name="city" id="p">
+                                        <option <if condition="$p['id'] eq $userDataInfo['city']"> selected </if>  value="{$p.id}">{$p.name_cn}</option>
+                                    </volist>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">所属县镇</label>
+                            <div class="layui-input-inline">
+                                <select lay-ignore name="district" id="district" class="layui-input" onChange="get_twon(this)">
+                                    <option value="0">--请选择--</option>
+                                    <volist name="district" id="p">
+                                        <option <if condition="$p['id'] eq $userDataInfo['district']"> selected </if> value="{$p.id}">{$p.name}</option>
+                                    </volist>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                   <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label"><b style="color: red;">操作备注</b></label>
+                        <div class="layui-input-block">
+                          <textarea name="note" placeholder="操作备注 调整的原因" class="layui-textarea" lay-verify="required"></textarea>
+                        </div>
+                    </div>
+                    <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
+                        <legend>注意事项</legend>
+                        <div>本次升级或者降级操作 不会产生任何的奖金；也不影响拨出K值，以及对会员的收支影响，</div>
+                        <div style="color:red;"><b>但升级后的级别，所有的奖项计划按升级后的级别统一执行</b></div>
+                    </fieldset>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="user_id" value="{$userInfo['user_id']}" />
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+<include file="Public/footer" />
+<script src="__PUBLIC__/js/global.js"></script><!--全站通用js /-->
+<script>
+    layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+        var form = layui.form, $ = layui.jquery;
+        form.on('submit(articleHandle)', function (data) {
+            var ArticleInfo = data.field;
+            var url = "{:U('')}";
+            $.post(url, ArticleInfo, function (data) {
+                if (data.status != 1) {
+                    layer.msg(data.msg, {icon: 5});
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        history.go(-1);
+                    });
+                }
+            });
+            return false;//阻止表单跳转
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file='Public/top'/>
+</head>
+<body>
+<div class="admin-main">
+    <fieldset class="layui-elem-field">
+        <div class="test-table-reload-btn" style="margin-top: 10px;margin-left:15px;">
+            <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>  公告管理</button>
+            <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);"><i class="layui-icon">&#xe603;</i> 返回</button>
+            <div style="clear:both;"></div>
+        </div>
+        <div class="layui-field-box">
+            <form class="layui-form layui-form-pane" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">所属部门</label>
+                    <div class="layui-input-inline">
+                        <select name="type" lay-search="">
+                            <option value="0">--请选择--</option>
+                            <foreach name="typeInfo" item='v' key='k'>
+                                <option value="{$k}" <if condition="$info.type eq $k">selected</if>>{$v}</option>
+                            </foreach>
+                        </select>
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">必选</div>
+                </div>
+               <!--  <div class="layui-form-item">
+                    <div class="layui-inline layui-form-item" pane="">
+                       <label class="layui-form-label">语言选择</label>
+                       <div class="layui-input-block">
+                           <foreach name="languageType" item="v" key="k">
+                               <input type="radio" name="cn" value="{$k}" title="{$v}" <if condition="$info.cn eq $k">checked=""</if>>
+                           </foreach>
+                       </div>
+                   </div>
+                </div> -->
+                <input type="hidden" name="cn" value='1' />
+                <div class="layui-form-item">
+                    <label class="layui-form-label">公告标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" autocomplete="off" placeholder="请输入标题"  value="{$info['title']}" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">公告缩略图</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="thumb" value="{$info['thumb']}" placeholder="请上传公告缩略图；可为空" autocomplete="off" id="thumb" class="layui-input" />
+                    </div>
+                    <span>100px * 100px</span>
+                    <div class="layui-input-inline">
+                        <img src="{$info['thumb']|default='__PUBLIC__/images/not_adv.jpg'}" onclick="window.open(this.src);" style="width:38px;height:38px;" class="thumb checkImg" alt="thumb"  />
+                        <button class="layui-btn uploadImg" type="button" lay-data="{field: 'thumb',data:{dir:'Notice', field:'thumb'}}"><i class="layui-icon">&#xe62f;</i>上传</button>
+
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">公告内容</label>
+                    <div class="layui-input-block">
+                        <textarea name="content" placeholder="请输入内容" class="layui-textarea" id="AboutEditor" >{$info['content']|htmlspecialchars_decode}</textarea>
+                    </div>
+                </div>
+                <input type="hidden" name="id" value="{$info['id']}">
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" id="submitBtn" lay-submit lay-filter="aboutHandle">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </fieldset>
+</div>
+<include file="Public/footer" />
+<script>
+    layui.use(['layer', 'form', 'upload', 'layedit'], function () {
+        var layedit = layui.layedit,form = layui.form,$ = layui.jquery,upload = layui.upload;
+        layedit.set({
+            uploadImage: {
+                url: '{:U("Editor/imageUp")}?imgUrl=about' //接口url
+                ,type: 'post'
+            }
+        });
+        var AboutEditor = layedit.build('AboutEditor');
+        $('#submitBtn').click(function(){
+            layedit.sync(AboutEditor);
+        });
+        upload.render({
+            elem: '.uploadImg',
+            url:'{:U("Api/imageUp")}',
+            before: function(){
+            }
+            ,done: function(res, index, upload){
+                $('#'+this.data.field).val(res.data.src);
+                $('.'+this.data.field).attr('src', res.data.src);
+            }
+        });
+        $('#submitBtn').click(function () {
+            editor.sync();
+        });
+        form.on('submit(aboutHandle)', function (data) {
+            var AboutInfo = data.field;
+            var url = "{:U('')}";
+            $.post(url, AboutInfo, function (data) {
+                if (data.status != 1) {
+                    layer.msg(data.msg, {icon: 5});
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        history.go(-1);
+                    });
+                }
+            });
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

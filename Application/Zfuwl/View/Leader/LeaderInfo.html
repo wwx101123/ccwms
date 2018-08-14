@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <blockquote class="layui-elem-quote">
+                <button type="button" class="layui-btn"><i class="layui-icon">&#xe628;</i>  {$info['name']}管理</button>
+                <button type="button" class="layui-btn pull-right layui-inline" style="float:right;" onclick="location.reload();"><i class="layui-icon">&#x1002;</i> 刷新</button>
+                <button  type="button" class="layui-btn layui-btn-danger pull-right" onclick="history.go(-1);" style="float:right;"><i class="layui-icon">&#xe603;</i> 返回</button>
+                <div style="clear:both;"></div>
+            </blockquote>
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">中文名称</label>
+                            <div class="layui-input-block"> <input type="text" name="name_cn" value="{$info['name_cn']}" placeholder="中文名称"  autocomplete="off" class="layui-input" lay-verify="required"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">英文名称</label>
+                            <div class="layui-input-inline jiadefan">
+                                <input type="text" name="name_en" value="{$info['name_en']}" placeholder="英文名称" autocomplete="off" class="layui-input" lay-verify="required"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">直推合伙人</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="tjr_num" value="{$info['tjr_num']}" placeholder="直推源码合伙人" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">个人</b></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">直推推广商</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="tjr_num_1" value="{$info['tjr_num_1']}" placeholder="直推推广商" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;">个人</b></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">分享业绩达</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="share_money" value="{$info['share_money']}" placeholder="分享业绩达" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;"></b></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">个人资产达</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="cun_money" value="{$info['cun_money']}" placeholder="个人资产达" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;"></b></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">分享奖励</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="generalize_per" value="{$info['generalize_per']}" placeholder="分享奖励" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"><b style="color:red;"></b></div>
+                    </div>
+                    <!--<div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">持有货币</label>
+                            <div class="layui-input-block">
+                                <select name="mid">
+                                    <option value="0">&#45;&#45;请选择&#45;&#45;</option>
+                                    <foreach name="moneyInfo" item="v" key="k">
+                                        <option value="{$k}" <if condition="$k eq $info['mid']">selected</if>>{$v}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">保有存量达</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="total" value="{$info.total|default='0'}" lay-verify="title" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d.]/g, '')">
+                            </div>
+                        </div>
+                        <label class="control-label" style="color:red;">自动升级</label>
+                    </div>-->
+                    
+                
+                   <div class="layui-form-item">
+                         <div class="layui-inline layui-form-item" pane="">
+                            <label class="layui-form-label">启用状态</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="statu" value="1" <if condition="$info['statu'] eq 1">checked</if> title="开启" />
+                                <input type="radio" name="statu" value="2" <if condition="$info['statu'] eq 2">checked</if> title="关闭" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" pane="" style="width:28.5%;">
+                        <label class="layui-form-label">颜色</label>
+                        <div class="layui-input-block" ><input type="color" name="color" value="{$info.color}"  placeholder="{$info.color}" class="form-control"></div>
+                    </div>
+                    <!--<div class="layui-form-item">
+                        <label class="layui-form-label">奖金参数</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="per" value="{$info['per']}" autocomplete="off"  class="layui-input" onpaste="this.value=this.value.replace(/[^\d,.]/g,'')" onKeyUp="this.value = this.value.replace(/[^\d,.]/g, '')">
+                            <if condition="$info.id elt 2">
+                                <div class="layui-form-mid layui-word-aux">线下会员转出矿金金额的百分比 <b style="color:red;">多个参数间请用“,”分开</b></div>
+                            </if>
+                            <if condition="$info.id eq 3">
+                                <div class="layui-form-mid layui-word-aux">线下会员分红金额的百分比 <b style="color:red;">多个参数间请用“,”分开</b> 直推1 人拿 1 代，依次类推</div>
+                            </if>
+                        </div>
+                    </div>-->
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="id" value="{$info['id']}" />
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+<include file="Public/footer" />
+<script>
+    layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+        var form = layui.form, $ = layui.jquery;
+        //监听提交
+        form.on('submit(articleHandle)', function (data) {
+            var ArticleInfo = data.field;
+            var url = "{:U('')}";
+            $.post(url, ArticleInfo, function (data) {
+                if (data.status != 1) {
+                    layer.msg(data.msg, {icon: 5});
+                } else {
+                    layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                        history.go(-1);
+                    });
+                }
+            });
+            return false;//阻止表单跳转
+        });
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+<title><?php echo ($config['webInfo_web_title']); ?>后台管理</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="/Public/plugins/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/Public/plugins/layuiadmin/style/admin.css" media="all">
+<link rel="stylesheet" href="/Public/plugins/font-awesome/css/font-awesome.min.css" media="all">
+<link rel="stylesheet" href="/Public/css/page.css">
+<script type="text/javascript" src="/Public/js/jquery-1.8.3.min.js"></script>
+        <style>
+        /* 案例 */
+        .fly-case-header{position: relative; height: 260px; text-align: center; background: #393D49;}
+        .fly-case-year{position: absolute; top: 30px; width: 100%; line-height: 50px; font-size: 50px; text-align: center; color: #fff; font-weight: 300;}
+        .fly-case-banner{position: absolute; left: 50%; top: 100px; width: 670px; margin-left: -335px;}
+        .fly-case-btn{position: absolute; bottom: 30px; left: 0; width: 100%; text-align: center;}
+        .fly-case-btn a{color: #fff;}
+        .fly-case-btn .layui-btn-primary{background: none; color: #fff;}
+        .fly-case-btn .layui-btn-primary:hover{border-color: #5FB878;}
+        .fly-case-tab{margin-top: 20px; text-align: center;}
+        .fly-case-tab span,
+        .fly-case-tab span a{border-color: #009688;}
+        .fly-case-tab .tab-this{background-color: #009688; color: #fff;}
+        .fly-case-list{margin-top: 15px; font-size: 0;}
+        .fly-case-list li,
+        .layer-ext-ul li{display: inline-block; vertical-align: middle; *display: inline; *zoom:1; font-size: 14px; background-color: #fff;}
+        .fly-case-list{width: 100%;}
+        .fly-case-list li{width: 239px; margin: 0 15px 15px 0; padding: 10px;}
+        .fly-case-list li:hover{box-shadow: 1px 1px 5px rgba(0,0,0,.1);}
+        .fly-case-img{position: relative; display: block;}
+        .fly-case-img img{width: 239px; height: 239px;}
+        .fly-case-img .layui-btn{display: none; position: absolute; bottom: 20px; left: 50%; margin-left: -29px;}
+        .fly-case-img:hover .layui-btn{display: inline-block;}
+        .fly-case-list li h2{padding: 10px 0 5px; line-height: 22px; font-size: 18px; white-space: nowrap; overflow: hidden; text-align: center;}
+        .fly-case-desc{height: 60px; line-height: 20px; font-size: 12px; color: #666; overflow: hidden;}
+        .fly-case-info{position: relative; margin: 10px 0 0; padding: 10px 65px 0 45px; border-top: 1px dotted #eee;}
+        .fly-case-info p{height:24px; line-height: 24px;}
+        .fly-case-user{position: absolute; left: 0; top: 15px; width: 35px; height: 35px;}
+        .fly-case-user img{width: 35px; height: 35px; border-radius: 100%;}
+        .fly-case-info .layui-btn{position: absolute; right: 0; top: 15px;  padding: 0 15px;}
+        .layer-ext-ul{margin: 10px; max-height: 500px;}
+        .layer-ext-ul img{width: 50px; height: 50px; border-radius: 100%;}
+        .layer-ext-ul li{margin: 8px;}
+        .layer-ext-case .layui-layer-title{border: none; background-color: #009688; color: #fff;}
+    </style>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <div class="layui-field-box">
+                <form class="layui-form layui-form-pane">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">网站名称中</label>
+                        <div class="layui-input-block">
+                          <input type="text" name="web_name" value="<?php echo ($config['web_name']); ?>" autocomplete="off" placeholder="请输入网站名称" class="layui-input">
+                        </div>
+                    </div>
+                    <ul class="fly-case-list">
+                        <li data-id="123">
+                            <input type="hidden" name="web_ico_img" value="<?php echo ($config['web_ico_img']); ?>" placeholder="请上传ICO" autocomplete="off" id="web_ico" class="layui-input" />
+                            <a class="fly-case-img" href="javaScript:void(0);"><img class="web_ico checkImg" src="<?php echo ($config['web_ico_img']); ?>" alt="网站ICO"></a>
+                            <div class="fly-case-info">
+                                <a href="javaScript:void(0);" class="fly-case-user" target="_blank"><img src="<?php echo ((isset($config['web_ico_img']) && ($config['web_ico_img'] !== ""))?($config['web_ico_img']):'/Public/images/not_adv.jpg'); ?>"></a>
+                                <p class="layui-elip" style="font-size: 12px;"><span style="color: #666;">规格</span> 16 * 16 px</p>
+                                <p>网站 ICO</p>
+                                <button class="layui-btn uploadImg" type="button" lay-data="{field: 'web_ico',data:{dir:'Web', field:'web_ico'}}"><i class="layui-icon">&#xe62f;</i>上传</button>
+                            </div>
+                        </li>
+                        <li data-id="123">
+                            <input type="hidden" name="web_logo_img" value="<?php echo ($config['web_logo_img']); ?>" placeholder="请上传LOGO" autocomplete="off" id="web_logo" class="layui-input" />
+                            <a class="fly-case-img" href="javaScript:void(0);"><img src="<?php echo ($config['web_logo_img']); ?>" alt="LOGO" class="web_logo checkImg" ></a>
+                            <div class="fly-case-info">
+                                <a href="javaScript:void(0);" class="fly-case-user" target="_blank"><img src="<?php echo ((isset($config['web_ico_img']) && ($config['web_ico_img'] !== ""))?($config['web_ico_img']):'/Public/images/not_adv.jpg'); ?>"></a>
+                                <p class="layui-elip" style="font-size: 12px;"><span style="color: #666;">规格</span> 120 * 60 px</p>
+                                <p>网站 LOGO</p>
+                                <button class="layui-btn uploadImg" type="button" lay-data="{field: 'web_logo',data:{dir:'Web', field:'web_logo'}}"><i class="layui-icon">&#xe62f;</i>上传</button>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">客服热线</label>
+                            <div class="layui-input-block"><input type="text" name="tele_phone" value="<?php echo ($config['contacts']); ?>" autocomplete="off" placeholder="请输入客服热线电话" class="layui-input"></div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">客服 QQ</label>
+                            <div class="layui-input-inline"><input type="text" name="web_qq" value="<?php echo ($config['web_qq']); ?>" autocomplete="off" placeholder="请输入客服 QQ号" class="layui-input"></div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">网站标题</label>
+                        <div class="layui-input-block">
+                          <input type="text" name="web_title" value="<?php echo ($config['web_title']); ?>" autocomplete="off" placeholder="请输入网站标题" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">SEO关键词</label>
+                        <div class="layui-input-block">
+                          <input type="text" name="web_keyword" value="<?php echo ($config['web_keyword']); ?>" autocomplete="off" placeholder="请输入SEO关键词" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">网站描述</label>
+                        <div class="layui-input-block">
+                          <textarea name="web_desc" placeholder="请输入网站简要描述" class="layui-textarea"><?php echo ($config['web_desc']); ?></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">留言标题分类<b style="color: red;">  多个分类请用“｜”号分开</b></label>
+                        <div class="layui-input-block">
+                          <textarea name="msctitle" placeholder="留言标题分类" class="layui-textarea"><?php echo ($config['msctitle']); ?></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" id="submitBtn" lay-submit lay-filter="articleHandle">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <script src="/Public/plugins/layuiadmin/layui/layui.js"></script>
+<script>
+    layui.config({
+    base: '/Public/plugins/layuiadmin/' //静态资源所在路径
+}).extend({
+    index: 'lib/index' //主入口模块
+}).use('index');
+</script>
+<script type="text/javascript" src="/Public/js/zfuwlAjax.js"></script>
+
+    <script>
+            layui.use(['layer', 'form', 'upload', 'laydate'], function () {
+                var form = layui.form, $ = layui.jquery,upload = layui.upload;
+                upload.render({
+                    elem: '.uploadImg',
+                    url:'<?php echo U("Api/imageUp");?>',
+                    before: function(){
+                    }
+                    ,done: function(res, index, upload){
+                        $('#'+this.data.field).val(res.data.src);
+                        $('.'+this.data.field).attr('src', res.data.src);
+                    }
+                });
+                $('#submitBtn').click(function () {
+                    editor.sync();
+                });
+                //监听提交
+                form.on('submit(articleHandle)', function (data) {
+                    var ArticleInfo = data.field;
+                    var url = "<?php echo U('');?>";
+                    $.post(url, ArticleInfo, function (data) {
+                        if (data.status != 1) {
+                            layer.msg(data.msg, {icon: 5});
+                        } else {
+                            layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                                location.reload();
+                            });
+                        }
+                    });
+                    return false;//阻止表单跳转
+                });
+            });
+    </script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <include file='Public/top'/>
+</head>
+<body>
+    <div class="admin-main">
+        <fieldset class="layui-elem-field">
+            <div class="layui-field-box">
+                <form class="layui-form">
+                    <blockquote class="layui-elem-quote layui-text">邮件参数设置</blockquote>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">系统邮箱</label>
+                        <div class="layui-input-inline">
+                            <select name="is_smtp" id="is_smtp">
+                                <option value="1" <if condition="$config['is_smtp'] eq 1">selected</if>>开启</option>
+                                <option value="2" <if condition="$config['is_smtp'] eq 2">selected</if>>关闭</option>
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">服务器</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="smtp_server" value="{$config['smtp_server']}" placeholder="发送邮箱的smtp地址" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">端口</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="smtp_port" value="{$config['smtp_port']}" placeholder="smtp的端口。默认为25" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">邮箱账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="smtp_user" value="{$config['smtp_user']}" placeholder="发送邮箱" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">邮箱密码</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="smtp_pwd" value="{$config['smtp_pwd']}" placeholder="发送邮箱密码" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">发件人姓名</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="send_username" value="{$config['send_username']}" placeholder="发件人姓名" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">发件人邮箱</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="send_useremail" value="{$config['send_useremail']}" placeholder="发件人邮箱" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">回复人姓名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="reply_username" value="{$config['reply_username']}" placeholder="回复人姓名" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">回复人邮箱</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="reply_useremail" value="{$config['reply_useremail']}" placeholder="回复人邮箱" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">有效时间</label>
+                            <div class="layui-input-inline">
+                                <select name="email_time_out" id="sms_time_out">
+                                    <option value="60" <if condition="$config.email_time_out eq 60">selected</if>>60 s</option>
+                                    <option value="120" <if condition="$config.email_time_out eq 120">selected</if>>120 s</option>
+                                    <option value="300" <if condition="$config.email_time_out eq 300">selected</if>>300 s</option>
+                                    <option value="600" <if condition="$config.email_time_out eq 600">selected</if>>600 s</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">测试邮箱</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="test_email" value="{$config['test_email']}" placeholder="测试邮箱" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline">
+                            <a href="javaScript:void(0);" class="testSend">
+                                <button type="button" class="layui-btn" style="float:left;">测试发送</button>
+                            </a>
+                            <div class="layui-form-mid layui-word-aux" style="margin-left:10px;"><b>首次请先保存配置再测试</b></div>
+                        </div>
+                    </div>
+
+                    <blockquote class="layui-elem-quote layui-text">短信参数设置</blockquote>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否启用短信</label>
+                        <div class="layui-input-inline">
+                            <select name="is_sms" id="is_sms">
+                                <option value="1" <if condition="$config['is_sms'] eq 1">selected</if>>开启</option>
+                                <option value="2" <if condition="$config['is_sms'] eq 2">selected</if>>关闭</option>
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="sms_user" value="{$config['sms_user']}" placeholder="短信用户名" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">key</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="sms_key" value="{$config['sms_key']}" placeholder="短信key" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">短信数量</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="smsNum" disabled class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">有效时间</label>
+                            <div class="layui-input-inline">
+                                <select name="sms_time_out" id="sms_time_out">
+                                    <option value="60" <if condition="$config.sms_time_out eq 60">selected</if>>60 s</option>
+                                    <option value="120" <if condition="$config.sms_time_out eq 120">selected</if>>120 s</option>
+                                    <option value="300" <if condition="$config.sms_time_out eq 300">selected</if>>300 s</option>
+                                    <option value="600" <if condition="$config.sms_time_out eq 600">selected</if>>600 s</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="text-align:center;">
+                        <div class="layui-inline"><button class="layui-btn" lay-submit lay-filter="saveSmtpSms">提交</button></div>
+                    </div>
+                </form>
+            </div>
+            <include file="Public/footer" />
+            <script>
+                layui.use(['form'], function (obj) {
+                    var form = layui.form, $ = layui.jquery;
+
+                    //监听提交
+                    form.on('submit(saveSmtpSms)', function (data) {
+                        var postData = data.field;
+                        var url = "{:U('Website/smtpSmsInfo')}";
+                        $.post(url, postData, function (data) {
+                            if (data.status != 1) {
+                                layer.msg(data.msg, {icon: 5});
+                                return;
+                            } else {
+                                layer.msg(data.msg, {icon: 6, time: 2000}, function () {
+                                    location.reload();
+                                });
+                            }
+                        });
+                        return false; //阻止表单跳转
+                    });
+
+                    $('.testSend').click(function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "{:U('Website/testSendEmail')}",
+                            success: function (data) {
+                                if (data.status == 0) {
+                                    layer.msg(data.msg, {icon: 5});
+                                    return;
+                                } else if (data.status == 1) {
+                                    layer.msg(data.msg, {icon: 6});
+                                }
+                            }
+                        });
+                    });
+                    $(document).ready(function () {
+                        getSmsNum();
+                    });
+
+                    function getSmsNum()
+                    {
+                        $.ajax({
+                            type: 'get',
+                            url: '{:U("index/getSmsNum")}',
+                            success: function (data) {
+                                if (data.status < 1) {
+                                    layer.msg(data.msg, {icon: 5});
+                                } else {
+                                    $('#smsNum').val(data.msg);
+                                }
+                            }
+                        }, 'json');
+                    }
+                });
+            </script>
+            </body>
+            </html>
